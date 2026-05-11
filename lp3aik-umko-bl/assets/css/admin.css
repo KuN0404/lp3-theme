@@ -1,0 +1,75 @@
+/* ==========================================================================
+   LP3AIK Admin Styles
+   ========================================================================== */
+
+.lp3aik-admin-wrap h1 {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccd0d4;
+}
+
+.lp3aik-admin-wrap .form-table th {
+    width: 220px;
+    padding: 15px 10px 15px 0;
+    vertical-align: top;
+}
+
+.lp3aik-admin-wrap .form-table td {
+    padding: 15px 10px;
+}
+
+.lp3aik-upload-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.lp3aik-preview-thumb {
+    max-width: 120px;
+    max-height: 50px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 2px;
+    background: #fff;
+    vertical-align: middle;
+}
+
+.lp3aik-preview-wrap {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 4px;
+}
+
+.lp3aik-admin-wrap .description {
+    margin-top: 4px;
+    font-style: italic;
+    color: #666;
+}
+
+.lp3aik-admin-wrap hr {
+    margin: 24px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.lp3aik-admin-wrap h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.nav-tab-wrapper {
+    border-bottom: 1px solid #c3c4c7;
+    padding-bottom: 0;
+}
+
+.postbox .form-table th {
+    width: 150px;
+    padding: 10px;
+}
+
+.postbox .form-table td {
+    padding: 10px;
+}

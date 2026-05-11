@@ -1,0 +1,20 @@
+/* ============================================================
+   STATISTIK SECTION
+   ============================================================ */
+.stat-block { text-align: center; padding: 2rem; }
+.stat-block__num {
+  font-size: 3.5rem;
+  font-weight: 800;
+  font-family: var(--font-heading);
+  color: var(--gold-light);
+  line-height: 1;
+  margin-bottom: .25rem;
+}
+.stat-block__label { font-size: .9rem; color: rgba(255,255,255,.75); }
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+}
+.stats-grid .stat-block + .stat-block {
+  border-left: 1px solid rgba(255,255,255,.1);
+}

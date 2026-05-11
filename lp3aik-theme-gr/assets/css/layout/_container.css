@@ -1,0 +1,22 @@
+/* ============================================================
+   LAYOUT — Container override & section utilities
+   Bootstrap container is used. These are theme-specific
+   layout helpers that extend Bootstrap.
+   ============================================================ */
+.container {
+  max-width: var(--container);
+}
+.section { padding: var(--section-py) 0; }
+.section--alt { background: var(--bg-section); }
+.section--dark { background: var(--green-dark); color: var(--white); }
+.section--dark h2, .section--dark h3 { color: var(--gold-light); }
+
+/* Theme-specific grids (extend Bootstrap's grid) */
+.grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--gap); }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--gap); }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--gap); }
+
+/* Flex helpers — use Bootstrap's d-flex, align-items-center, etc. where possible
+   These remain for backward compatibility with existing templates */
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
