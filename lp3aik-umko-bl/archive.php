@@ -61,12 +61,7 @@ if ( is_author() ) {
                 </div>
 
                 <div class="mt-5 reveal">
-                    <?php the_posts_pagination( [
-                        'mid_size'  => 2,
-                        'prev_text' => '<i class="bi bi-chevron-left"></i> Sebelumnya',
-                        'next_text' => 'Berikutnya <i class="bi bi-chevron-right"></i>',
-                        'class'     => 'justify-content-center',
-                    ] ); ?>
+                    <?php lp3aik_pagination(); ?>
                 </div>
 
                 <?php else : ?>
@@ -123,9 +118,12 @@ if ( is_author() ) {
                         <h5 class="sidebar-widget-title"><i class="bi bi-folder2-open"></i> Kategori</h5>
                         <div class="sidebar-widget-body">
                             <ul class="sidebar-cat-list">
-                                <?php foreach ( $all_cats as $cat ) : ?>
+                                <?php foreach ( $all_cats as $cat ) : 
+                                    $is_active = is_category( $cat->term_id );
+                                ?>
                                 <li>
-                                    <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>">
+                                    <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>"
+                                       class="<?php echo $is_active ? 'active' : ''; ?>">
                                         <span><?php echo esc_html( $cat->name ); ?></span>
                                         <span class="cat-count"><?php echo absint( $cat->count ); ?></span>
                                     </a>

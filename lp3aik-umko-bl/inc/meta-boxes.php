@@ -421,6 +421,35 @@ function lp3aik_unduhan_meta_box_cb( $post ) {
     <?php
 }
 
+/**
+ * Helper: Deteksi Ukuran File dari URL/Path Server Lokal
+ */
+function lp3aik_get_file_size_from_url( $url ) {
+    if ( empty( $url ) ) return '';
+
+    // Parse local file path from URL
+    $upload_dir = wp_upload_dir();
+    $base_url = $upload_dir['baseurl'];
+    $base_dir = $upload_dir['basedir'];
+
+    if ( strpos( $url, $base_url ) !== false ) {
+        // File berada di server lokal (Uploads folder)
+        $file_path = str_replace( $base_url, $base_dir, $url );
+        if ( file_exists( $file_path ) ) {
+            $bytes = filesize( $file_path );
+            if ( $bytes >= 1048576 ) {
+                $size = number_format( $bytes / 1048576, 2 ) . ' MB';
+            } elseif ( $bytes >= 1024 ) {
+                $size = number_format( $bytes / 1024, 1 ) . ' KB';
+            } else {
+                $size = $bytes . ' bytes';
+            }
+            return $size;
+        }
+    }
+    return ''; // Return empty if external or not found
+}
+
 function lp3aik_save_unduhan_meta( $post_id ) {
     if ( ! isset( $_POST['lp3aik_unduhan_nonce'] ) ||
          ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['lp3aik_unduhan_nonce'] ) ), 'lp3aik_unduhan_save' ) ) {
@@ -433,15 +462,20 @@ function lp3aik_save_unduhan_meta( $post_id ) {
         return;
     }
 
+    $file_url = '';
     if ( isset( $_POST['unduhan_file'] ) ) {
-        // Simpan URL hanya yang valid
         $file_url = esc_url_raw( wp_unslash( $_POST['unduhan_file'] ) );
         update_post_meta( $post_id, '_unduhan_file', $file_url );
     }
 
-    if ( isset( $_POST['unduhan_size'] ) ) {
-        update_post_meta( $post_id, '_unduhan_size', sanitize_text_field( wp_unslash( $_POST['unduhan_size'] ) ) );
+    $custom_size = isset( $_POST['unduhan_size'] ) ? sanitize_text_field( wp_unslash( $_POST['unduhan_size'] ) ) : '';
+    
+    // Auto detect jika kosong dan ada file local
+    if ( empty( $custom_size ) && !empty( $file_url ) ) {
+        $custom_size = lp3aik_get_file_size_from_url( $file_url );
     }
+
+    update_post_meta( $post_id, '_unduhan_size', $custom_size );
 }
 add_action( 'save_post_lp3aik_unduhan', 'lp3aik_save_unduhan_meta' );
 

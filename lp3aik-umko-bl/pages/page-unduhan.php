@@ -30,7 +30,7 @@ get_header();
             <button class="btn btn-outline-primary btn-sm unduhan-filter"
                     data-filter="<?php echo esc_attr( $cat->slug ); ?>">
                 <?php echo esc_html( $cat->name ); ?>
-                <span class="badge bg-secondary ms-1"><?php echo esc_html( $cat->count ); ?></span>
+                <span class="cat-count-badge"><?php echo absint( $cat->count ); ?></span>
             </button>
             <?php endforeach; ?>
         </div>
@@ -53,6 +53,7 @@ get_header();
                 $file_url   = esc_url( get_post_meta( get_the_ID(), '_unduhan_file', true ) );
                 $file_ext   = $file_url ? strtolower( pathinfo( $file_url, PATHINFO_EXTENSION ) ) : '';
                 $file_size  = esc_html( get_post_meta( get_the_ID(), '_unduhan_size', true ) );
+                $hit_count  = (int) get_post_meta( get_the_ID(), '_unduhan_count', true );
                 $terms      = get_the_terms( get_the_ID(), 'kategori_unduhan' );
                 $cat_slugs  = '';
                 $cat_name   = '';
@@ -105,6 +106,10 @@ get_header();
                                 <i class="bi bi-calendar3 me-1"></i>
                                 <?php echo esc_html( get_the_date() ); ?>
                             </span>
+                            <span class="meta-item" id="download-count-<?php the_ID(); ?>">
+                                <i class="bi bi-cloud-arrow-down me-1"></i>
+                                <span><?php echo number_format($hit_count); ?></span> x diunduh
+                            </span>
                         </div>
                     </div>
 
@@ -112,7 +117,8 @@ get_header();
                     <div class="unduhan-footer-action">
                         <?php if ( $file_url ) : ?>
                         <a href="<?php echo esc_url( $file_url ); ?>"
-                           class="btn-download-modern"
+                           class="btn-download-modern track-download"
+                           data-post-id="<?php the_ID(); ?>"
                            download
                            target="_blank"
                            rel="noopener noreferrer">

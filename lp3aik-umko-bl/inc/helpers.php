@@ -130,6 +130,16 @@ function lp3aik_handle_contact_form() {
         wp_send_json_error(['message' => 'Semua kolom wajib diisi.']);
     }
 
+    // VERIFIKASI CAPTCHA
+    $cap_input = isset($_POST['captcha_input']) ? strtoupper(sanitize_text_field(wp_unslash($_POST['captcha_input']))) : '';
+    $cap_token = isset($_POST['captcha_token']) ? sanitize_key(wp_unslash($_POST['captcha_token'])) : '';
+    $stored_cap = get_transient('lp3aik_cap_' . $cap_token);
+
+    if (empty($stored_cap) || $cap_input !== $stored_cap) {
+        wp_send_json_error(['message' => 'Kode verifikasi keamanan salah atau kedaluwarsa.']);
+    }
+    delete_transient('lp3aik_cap_' . $cap_token);
+
     if (!is_email($email)) {
         wp_send_json_error(['message' => 'Alamat email tidak valid.']);
     }
@@ -280,3 +290,98 @@ function lp3aik_get_author_name($post_id = null) {
     $full_name  = trim($first_name . ' ' . $last_name);
     return !empty($full_name) ? $full_name : get_the_author_meta('display_name', $author_id);
 }
+
+/**
+ * Custom Bootstrap 5 Pagination
+ */
+function lp3aik_pagination() {
+    $links = paginate_links([
+        'type'      => 'array',
+        'mid_size'  => 2,
+        'prev_text' => '<i class="bi bi-chevron-left"></i>',
+        'next_text' => '<i class="bi bi-chevron-right"></i>',
+    ]);
+
+    if (is_array($links)) {
+        echo '<nav aria-label="Pagination Navigation" class="mt-4"><ul class="pagination justify-content-center mb-0">';
+        foreach ($links as $link) {
+            $class = 'page-item';
+            if (strpos($link, 'current') !== false) {
+                $class .= ' active';
+            }
+            // WordPress outputs links as <a class="page-numbers" ...>
+            // or active as <span class="page-numbers current">
+            // We inject Bootstrap's .page-link class
+            $clean_link = str_replace('page-numbers', 'page-link', $link);
+            echo '<li class="' . $class . '">' . $clean_link . '</li>';
+        }
+        echo '</ul></nav>';
+    }
+}
+
+/**
+ * Generate dynamic Captcha Image via WordPress AJAX
+ */
+function lp3aik_generate_captcha_image() {
+    $token = isset($_GET['cap_token']) ? sanitize_key($_GET['cap_token']) : '';
+    if (empty($token)) exit;
+
+    // Buat kode acak 5 karakter
+    $chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+    $code  = '';
+    for ($i = 0; $i < 5; $i++) { $code .= $chars[rand(0, strlen($chars) - 1)]; }
+    
+    // Simpan di transient berdurasi 10 menit
+    set_transient('lp3aik_cap_' . $token, strtoupper($code), 600);
+
+    // Periksa ketersediaan library GD
+    if (!function_exists('imagecreatetruecolor')) {
+        header('Content-Type: text/plain');
+        echo "GD Library Missing";
+        exit;
+    }
+
+    $width = 120; $height = 42;
+    $img = imagecreatetruecolor($width, $height);
+    
+    // Alokasi warna
+    $bg    = imagecolorallocate($img, 248, 250, 252); // Light grey background
+    $text  = imagecolorallocate($img, 0, 60, 113);    // Primary theme color
+    $noise = imagecolorallocate($img, 200, 169, 81);  // Accent theme color
+    
+    imagefill($img, 0, 0, $bg);
+    
+    // Beri noise latar belakang berupa pixel dan garis tipis acak
+    for ($i = 0; $i < 50; $i++) { imagesetpixel($img, rand(0, $width), rand(0, $height), $noise); }
+    for ($i = 0; $i < 5; $i++) { imageline($img, rand(0, $width), rand(0, $height), rand(0, $width), rand(0, $height), $noise); }
+    
+    // Gambar karakter satu persatu dengan tinggi acak agar lebih sulit di-scrape
+    $font_size = 5;
+    for ($i = 0; $i < strlen($code); $i++) {
+        $x = 18 + ($i * 20);
+        $y = rand(10, 18);
+        imagestring($img, $font_size, $x, $y, $code[$i], $text);
+    }
+    
+    header('Content-type: image/png');
+    imagepng($img);
+    imagedestroy($img);
+    exit;
+}
+add_action('wp_ajax_lp3aik_get_captcha', 'lp3aik_generate_captcha_image');
+add_action('wp_ajax_nopriv_lp3aik_get_captcha', 'lp3aik_generate_captcha_image');
+
+/**
+ * AJAX Handler: Increment Download Hit Count
+ */
+function lp3aik_track_download_callback() {
+    $post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
+    if ($post_id > 0) {
+        $count = (int) get_post_meta($post_id, '_unduhan_count', true);
+        update_post_meta($post_id, '_unduhan_count', $count + 1);
+        wp_send_json_success(['count' => $count + 1]);
+    }
+    wp_send_json_error();
+}
+add_action('wp_ajax_lp3aik_track_download', 'lp3aik_track_download_callback');
+add_action('wp_ajax_nopriv_lp3aik_track_download', 'lp3aik_track_download_callback');

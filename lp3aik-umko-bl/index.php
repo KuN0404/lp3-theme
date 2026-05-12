@@ -17,12 +17,7 @@ get_template_part('template-parts/breadcrumb');
                     <?php endwhile; ?>
                 </div>
                 <div class="mt-4">
-                    <?php the_posts_pagination([
-                        'mid_size'  => 2,
-                        'prev_text' => '<i class="bi bi-chevron-left"></i> Sebelumnya',
-                        'next_text' => 'Berikutnya <i class="bi bi-chevron-right"></i>',
-                        'class'     => 'justify-content-center',
-                    ]); ?>
+                    <?php lp3aik_pagination(); ?>
                 </div>
                 <?php else: ?>
                 <div class="text-center py-5">

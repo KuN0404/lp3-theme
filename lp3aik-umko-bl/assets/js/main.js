@@ -270,17 +270,17 @@
             $(this).addClass('active');
 
             if (filter === 'all') {
-                $(itemSelector).parent().fadeIn(400); // For grid columns
-                $(itemSelector).fadeIn(400);          // For direct items
+                $(itemSelector).parent().show(); // For grid columns
+                $(itemSelector).show();          // For direct items
             } else {
                 $(itemSelector).each(function () {
                     var cats = ($(this).attr('data-categories') || $(this).data(categoryAttr) || '').toString().split(' ');
                     var $target = $(this).parent().hasClass('col-md-6') || $(this).parent().hasClass('col-lg-4') ? $(this).parent() : $(this);
                     
                     if (cats.indexOf(filter) !== -1) {
-                        $target.fadeIn(400);
+                        $target.show();
                     } else {
-                        $target.fadeOut(400);
+                        $target.hide();
                     }
                 });
             }
@@ -308,47 +308,6 @@
         });
     }
 
-    /* ==========================================================================
-       AJAX Contact Form
-       ========================================================================== */
-    $('#lp3aik-contact-form').on('submit', function (e) {
-        e.preventDefault();
-        var $form = $(this), $message = $form.find('.form-message'), $button = $form.find('button[type="submit"]');
-        var honeypot = $form.find('#honeypot').val();
-        if (honeypot) {
-            $message.hide().removeClass('alert-success alert-danger');
-            $message.addClass('alert alert-success').text('Pesan berhasil dikirim.').fadeIn();
-            $form[0].reset(); return;
-        }
-        var formData = {
-            action: 'lp3aik_contact_form', nonce: lp3aikAjax.nonce,
-            name: $form.find('#contact-name').val().trim(),
-            email: $form.find('#contact-email').val().trim(),
-            subject: $form.find('#contact-subject').val().trim(),
-            message: $form.find('#contact-message').val().trim(),
-        };
-        if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-            $message.hide().removeClass('alert-success alert-danger');
-            $message.addClass('alert alert-warning').text('Semua kolom wajib diisi.').fadeIn();
-            return;
-        }
-        $button.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Mengirim...');
-        $.post(lp3aikAjax.ajaxurl, formData, function (response) {
-            $button.prop('disabled', false).html('<i class="bi bi-send-fill me-2"></i>Kirim Pesan');
-            $message.hide().removeClass('alert-success alert-danger alert-warning');
-            if (response.success) {
-                $message.addClass('alert alert-success').text(response.data.message).fadeIn();
-                $form[0].reset();
-                setTimeout(function () { $message.fadeOut(); }, 5000);
-            } else {
-                $message.addClass('alert alert-danger').text(response.data.message).fadeIn();
-            }
-        }).fail(function () {
-            $button.prop('disabled', false).html('<i class="bi bi-send-fill me-2"></i>Kirim Pesan');
-            $message.hide().removeClass('alert-success alert-danger alert-warning');
-            $message.addClass('alert alert-danger').text('Terjadi kesalahan. Silakan coba lagi.').fadeIn();
-        });
-    });
 
     /* ==========================================================================
        Active nav item highlight (JS fallback for custom menus)
@@ -419,8 +378,46 @@
        3. Contact Form — AJAX + Validasi Bootstrap 5
        ========================================================================== */
  
+    // --- CAPTCHA LOGIC ---
+    var captchaImg = document.getElementById('captcha-img');
+    var captchaToken = document.getElementById('captcha_token');
+    var captchaInput = document.getElementById('captcha_input');
+    var refreshBtn = document.getElementById('btn-refresh-captcha');
+
+    function refreshCaptcha() {
+        if (!captchaImg || !captchaToken) return;
+        var rnd = Math.random().toString(36).substring(2, 15);
+        captchaToken.value = rnd;
+
+        // Efek visual memuat (redupkan sementara tanpa merusak gambar lama)
+        captchaImg.style.opacity = '0.4';
+        
+        // Pre-load di belakang layar
+        var newImg = new Image();
+        newImg.onload = function() {
+            captchaImg.src = newImg.src;
+            captchaImg.style.opacity = '1'; // Munculkan kembali setelah siap
+        };
+        newImg.src = lp3aikAjax.ajaxurl + '?action=lp3aik_get_captcha&cap_token=' + rnd + '&ts=' + Date.now();
+
+        if (captchaInput) captchaInput.value = '';
+    }
+
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            refreshCaptcha();
+        });
+    }
+
+    // Klik gambar langsung untuk muat ulang
+    if (captchaImg) {
+        captchaImg.addEventListener('click', function() {
+            refreshCaptcha();
+        });
+    }
+
     var contactForm = document.getElementById('lp3aik-contact-form');
- 
     if (contactForm) {
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
@@ -466,6 +463,8 @@
                     contactForm.reset();
                     contactForm.classList.remove('was-validated');
                 }
+                // Refresh Captcha setiap kali respon diterima (agar token selalu baru/aman)
+                refreshCaptcha();
             })
             .catch(function () {
                 if (resultDiv) {
@@ -520,5 +519,32 @@
             if (c) c.cycle();
         });
     }
+
+    /* ==========================================================================
+       7. Tracking Hit Count Unduhan
+       ========================================================================== */
+    $(document).on('click', '.track-download', function() {
+        var postId = $(this).data('post-id');
+        if (!postId) return;
+
+        // Mengirim tracker via AJAX secara asynchronous
+        $.ajax({
+            url: lp3aikAjax.ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'lp3aik_track_download',
+                post_id: postId
+            },
+            success: function(response) {
+                if (response.success && response.data && response.data.count) {
+                    // Update teks angka di UI secara real-time
+                    var countContainer = $('#download-count-' + postId + ' span');
+                    if (countContainer.length) {
+                        countContainer.text(response.data.count);
+                    }
+                }
+            }
+        });
+    });
 
 })(jQuery);

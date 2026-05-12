@@ -77,5 +77,36 @@ function lp3aik_customizer_register($wp_customize) {
             ]);
         }
     }
+
+    // === NEW SECTION: STATS IN CUSTOMIZER ===
+    $wp_customize->add_section('lp3aik_stats_options', [
+        'title'    => 'Statistik Beranda',
+        'priority' => 32,
+        'description' => 'Sesuaikan 4 kotak angka statistik yang tampil di halaman depan.'
+    ]);
+
+    for ($i = 1; $i <= 4; $i++) {
+        $stats_fields = [
+            "stat_{$i}_icon"  => ['label' => "Statistik {$i}: Ikon Bootstrap (misal: bi-people)", 'type' => 'text'],
+            "stat_{$i}_count" => ['label' => "Statistik {$i}: Angka/Nominal", 'type' => 'text'],
+            "stat_{$i}_label" => ['label' => "Statistik {$i}: Nama Kartu", 'type' => 'text'],
+        ];
+
+        foreach ($stats_fields as $id => $config) {
+            $wp_customize->add_setting("lp3aik_theme_settings[$id]", [
+                'type'              => 'option',
+                'default'           => '',
+                'sanitize_callback' => 'sanitize_text_field',
+                'transport'         => 'refresh',
+            ]);
+
+            $wp_customize->add_control("lp3aik_$id", [
+                'label'    => $config['label'],
+                'section'  => 'lp3aik_stats_options',
+                'settings' => "lp3aik_theme_settings[$id]",
+                'type'     => $config['type'],
+            ]);
+        }
+    }
 }
 add_action('customize_register', 'lp3aik_customizer_register');

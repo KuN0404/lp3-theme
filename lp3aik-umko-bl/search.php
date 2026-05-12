@@ -58,12 +58,7 @@ $found_posts = $wp_query->found_posts;
                 </div>
 
                 <div class="mt-5 reveal">
-                    <?php the_posts_pagination( [
-                        'mid_size'  => 2,
-                        'prev_text' => '<i class="bi bi-chevron-left"></i> Sebelumnya',
-                        'next_text' => 'Berikutnya <i class="bi bi-chevron-right"></i>',
-                        'class'     => 'justify-content-center',
-                    ] ); ?>
+                    <?php lp3aik_pagination(); ?>
                 </div>
 
                 <?php else : ?>
@@ -82,28 +77,7 @@ $found_posts = $wp_query->found_posts;
             <div class="col-lg-4">
                 <div class="lp3aik-news-sidebar">
 
-
-                    <!-- Kategori -->
-                    <?php
-                    $all_cats = get_categories( [ 'hide_empty' => true ] );
-                    if ( $all_cats ) : ?>
-                    <div class="sidebar-widget mb-4">
-                        <h5 class="sidebar-widget-title"><i class="bi bi-folder2-open"></i> Kategori</h5>
-                        <div class="sidebar-widget-body">
-                            <ul class="sidebar-cat-list">
-                                <?php foreach ( $all_cats as $cat ) : ?>
-                                <li>
-                                    <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>">
-                                        <span><?php echo esc_html( $cat->name ); ?></span>
-                                        <span class="cat-count"><?php echo absint( $cat->count ); ?></span>
-                                    </a>
-                                </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-
+                
                     <!-- Berita Terbaru -->
                     <?php
                     $latest = new WP_Query( [ 'posts_per_page' => 10, 'post_status' => 'publish' ] );
@@ -136,6 +110,28 @@ $found_posts = $wp_query->found_posts;
                         </div>
                     </div>
                     <?php endif; ?>
+
+                    <!-- Kategori -->
+                    <?php
+                    $all_cats = get_categories( [ 'hide_empty' => true ] );
+                    if ( $all_cats ) : ?>
+                    <div class="sidebar-widget mb-4">
+                        <h5 class="sidebar-widget-title"><i class="bi bi-folder2-open"></i> Kategori</h5>
+                        <div class="sidebar-widget-body">
+                            <ul class="sidebar-cat-list">
+                                <?php foreach ( $all_cats as $cat ) : ?>
+                                <li>
+                                    <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>">
+                                        <span><?php echo esc_html( $cat->name ); ?></span>
+                                        <span class="cat-count"><?php echo absint( $cat->count ); ?></span>
+                                    </a>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+
 
                 </div>
             </div>

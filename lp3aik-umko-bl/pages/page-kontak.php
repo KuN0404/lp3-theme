@@ -42,6 +42,11 @@ $wa        = lp3aik_get_setting( 'whatsapp' );
             <?php endif; ?>
         </div>
     </div>
+    <div class="archive-wave" aria-hidden="true">
+        <svg viewBox="0 0 1200 55" preserveAspectRatio="none">
+            <path d="M0,28 C300,56 900,0 1200,28 L1200,55 L0,55 Z" class="shape-fill"></path>
+        </svg>
+    </div>
 </section>
 
 <!-- Konten Utama: Form + Info -->
@@ -63,7 +68,7 @@ $wa        = lp3aik_get_setting( 'whatsapp' );
                           autocomplete="off">
                         <?php wp_nonce_field( 'lp3aik_nonce', 'nonce' ); ?>
 
-                        <!-- Honeypot (hidden dari pengguna nyata) -->
+                        <!-- Honeypot-->
                         <div style="display:none;" aria-hidden="true">
                             <label for="lp3aik_hp">Jangan isi kolom ini</label>
                             <input type="text" id="lp3aik_hp" name="honeypot" value="" tabindex="-1" autocomplete="off">
@@ -124,6 +129,37 @@ $wa        = lp3aik_get_setting( 'whatsapp' );
                                           maxlength="2000"></textarea>
                                 <div class="invalid-feedback">Pesan wajib diisi.</div>
                             </div>
+                            
+                            <!-- VERIFIKASI CAPTCHA -->
+                            <?php $unique_token = wp_generate_password(16, false); ?>
+                            <div class="col-12 mb-2">
+                                <div class="p-3 bg-light rounded-3 border">
+                                    <label class="form-label fw-bold mb-2">Verifikasi Keamanan <span class="text-danger">*</span></label>
+                                    <div class="input-group overflow-hidden shadow-sm" style="border-radius: 0.5rem;">
+                                        <div class="bg-white border-end d-flex align-items-center justify-content-center" style="width: 120px; min-height: 46px; flex-shrink: 0;">
+                                            <img id="captcha-img" 
+                                                 src="<?php echo esc_url(admin_url('admin-ajax.php?action=lp3aik_get_captcha&cap_token=' . $unique_token)); ?>" 
+                                                 alt="Captcha Image"
+                                                 title="Klik gambar untuk muat ulang"
+                                                 aria-label="Captcha Image"
+                                                 class="w-100 h-100" 
+                                                 style="object-fit: cover; cursor: pointer; font-size: 0; color: transparent;">
+                                        </div>
+                                        <input type="text" 
+                                               name="captcha_input" 
+                                               id="captcha_input"
+                                               class="form-control border-0 ps-3 py-2" 
+                                               placeholder="KETIK KODE DI GAMBAR" 
+                                               required 
+                                               maxlength="5" 
+                                               autocomplete="off"
+                                               style="text-transform: uppercase; font-weight: 600; letter-spacing: 2px; background-color: #fff; font-size: 1rem;">
+                                        <input type="hidden" name="captcha_token" id="captcha_token" value="<?php echo esc_attr($unique_token); ?>">
+                                    </div>
+                                    <div class="form-text mt-2" style="font-size:0.8rem;">Masukkan 5 digit huruf/angka acak dari gambar di atas.</div>
+                                </div>
+                            </div>
+
                             <div class="col-12">
                                 <button type="submit"
                                         id="contact-submit"
@@ -144,10 +180,10 @@ $wa        = lp3aik_get_setting( 'whatsapp' );
 
             <!-- Info Kontak -->
             <div class="col-lg-5 reveal-right">
-                <div class="contact-info p-4 h-100">
+                <div class="contact-info p-4 mb-4">
                     <h2 class="section-title-bar mb-4">Informasi Kontak</h2>
 
-                    <ul class="contact-details list-unstyled">
+                    <ul class="contact-details list-unstyled mb-0">
                         <?php if ( $address ) : ?>
                         <li>
                             <div class="d-flex gap-3 align-items-start">
@@ -196,48 +232,48 @@ $wa        = lp3aik_get_setting( 'whatsapp' );
                         </li>
                         <?php endif; ?>
                     </ul>
-
-                    <!-- Sosial Media -->
-                    <?php if ( $ig || $fb || $yt || $wa ) : ?>
-                    <div class="mt-4">
-                        <h3 class="h6 fw-semibold mb-3"  style="color:var(--color-text-primary);">
-                            <i class="bi bi-share-fill me-2" aria-hidden="true"></i>Media Sosial
-                        </h3>
-                        <div class="d-flex gap-2 flex-wrap">
-                            <?php if ( $ig ) : ?>
-                            <a href="<?php echo esc_url( $ig ); ?>"
-                               target="_blank" rel="noopener noreferrer"
-                               class="social-btn-lg"
-                               style="background:#E1306C;"
-                               aria-label="Instagram LP3AIK">
-                                <i class="bi bi-instagram" aria-hidden="true"></i>
-                                <span class="d-none d-sm-inline">Instagram</span>
-                            </a>
-                            <?php endif; ?>
-                            <?php if ( $fb ) : ?>
-                            <a href="<?php echo esc_url( $fb ); ?>"
-                               target="_blank" rel="noopener noreferrer"
-                               class="social-btn-lg"
-                               style="background:#1877F2;"
-                               aria-label="Facebook LP3AIK">
-                                <i class="bi bi-facebook" aria-hidden="true"></i>
-                                <span class="d-none d-sm-inline">Facebook</span>
-                            </a>
-                            <?php endif; ?>
-                            <?php if ( $yt ) : ?>
-                            <a href="<?php echo esc_url( $yt ); ?>"
-                               target="_blank" rel="noopener noreferrer"
-                               class="social-btn-lg"
-                               style="background:#FF0000;"
-                               aria-label="YouTube LP3AIK">
-                                <i class="bi bi-youtube" aria-hidden="true"></i>
-                                <span class="d-none d-sm-inline">YouTube</span>
-                            </a>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <?php endif; ?>
                 </div>
+
+                <!-- Sosial Media -->
+                <?php if ( $ig || $fb || $yt || $wa ) : ?>
+                <div class="contact-info p-4">
+                    <h2 class="section-title-bar mb-4">
+                        <i class="bi bi-share-fill me-2" aria-hidden="true"></i>Media Sosial
+                    </h2>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <?php if ( $ig ) : ?>
+                        <a href="<?php echo esc_url( $ig ); ?>"
+                           target="_blank" rel="noopener noreferrer"
+                           class="social-btn-lg"
+                           style="background:#E1306C;"
+                           aria-label="Instagram LP3AIK">
+                            <i class="bi bi-instagram" aria-hidden="true"></i>
+                            <span class="d-none d-sm-inline">Instagram</span>
+                        </a>
+                        <?php endif; ?>
+                        <?php if ( $fb ) : ?>
+                        <a href="<?php echo esc_url( $fb ); ?>"
+                           target="_blank" rel="noopener noreferrer"
+                           class="social-btn-lg"
+                           style="background:#1877F2;"
+                           aria-label="Facebook LP3AIK">
+                            <i class="bi bi-facebook" aria-hidden="true"></i>
+                            <span class="d-none d-sm-inline">Facebook</span>
+                        </a>
+                        <?php endif; ?>
+                        <?php if ( $yt ) : ?>
+                        <a href="<?php echo esc_url( $yt ); ?>"
+                           target="_blank" rel="noopener noreferrer"
+                           class="social-btn-lg"
+                           style="background:#FF0000;"
+                           aria-label="YouTube LP3AIK">
+                            <i class="bi bi-youtube" aria-hidden="true"></i>
+                            <span class="d-none d-sm-inline">YouTube</span>
+                        </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
 

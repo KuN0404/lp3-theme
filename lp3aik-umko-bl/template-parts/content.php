@@ -39,6 +39,15 @@ $post_cats = get_the_category();
         <p class="news-card-excerpt">
             <?php echo esc_html( wp_trim_words( get_the_excerpt() ?: get_the_content(), 16 ) ); ?>
         </p>
+        
+        <div class="news-card-action mt-auto pt-3 d-flex align-items-center justify-content-between border-top" style="border-top: 1px dashed var(--color-border-light) !important;">
+            <a href="<?php the_permalink(); ?>" class="news-card-readmore">
+                Baca Selengkapnya <i class="bi bi-arrow-right" aria-hidden="true"></i>
+            </a>
+            <span class="news-card-date text-muted" style="font-size: 0.78rem; font-weight: 500;">
+                <i class="bi bi-calendar3 me-1 text-primary"></i> <?php echo esc_html( get_the_date( 'j M Y' ) ); ?>
+            </span>
+        </div>
     </div>
 
     <!-- Footer -->

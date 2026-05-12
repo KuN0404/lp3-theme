@@ -32,7 +32,7 @@ get_header();
             <?php foreach ( $filter_terms as $term ) : ?>
             <button class="filter-btn gallery-filter" data-filter="<?php echo esc_attr( $term->slug ); ?>">
                 <?php echo esc_html( $term->name ); ?>
-                <span style="opacity:.65;font-size:.8em;">(<?php echo absint( $term->count ); ?>)</span>
+                <span class="cat-count-badge"><?php echo absint( $term->count ); ?></span>
             </button>
             <?php endforeach; ?>
         </div>

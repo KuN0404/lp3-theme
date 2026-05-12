@@ -50,6 +50,7 @@ $search_q = get_search_query();
             <?php foreach ( $filter_cats as $cat ) : ?>
             <button class="filter-btn program-filter" data-filter="<?php echo esc_attr( $cat->slug ); ?>">
                 <?php echo esc_html( $cat->name ); ?>
+                <span class="cat-count-badge"><?php echo absint( $cat->count ); ?></span>
             </button>
             <?php endforeach; ?>
         </div>
@@ -86,12 +87,7 @@ $search_q = get_search_query();
         <!-- Pagination -->
         <?php if ( $wp_query->max_num_pages > 1 ) : ?>
         <div class="mt-5 reveal">
-            <?php the_posts_pagination( [
-                'mid_size'  => 2,
-                'prev_text' => '<i class="bi bi-chevron-left"></i> Sebelumnya',
-                'next_text' => 'Berikutnya <i class="bi bi-chevron-right"></i>',
-                'class'     => 'justify-content-center',
-            ] ); ?>
+            <?php lp3aik_pagination(); ?>
         </div>
         <?php endif; ?>
 

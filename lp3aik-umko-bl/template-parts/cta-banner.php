@@ -28,13 +28,6 @@ $kontak_link = $kontak_page ? get_permalink( $kontak_page->ID ) : home_url( '/co
                 <a href="<?php echo esc_url( $kontak_link ); ?>" class="btn btn-accent btn-lg shadow">
                     <i class="bi bi-envelope-fill me-2"></i>Hubungi Kami
                 </a>
-                <?php if ( $wa_link ) : ?>
-                <a href="<?php echo esc_url( $wa_link ); ?>"
-                   class="btn btn-success btn-lg shadow"
-                   target="_blank" rel="noopener noreferrer">
-                    <i class="bi bi-whatsapp me-2"></i>Chat WhatsApp
-                </a>
-                <?php endif; ?>
             </div>
         </div>
     </div>

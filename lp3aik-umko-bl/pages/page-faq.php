@@ -9,10 +9,10 @@ get_header();
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-9">
-                <div class="text-center mb-5 reveal">
-                    <span class="section-label">Bantuan</span>
-                    <h2 class="section-title-bar d-inline-block text-start">Pertanyaan yang Sering Diajukan</h2>
-                </div>
+        <div class="text-center mb-5 reveal">
+            <span class="section-label">Bantuan</span>
+            <h1 class="page-heading" style="padding-bottom:16px;">Pertanyaan yang Sering Diajukan</h1>
+        </div>
 
                 <div class="accordion lp3aik-faq reveal" id="faqAccordion">
                     <?php

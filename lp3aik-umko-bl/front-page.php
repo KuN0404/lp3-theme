@@ -208,12 +208,23 @@ $hero_posts = new WP_Query( [
         </div>
         <div class="stats-grid">
             <?php
-            $stats = [
-                [ 'icon' => 'bi-people-fill',          'count' => 500, 'label' => 'Mahasiswa Aktif' ],
-                [ 'icon' => 'bi-journal-bookmark-fill','count' => 15,  'label' => 'Program' ],
-                [ 'icon' => 'bi-building',             'count' => 10,  'label' => 'Tahun Berdiri' ],
-                [ 'icon' => 'bi-person-workspace',     'count' => 50,  'label' => 'Dosen Pengajar' ],
+            $defaults = [
+                1 => [ 'icon' => 'bi-people-fill',           'count' => 500, 'label' => 'Mahasiswa Aktif' ],
+                2 => [ 'icon' => 'bi-journal-bookmark-fill', 'count' => 15,  'label' => 'Program' ],
+                3 => [ 'icon' => 'bi-building',              'count' => 10,  'label' => 'Tahun Berdiri' ],
+                4 => [ 'icon' => 'bi-person-workspace',      'count' => 50,  'label' => 'Dosen Pengajar' ],
             ];
+            $stats = [];
+            for ($i = 1; $i <= 4; $i++) {
+                $saved_icon  = lp3aik_get_setting("stat_{$i}_icon");
+                $saved_count = lp3aik_get_setting("stat_{$i}_count");
+                $saved_label = lp3aik_get_setting("stat_{$i}_label");
+                $stats[] = [
+                    'icon'  => !empty($saved_icon)  ? $saved_icon  : $defaults[$i]['icon'],
+                    'count' => !empty($saved_count) ? $saved_count : $defaults[$i]['count'],
+                    'label' => !empty($saved_label) ? $saved_label : $defaults[$i]['label']
+                ];
+            }
             foreach ( $stats as $delay => $s ) : ?>
             <div class="stat-card reveal reveal-delay-<?php echo esc_attr( $delay + 1 ); ?>">
                 <div class="stat-icon" aria-hidden="true"><i class="bi <?php echo esc_attr( $s['icon'] ); ?>"></i></div>

@@ -40,26 +40,9 @@ get_header();
             <!-- Main Grid -->
             <div class="col-lg-8">
 
-                <!-- Filter Kategori -->
                 <?php
                 $all_cats = get_categories( [ 'hide_empty' => true ] );
-                if ( $all_cats ) : ?>
-                <div class="lp3aik-filter-bar mb-4 reveal" style="justify-content:flex-start;">
-                    <?php
-                    $current_cat = get_query_var( 'cat' );
-                    ?>
-                    <a href="<?php echo esc_url( get_permalink( get_option('page_for_posts') ) ?: home_url('/') ); ?>"
-                       class="filter-btn <?php echo empty($current_cat) ? 'active' : ''; ?>">
-                        Semua
-                    </a>
-                    <?php foreach ( $all_cats as $cat ) : ?>
-                    <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>"
-                       class="filter-btn <?php echo ( (int)$current_cat === (int)$cat->term_id ) ? 'active' : ''; ?>">
-                        <?php echo esc_html( $cat->name ); ?>
-                    </a>
-                    <?php endforeach; ?>
-                </div>
-                <?php endif; ?>
+                ?>
 
                 <?php if ( have_posts() ) : ?>
                 <div class="row g-4">
@@ -71,12 +54,7 @@ get_header();
                 </div>
 
                 <div class="mt-5 reveal">
-                    <?php the_posts_pagination( [
-                        'mid_size'  => 2,
-                        'prev_text' => '<i class="bi bi-chevron-left"></i> Sebelumnya',
-                        'next_text' => 'Berikutnya <i class="bi bi-chevron-right"></i>',
-                        'class'     => 'justify-content-center',
-                    ] ); ?>
+                    <?php lp3aik_pagination(); ?>
                 </div>
 
                 <?php else : ?>
@@ -132,9 +110,12 @@ get_header();
                         <h5 class="sidebar-widget-title"><i class="bi bi-folder2-open"></i> Kategori</h5>
                         <div class="sidebar-widget-body">
                             <ul class="sidebar-cat-list">
-                                <?php foreach ( $all_cats as $cat ) : ?>
+                                <?php foreach ( $all_cats as $cat ) : 
+                                    $is_active = is_category( $cat->term_id );
+                                ?>
                                 <li>
-                                    <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>">
+                                    <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>"
+                                       class="<?php echo $is_active ? 'active' : ''; ?>">
                                         <span><?php echo esc_html( $cat->name ); ?></span>
                                         <span class="cat-count"><?php echo absint( $cat->count ); ?></span>
                                     </a>
