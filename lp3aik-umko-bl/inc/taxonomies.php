@@ -67,3 +67,15 @@ function lp3aik_register_taxonomies() {
     ]);
 }
 add_action('init', 'lp3aik_register_taxonomies');
+
+/**
+ * Ubah input Tag (post_tag) bawaan WordPress menjadi Checkbox
+ * Mencegah user mengetik tag baru secara sembarangan / salah ketik (typo).
+ */
+function lp3aik_change_post_tag_to_checkbox() {
+    global $wp_taxonomies;
+    if (isset($wp_taxonomies['post_tag'])) {
+        $wp_taxonomies['post_tag']->hierarchical = true;
+    }
+}
+add_action('init', 'lp3aik_change_post_tag_to_checkbox', 99);

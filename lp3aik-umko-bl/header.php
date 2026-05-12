@@ -29,11 +29,8 @@ $yt         = lp3aik_get_setting('youtube');
                 <?php endif; ?>
             </a>
 
-            <!-- Mobile: search + hamburger -->
-            <div class="d-flex align-items-center gap-2 ms-auto d-lg-none">
-                <button class="btn-nav-search" type="button" id="btn-search-nav-mobile" aria-label="Cari">
-                    <i class="bi bi-search"></i>
-                </button>
+            <!-- Mobile: hamburger only (search removed on mobile) -->
+            <div class="d-flex align-items-center ms-auto d-lg-none">
                 <button class="navbar-toggler" type="button"
                     id="btn-open-mobile-drawer"
                     aria-label="Toggle navigation">
@@ -66,42 +63,12 @@ $yt         = lp3aik_get_setting('youtube');
         </div>
     </nav>
 
-    <!-- ========== FULLSCREEN SEARCH OVERLAY ========== -->
-    <div class="search-overlay" id="searchOverlay">
-        <div class="search-overlay-inner">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <form role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>" class="search-overlay-form">
-                            <div class="search-overlay-input-wrap">
-                                <span class="search-overlay-icon"><i class="bi bi-search"></i></span>
-                                <input type="search" name="s" class="search-overlay-input" placeholder="Search news, programs, documents..." autofocus>
-                                <button class="btn-close-search" type="button" id="btn-close-search" aria-label="Tutup">
-                                    <i class="bi bi-x-lg"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- ========== MOBILE FULLSCREEN DRAWER (RIGHT) ========== -->
     <div class="mobile-drawer-overlay" id="mobileDrawerOverlay"></div>
     <div class="mobile-drawer" id="mobileDrawer">
-        <div class="mobile-drawer-header">
-            <a class="navbar-brand" href="<?php echo esc_url(home_url('/')); ?>">
-                <?php if ($logo_header): ?>
-                <?php echo $logo_header; ?>
-                <?php else: ?>
-                <?php echo lp3aik_fallback_logo(); ?>
-                <?php endif; ?>
-            </a>
-            <button class="mobile-drawer-close" id="btn-close-mobile-drawer" aria-label="Tutup Menu">
-                <i class="bi bi-x-lg"></i>
-            </button>
-        </div>
+
         <div class="mobile-drawer-body">
             <?php
             if (has_nav_menu('primary')) {
@@ -118,12 +85,28 @@ $yt         = lp3aik_get_setting('youtube');
             }
             ?>
         </div>
-        <div class="mobile-drawer-footer">
-            <button class="btn-nav-search-mobile-drawer" type="button" id="btn-search-drawer" aria-label="Cari">
-                <i class="bi bi-search me-2"></i> Cari
-            </button>
-        </div>
     </div>
 </header>
+
+<!-- ========== FULLSCREEN SEARCH OVERLAY (body-level — bebas dari stacking context header) ========== -->
+<div class="search-overlay" id="searchOverlay" aria-hidden="true" role="dialog" aria-label="Search">
+    <div class="search-overlay-inner">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <form role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>" class="search-overlay-form">
+                        <div class="search-overlay-input-wrap">
+                            <span class="search-overlay-icon"><i class="bi bi-search"></i></span>
+                            <input type="search" name="s" class="search-overlay-input" placeholder="Search news, programs, documents...">
+                            <button class="btn-close-search" type="button" id="btn-close-search" aria-label="Tutup">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <main id="site-main" class="lp3aik-main">

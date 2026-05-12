@@ -47,13 +47,8 @@
         if (!searchOverlay) return;
         // Close mobile drawer first if open
         closeMobileDrawer();
-        // Pastikan overlay selalu di posisi fixed & penuh layar (reset jika ada drift)
-        searchOverlay.style.position = 'fixed';
-        searchOverlay.style.top = '0';
-        searchOverlay.style.left = '0';
-        searchOverlay.style.width = '100%';
-        searchOverlay.style.height = '100%';
         searchOverlay.classList.add('active');
+        searchOverlay.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
         document.documentElement.style.overflow = 'hidden';
         if (searchInput) {
@@ -64,12 +59,16 @@
     function closeSearch() {
         if (!searchOverlay) return;
         searchOverlay.classList.remove('active');
+        searchOverlay.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
         document.documentElement.style.overflow = '';
+        // Return focus to the trigger button
+        var trigger = document.getElementById('btn-search-nav');
+        if (trigger) trigger.focus();
     }
 
-    // All search trigger buttons: desktop navbar, mobile navbar, drawer footer
-    document.querySelectorAll('#btn-search-nav, #btn-search-nav-mobile, #btn-search-drawer').forEach(function (btn) {
+    // Desktop search trigger only (mobile search removed)
+    document.querySelectorAll('#btn-search-nav').forEach(function (btn) {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
             openSearch();
@@ -103,17 +102,16 @@
     function openMobileDrawer() {
         if (!mobileDrawer) return;
         mobileDrawer.classList.add('open');
-        mobileDrawerOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        document.documentElement.style.overflow = 'hidden';
+        if (mobileDrawerOverlay) mobileDrawerOverlay.classList.add('active');
+        if (btnOpenDrawer) btnOpenDrawer.setAttribute('aria-expanded', 'true');
+        // No body scroll lock — floating panel allows background scroll
     }
 
     function closeMobileDrawer() {
         if (!mobileDrawer) return;
         mobileDrawer.classList.remove('open');
         if (mobileDrawerOverlay) mobileDrawerOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
+        if (btnOpenDrawer) btnOpenDrawer.setAttribute('aria-expanded', 'false');
         // Reset all open dropdowns
         mobileDrawer.querySelectorAll('.dropdown-menu').forEach(function (menu) {
             menu.style.display = 'none';
@@ -124,7 +122,14 @@
         });
     }
 
-    if (btnOpenDrawer) btnOpenDrawer.addEventListener('click', openMobileDrawer);
+    // Hamburger = toggle (open if closed, close if open)
+    if (btnOpenDrawer) btnOpenDrawer.addEventListener('click', function () {
+        if (mobileDrawer && mobileDrawer.classList.contains('open')) {
+            closeMobileDrawer();
+        } else {
+            openMobileDrawer();
+        }
+    });
     if (btnCloseDrawer) btnCloseDrawer.addEventListener('click', closeMobileDrawer);
     if (mobileDrawerOverlay) mobileDrawerOverlay.addEventListener('click', closeMobileDrawer);
 

@@ -66,7 +66,7 @@ $search_q = get_search_query();
                     if ( $cats && ! is_wp_error( $cats ) ) {
                         $cat_slugs = implode( ' ', wp_list_pluck( $cats, 'slug' ) );
                     }
-                    echo '<div class="col-md-6 col-lg-4 d-flex reveal reveal-delay-' . esc_attr( min( $delay, 5 ) ) . ' program-grid-item" data-categories="' . esc_attr( $cat_slugs ) . '">';
+                    echo '<div class="col-md-6 col-lg-4 reveal reveal-delay-' . esc_attr( min( $delay, 5 ) ) . ' program-grid-item" data-categories="' . esc_attr( $cat_slugs ) . '">';
                     get_template_part( 'template-parts/content', 'program' );
                     echo '</div>';
                     $delay++;

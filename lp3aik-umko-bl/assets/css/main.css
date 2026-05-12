@@ -92,7 +92,10 @@
    ========================================================================== */
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+    scroll-behavior: smooth;
+    overflow-x: clip; /* Mencegah horizontal scroll dari fixed elements (lebih kuat dari hidden) */
+}
 
 body {
     font-family: var(--font-primary);
@@ -505,7 +508,7 @@ img { max-width: 100%; height: auto; }
     background-color: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    box-shadow: none;
+    box-shadow: none !important;
     transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease, min-height 0.4s ease;
     border-bottom: 0px solid var(--color-accent);
 }
@@ -515,7 +518,7 @@ img { max-width: 100%; height: auto; }
     background-color: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    box-shadow: var(--shadow-sm);
+    box-shadow: none !important;
     border-bottom: 3px solid var(--color-accent);
 }
 
@@ -524,7 +527,7 @@ img { max-width: 100%; height: auto; }
     background-color: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    box-shadow: var(--shadow-md);
+    box-shadow: none !important;
     border-bottom: 3px solid var(--color-accent);
 }
 
@@ -549,6 +552,18 @@ img { max-width: 100%; height: auto; }
 .lp3aik-header:not(.scrolled):not(.header-solid) .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
+/* === BUG 2 FIX: Mobile navbar transparan — dark backdrop agar selalu terbaca ===
+   Saat header transparan di homepage (sebelum scroll), tambahkan backdrop gelap
+   semi-transparent pada area navbar agar tombol hamburger dan konten terbaca.
+   Menggunakan ::before pseudo-element agar tidak mengubah layout. */
+@media (max-width: 991.98px) {
+    .lp3aik-header:not(.scrolled):not(.header-solid) .navbar {
+        background: rgba(0, 10, 30, 0.35);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+}
+
 .lp3aik-header:not(.scrolled):not(.header-solid) .btn-nav-search {
     color: rgba(255,255,255,0.9) !important;
     border-color: rgba(255,255,255,0.5) !important;
@@ -1124,10 +1139,11 @@ img { max-width: 100%; height: auto; }
 .mobile-drawer {
     position: fixed;
     top: 0;
+    left: 0;       /* pastikan mulai dari kiri */
     right: 0;
     bottom: 0;
-    width: 100%;
-    max-width: 100vw;
+    width: 100%;   /* bukan 100vw */
+    max-width: 100%;
     z-index: 9995;
     background: var(--color-background);
     transform: translateX(100%);
@@ -1277,33 +1293,7 @@ img { max-width: 100%; height: auto; }
     border-bottom: none;
 }
 
-/* Drawer footer */
-.mobile-drawer-footer {
-    padding: 1rem 1.25rem;
-    border-top: 1px solid var(--color-border-light);
-    flex-shrink: 0;
-    background: var(--color-surface);
-}
-.btn-nav-search-mobile-drawer {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 20px;
-    border-radius: var(--border-radius-md);
-    border: 1.5px solid var(--color-primary);
-    background: transparent;
-    color: var(--color-primary);
-    font-size: 0.95rem;
-    font-weight: var(--font-weight-medium);
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-.btn-nav-search-mobile-drawer:hover {
-    background: var(--color-primary);
-    color: #fff;
-}
+/* Mobile drawer footer removed — search di mobile dihapus */
 
 /* Hide drawer on desktop */
 @media (min-width: 992px) {
@@ -2914,7 +2904,7 @@ img { max-width: 100%; height: auto; }
     .hero-carousel-excerpt { font-size: var(--font-size-sm); }
     .hero-bismillah { font-size: var(--font-size-lg); }
     .hero-content-wrap { min-height: 420px; padding: 5rem 0 7rem; }
-    .hero-carousel-buttons { flex-direction: column; align-items: flex-start; }
+    .hero-carousel-buttons { flex-wrap: wrap; align-items: center; gap: 0.75rem; }
     .quick-link-card { padding: 1.15rem 0.75rem; }
     .quick-link-icon { width: 40px; height: 40px; font-size: 1.1rem; }
 
@@ -2936,10 +2926,10 @@ img { max-width: 100%; height: auto; }
     :root { --spacing-section: 3rem; }
 
     .hero-carousel-title { font-size: var(--font-size-xl); }
-    .hero-carousel-excerpt { font-size: var(--font-size-sm); display: none; }
+    .hero-carousel-excerpt { font-size: var(--font-size-sm); }
     .hero-content-wrap { min-height: 360px; padding: 4.5rem 0 5rem; }
-    .hero-carousel-buttons { flex-direction: column; }
-    .hero-carousel-buttons .btn { width: 100%; }
+    .hero-carousel-buttons { flex-wrap: wrap; align-items: center; }
+    .hero-carousel-buttons .btn { width: auto; }
     .hero-bismillah { font-size: var(--font-size-lg); }
     .lp3aik-hero-static .hero-content-wrap { min-height: 360px; }
     .carousel-indicators { bottom: 3.5rem; }
@@ -4148,7 +4138,7 @@ body {
 #site-header,
 .lp3aik-header {
     width: 100%;
-    max-width: 100vw;
+    max-width: 100%;
     left: 0 !important;
     right: 0 !important;
 }
@@ -4173,22 +4163,16 @@ body {
 }
  
 /* Pastikan tombol hamburger & search selalu terlihat di mobile */
+/* Pastikan tombol hamburger selalu visible di mobile */
 @media (max-width: 991.98px) {
-    .d-flex.align-items-center.gap-2.ms-auto.d-lg-none {
-        display: flex !important; /* override Bootstrap d-lg-none yang salah konteks */
+    .d-flex.align-items-center.ms-auto.d-lg-none {
+        display: flex !important;
         opacity: 1;
         visibility: visible;
     }
- 
-    /* Navbar toggler selalu visible dan bertabrakan dengan header */
+
+    /* Navbar toggler selalu visible */
     .navbar-toggler {
-        opacity: 1 !important;
-        visibility: visible !important;
-        position: relative;
-        z-index: 10;
-    }
- 
-    .btn-nav-search {
         opacity: 1 !important;
         visibility: visible !important;
         position: relative;
@@ -4197,48 +4181,48 @@ body {
 }
 
  
+/* === BUG 1 FIX: Search Overlay — body-level, bebas dari stacking context header ===
+   Overlay dipindahkan ke luar <header> sehingga backdrop-filter header tidak
+   membatasi stacking context. CSS ini adalah satu-satunya rule yang diperlukan. */
 .search-overlay {
     position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
+    inset: 0 !important;
     width: 100% !important;
-    height: 100% !important;
-    z-index: 99999 !important; /* di atas segalanya termasuk drawer */
-    background: rgba(0, 17, 51, 0.97);
+    height: 100dvh !important; /* dynamic viewport height untuk mobile browser chrome */
+    z-index: 99999 !important;
+    background: rgba(0, 10, 30, 0.95);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    /* Reset transform agar tidak off-canvas */
-    transform: none !important;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
     margin: 0 !important;
     padding: 0 !important;
+    transform: none !important;
 }
- 
+
 .search-overlay.active {
     opacity: 1;
     visibility: visible;
 }
- 
+
 .search-overlay-inner {
     width: 100%;
     padding: 2rem 1rem;
+    box-sizing: border-box;
 }
- 
-/* Input search selalu full-width dan tidak overflow */
+
 .search-overlay-input {
     width: 100% !important;
     box-sizing: border-box;
 }
- 
+
 .search-overlay-input-wrap {
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden;
 }
  
  
@@ -4337,33 +4321,32 @@ body {
     }
 }
 
+/* === BUG 3 FIX: Mobile Drawer — translateX(100%) bukan (100vw) ===
+   100vw menyebabkan browser aware ada elemen di luar kanan layar → horizontal scroll.
+   100% mengacu pada lebar elemen itu sendiri, lebih aman dan tidak memicu overflow. */
 .mobile-drawer {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;       /* dari ujung KIRI layar */
-    right: 0 !important;      /* sampai ujung KANAN layar */
-    bottom: 0 !important;
-    width: 100vw !important;  /* vw = viewport width, bukan parent width */
-    height: 100vh !important;
-    max-width: 100vw !important;
-    /* Slide dari kanan: mulai di luar kanan, masuk ke 0 */
-    transform: translateX(100vw);
-    z-index: 9995 !important;
-}
- 
-.mobile-drawer.open {
-    transform: translateX(0) !important;
-}
- 
-/* Overlay: pastikan full coverage dan di belakang drawer */
-.mobile-drawer-overlay {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
+    width: 100% !important;    /* bukan 100vw agar tidak trigger horizontal scroll */
+    max-width: 100% !important;
+    height: 100dvh !important; /* dynamic viewport height */
+    transform: translateX(100%); /* bukan translateX(100vw) */
+    z-index: 9995 !important;
+}
+
+.mobile-drawer.open {
+    transform: translateX(0) !important;
+}
+
+/* Overlay: full coverage, tidak menggunakan 100vw */
+.mobile-drawer-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;    /* bukan 100vw */
+    height: 100% !important;
     z-index: 9990 !important;
 }
  
@@ -4387,7 +4370,7 @@ body:not(.home):not(.front-page) .lp3aik-header {
     background-color: rgba(255, 255, 255, 0.98) !important;
     backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: blur(12px) !important;
-    box-shadow: var(--shadow-sm) !important;
+    box-shadow: none !important;
     border-bottom: 3px solid var(--color-accent) !important;
 }
  
@@ -4413,4 +4396,605 @@ body:not(.home):not(.front-page) .lp3aik-header .logo-light {
 body:not(.home):not(.front-page) .lp3aik-header .logo-dark {
     display: block !important;
 }
- 
+
+
+/* ==========================================================================
+   MOBILE UI REFACTOR — Navbar & Hero
+   Modern, breathable, premium mobile experience
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   REFACTOR 1: MOBILE NAVBAR
+   Target: < 992px (Bootstrap lg breakpoint)
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 991.98px) {
+
+    /* --- Navbar container: horizontal breathing room --- */
+    .lp3aik-header .navbar > .container,
+    .lp3aik-header .navbar > .container-fluid {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    /* --- Navbar height: compact yet comfortable --- */
+    .lp3aik-header .navbar {
+        min-height: 60px;
+    }
+
+    /* --- Logo: proporsional di mobile --- */
+    .lp3aik-header .logo-long,
+    .lp3aik-header .logo-short,
+    .lp3aik-header .lp3aik-logo {
+        height: 36px;
+        width: auto;
+    }
+
+    /* --- Hamburger button: lebih modern, rounded, dengan touch target yang nyaman --- */
+    .navbar-toggler {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 10px !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+        flex-shrink: 0;
+    }
+
+    /* Hamburger icon size: sedikit lebih kecil agar tidak terlalu dominan */
+    .navbar-toggler-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Hamburger state saat navbar solid/scrolled */
+    .lp3aik-header.scrolled .navbar-toggler,
+    .lp3aik-header.header-solid .navbar-toggler,
+    body:not(.home):not(.front-page) .lp3aik-header .navbar-toggler {
+        border-color: rgba(0, 60, 113, 0.2) !important;
+    }
+
+    .lp3aik-header.scrolled .navbar-toggler:hover,
+    .lp3aik-header.header-solid .navbar-toggler:hover,
+    body:not(.home):not(.front-page) .lp3aik-header .navbar-toggler:hover {
+        background-color: rgba(0, 60, 113, 0.08);
+        border-color: var(--color-primary) !important;
+    }
+
+    /* Hamburger saat transparan: border putih, hover subtle */
+    .lp3aik-header:not(.scrolled):not(.header-solid) .navbar-toggler:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    /* --- Mobile navbar wrapper button area: spacing dari logo --- */
+    .d-flex.align-items-center.ms-auto.d-lg-none {
+        gap: 0; /* tidak ada gap karena hanya satu tombol */
+    }
+
+    /* --- Navbar transparan: backdrop gradient lebih soft (override dari refactor sebelumnya) --- */
+    .lp3aik-header:not(.scrolled):not(.header-solid) .navbar {
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 8, 24, 0.45),
+            rgba(0, 8, 24, 0.15)
+        );
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+}
+
+/* Lebih kecil lagi: xs (≤ 575px) */
+@media (max-width: 575.98px) {
+    .lp3aik-header .navbar > .container,
+    .lp3aik-header .navbar > .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .lp3aik-header .logo-long,
+    .lp3aik-header .logo-short,
+    .lp3aik-header .lp3aik-logo {
+        height: 32px;
+    }
+
+    .navbar-toggler {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+
+/* --------------------------------------------------------------------------
+   REFACTOR 2: HERO SECTION MOBILE
+   Target: < 992px — Tampilan yang lebih modern dan proporsional
+   -------------------------------------------------------------------------- */
+
+/* --- Hero slide category badge --- */
+.hero-slide-category {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: var(--border-radius-full);
+    font-size: 0.7rem;
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: var(--color-accent);
+    color: var(--color-primary-dark);
+    margin-bottom: 0.75rem;
+}
+
+@media (max-width: 991.98px) {
+
+    /* --- Hero: sedikit lebih kecil di tablet --- */
+    .lp3aik-hero-carousel {
+        margin-top: -60px;
+    }
+
+    /* --- Content wrap: spacing lebih compact --- */
+    .hero-content-wrap {
+        padding: 5rem 0 7.5rem !important;
+        min-height: 400px !important;
+    }
+
+    /* --- Title: lebih compact --- */
+    .hero-carousel-title {
+        font-size: clamp(1.35rem, 4vw, 1.9rem);
+        margin-bottom: 0.85rem;
+        line-height: 1.25;
+    }
+
+    /* --- Excerpt: lebih kecil, lebih compact --- */
+    .hero-carousel-excerpt {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 1.25rem;
+        opacity: 0.82;
+        /* Batasi ke 3 baris di mobile agar hero tidak terlalu penuh teks */
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* --- Bismillah: lebih kecil --- */
+    .hero-bismillah {
+        font-size: 1.15rem;
+        margin-bottom: 0.5rem;
+        opacity: 0.6;
+    }
+
+    /* --- CTA buttons: compact dan elegan --- */
+    .hero-carousel-buttons {
+        gap: 0.75rem;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .hero-carousel-buttons .btn.btn-accent {
+        font-size: 0.82rem !important;
+        padding: 0.45rem 1.1rem !important;
+        border-radius: var(--border-radius-sm);
+        font-weight: var(--font-weight-bold);
+        letter-spacing: 0.2px;
+        width: auto !important;
+        min-width: 0;
+    }
+
+    .hero-carousel-buttons .btn-underline {
+        font-size: 0.75rem !important;
+        letter-spacing: 0.5px;
+        opacity: 0.85;
+        width: auto !important;
+    }
+
+    /* --- Carousel indicators: lebih kecil dan modern --- */
+    .carousel-indicators {
+        bottom: 28px;
+    }
+
+    .carousel-indicators [data-bs-target] {
+        width: 20px;
+        height: 3px;
+        margin: 0 3px;
+    }
+
+    .carousel-indicators .active {
+        width: 36px;
+    }
+}
+
+@media (max-width: 767.98px) {
+
+    /* --- Hero height: lebih compact --- */
+    .lp3aik-hero-carousel .carousel-item {
+        min-height: 360px !important;
+    }
+
+    .hero-content-wrap {
+        padding: 5.5rem 0 8rem !important; /* Bottom padding lebih besar */
+        min-height: 480px !important;
+    }
+
+    .hero-carousel-img {
+        min-height: 480px;
+    }
+
+    /* --- Hero inner: beri breathing space horizontal --- */
+    .hero-content-inner {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+    }
+
+    /* --- Title --- */
+    .hero-carousel-title {
+        font-size: clamp(1.2rem, 5vw, 1.6rem);
+        margin-bottom: 0.7rem;
+    }
+
+    /* --- Overlay sedikit lebih gelap untuk keterbacaan teks di mobile --- */
+    .hero-overlay-dark {
+        background: linear-gradient(160deg, rgba(0, 12, 36, 0.78), rgba(0, 30, 70, 0.6));
+    }
+
+    /* --- CTA buttons: kompak --- */
+    .hero-carousel-buttons .btn.btn-accent {
+        font-size: 0.8rem !important;
+        padding: 0.4rem 1rem !important;
+    }
+
+    .hero-carousel-buttons .btn-underline {
+        font-size: 0.72rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+
+    /* --- Hero: paling compact di smartphone kecil --- */
+    .lp3aik-hero-carousel {
+        margin-top: -60px;
+    }
+
+    .lp3aik-hero-carousel .carousel-item {
+        min-height: 460px !important;
+    }
+
+    .hero-content-wrap {
+        padding: 6rem 0 9.5rem !important; /* Jarak lega di bawah tombol sebelum tertimpa card */
+        min-height: 460px !important;
+    }
+
+    .hero-carousel-img {
+        min-height: 460px;
+    }
+
+    /* --- Bismillah: sembunyikan di layar sangat kecil agar tidak crowded --- */
+    .hero-bismillah {
+        display: none;
+    }
+
+    /* --- Title --- */
+    .hero-carousel-title {
+        font-size: clamp(1.1rem, 5.5vw, 1.4rem);
+        margin-bottom: 0.55rem;
+        line-height: 1.3;
+    }
+
+    /* --- Excerpt: 2 baris di xs --- */
+    .hero-carousel-excerpt {
+        font-size: 0.82rem;
+        margin-bottom: 1rem;
+        -webkit-line-clamp: 2;
+        opacity: 0.78;
+    }
+
+    /* --- CTA: satu baris, auto width --- */
+    .hero-carousel-buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    .hero-carousel-buttons .btn.btn-accent {
+        font-size: 0.78rem !important;
+        padding: 0.38rem 0.9rem !important;
+        width: auto !important;
+        max-width: none;
+    }
+
+    .hero-carousel-buttons .btn-underline {
+        font-size: 0.7rem !important;
+        width: auto !important;
+        display: inline;
+        text-align: left;
+    }
+
+    /* --- Indicators: bottom lebih rapat --- */
+    .carousel-indicators {
+        bottom: 18px;
+    }
+
+    .carousel-indicators [data-bs-target] {
+        width: 16px;
+        height: 2px;
+        margin: 0 2px;
+    }
+
+    .carousel-indicators .active {
+        width: 28px;
+    }
+
+    /* --- Inner spacing hero --- */
+    .lp3aik-hero-carousel .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+
+/* --------------------------------------------------------------------------
+   MOBILE DRAWER PREMIUM STYLING
+   Refinement visual untuk drawer navigasi mobile
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 991.98px) {
+
+    /* --- Drawer header: lebih rapi --- */
+    .mobile-drawer-header {
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid var(--color-border-light);
+    }
+
+    /* --- Drawer close button: lebih premium --- */
+    .mobile-drawer-close {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        border: 1px solid var(--color-border-light) !important;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+    }
+
+    .mobile-drawer-close:hover {
+        background: var(--color-primary) !important;
+        border-color: var(--color-primary) !important;
+        color: #fff !important;
+        transform: rotate(90deg);
+    }
+
+    /* --- Nav list item: lebih breathable --- */
+    .mobile-nav-list .nav-link {
+        padding: 0.85rem 1.25rem;
+        font-size: 0.95rem;
+    }
+
+    /* --- Dropdown items: lebih rapi --- */
+    .mobile-nav-list .dropdown-menu .dropdown-item {
+        padding: 0.65rem 1.25rem 0.65rem 2.25rem;
+        font-size: 0.9rem;
+    }
+
+    /* --- Removed duplicate drawer body --- */
+
+    /* --- Logo di drawer header: ukuran proporsional --- */
+    .mobile-drawer-header .navbar-brand img,
+    .mobile-drawer-header .logo-long,
+    .mobile-drawer-header .logo-short {
+        height: 34px;
+        width: auto;
+    }
+}
+
+
+/* ==========================================================================
+   MOBILE FLOATING DRAWER — Modern Dropdown Panel
+   Transforms fullscreen drawer → floating card below navbar
+   ========================================================================== */
+
+@media (max-width: 991.98px) {
+
+    /* -----------------------------------------------------------------------
+       FLOATING PANEL POSITIONING & ANIMATION
+       ----------------------------------------------------------------------- */
+
+    .mobile-drawer {
+        /* Floating below navbar — NOT fullscreen */
+        top: calc(60px + 10px) !important;   /* navbar height + gap */
+        left: 14px !important;
+        right: 14px !important;
+        bottom: auto !important;
+        width: auto !important;
+        max-width: none !important;
+        height: auto !important;
+        max-height: calc(100dvh - 80px) !important;
+
+        /* Floating card aesthetics */
+        border-radius: 18px !important;
+        box-shadow: 0 24px 48px rgba(0, 8, 24, 0.12) !important; /* Shadow diarahkan ke bawah saja */
+        background: #fff !important;
+        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+
+        /* Animation: fade + slide from above (override translateX) */
+        transform: translateY(-14px) scale(0.97) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transition:
+            opacity 0.26s ease,
+            transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    }
+
+    .mobile-drawer.open {
+        transform: translateY(0) scale(1) !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+
+    /* -----------------------------------------------------------------------
+       OVERLAY — Subtle backdrop for floating panel
+       ----------------------------------------------------------------------- */
+
+    .mobile-drawer-overlay {
+        background: transparent !important; /* Biarkan terang, hilangkan efek gelap/shadow di belakang */
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+
+    /* Core fix: any nav-link, anchor, or text inside drawer = dark */
+    #mobileDrawer .navbar-nav .nav-link,
+    #mobileDrawer .nav-link,
+    #mobileDrawer .dropdown-item,
+    #mobileDrawer a,
+    #site-header #mobileDrawer .nav-link,
+    .lp3aik-header:not(.scrolled):not(.header-solid) #mobileDrawer .nav-link {
+        color: var(--color-text) !important;
+        text-shadow: none !important;
+    }
+
+    /* Hover state stays dark-primary */
+    .mobile-drawer .nav-link:hover,
+    .mobile-drawer .dropdown-item:hover {
+        color: var(--color-primary) !important;
+    }
+
+    /* Active item */
+    #mobileDrawer .nav-item.current-menu-item > .nav-link,
+    #mobileDrawer .nav-link.active,
+    .lp3aik-header:not(.scrolled):not(.header-solid) #mobileDrawer .nav-link.active {
+        color: var(--color-primary) !important;
+    }
+
+    /* -----------------------------------------------------------------------
+       NAV LIST — Clean spacing & hierarchy
+       ----------------------------------------------------------------------- */
+
+    .mobile-nav-list,
+    #mobileDrawer .navbar-nav {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* Target ALL nav links inside drawer to have consistent spacing and rounded corners */
+    #mobileDrawer .nav-link {
+        padding: 0.88rem 1rem !important;
+        margin: 0.2rem 0 !important;
+        border-radius: 8px !important;
+        border-left: 4px solid transparent !important; /* Persiapan aksen emas */
+        font-size: 0.95rem !important;
+        font-weight: var(--font-weight-bold) !important;
+        color: var(--color-text) !important;
+        text-shadow: none !important;
+        letter-spacing: 0;
+        transition: all 0.2s ease;
+    }
+
+    #mobileDrawer .nav-link:hover {
+        background: var(--color-surface) !important;
+        color: var(--color-primary) !important;
+        border-left: 4px solid var(--color-accent) !important;
+        padding-left: 1.25rem !important; /* Indent slightly on hover */
+    }
+
+    .mobile-nav-list .nav-item {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .mobile-nav-list .nav-item:last-child {
+        border-bottom: none !important;
+    }
+
+    /* Active item: subtle background with rounded corners and gold accent */
+    #mobileDrawer .nav-item.current-menu-item > .nav-link,
+    #mobileDrawer .nav-link.active {
+        color: var(--color-primary) !important;
+        background: rgba(0, 60, 113, 0.04) !important;
+        border-left: 4px solid var(--color-accent) !important; /* Aksen emas */
+        font-weight: var(--font-weight-bold) !important;
+    }
+
+    /* Dropdown sub-menu container */
+    #mobileDrawer .dropdown-menu {
+        background: rgba(0, 60, 113, 0.02) !important;
+        border-radius: 10px !important;
+        margin: 0.5rem 1rem !important;
+        padding: 0.5rem !important;
+        border: 1px solid rgba(0, 0, 0, 0.03) !important;
+    }
+
+    /* Dropdown item */
+    #mobileDrawer .dropdown-item {
+        padding: 0.65rem 1rem !important;
+        margin: 0.2rem 0 !important;
+        border-radius: 6px !important;
+        border-left: 3px solid transparent !important; /* Persiapan aksen */
+        color: var(--color-text) !important;
+        text-shadow: none !important;
+        font-size: 0.9rem !important;
+        transition: all 0.2s ease;
+    }
+
+    /* Aksen List Emas saat Hover / Aktif */
+    #mobileDrawer .dropdown-item:hover,
+    #mobileDrawer .dropdown-item.active {
+        color: var(--color-primary) !important;
+        background: #fff !important; /* Menonjol dari container */
+        border-left: 3px solid var(--color-accent) !important; /* Aksen Emas */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+        font-weight: var(--font-weight-bold) !important;
+    }
+
+    /* Drawer body: inset the entire menu with horizontal padding */
+    .mobile-drawer-body {
+        padding: 1.5rem 1.25rem !important;
+    }
+
+    /* -----------------------------------------------------------------------
+       HAMBURGER BUTTON — Visual feedback saat drawer open
+       ----------------------------------------------------------------------- */
+
+    /* Saat drawer open: opacity sedikit turun dan border berubah */
+    #btn-open-mobile-drawer[aria-expanded="true"] .navbar-toggler-icon {
+        opacity: 0.9;
+    }
+
+    /* Icon X yang lebih tebal dan jelas */
+    .lp3aik-header:not(.scrolled):not(.header-solid) #btn-open-mobile-drawer[aria-expanded="true"] .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z'/%3e%3cpath fill-rule='evenodd' d='M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z'/%3e%3c/svg%3e") !important;
+    }
+
+    .lp3aik-header.scrolled #btn-open-mobile-drawer[aria-expanded="true"] .navbar-toggler-icon,
+    .lp3aik-header.header-solid #btn-open-mobile-drawer[aria-expanded="true"] .navbar-toggler-icon,
+    body:not(.home):not(.front-page) .lp3aik-header #btn-open-mobile-drawer[aria-expanded="true"] .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath fill-rule='evenodd' d='M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z'/%3e%3cpath fill-rule='evenodd' d='M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z'/%3e%3c/svg%3e") !important;
+    }
+
+    #btn-open-mobile-drawer[aria-expanded="true"] {
+        background-color: rgba(255, 255, 255, 0.15) !important;
+        border-color: rgba(255, 255, 255, 0.4) !important;
+        transform: rotate(90deg); /* Animasi rotasi halus */
+    }
+
+    /* Solid navbar + open state */
+    .lp3aik-header.scrolled #btn-open-mobile-drawer[aria-expanded="true"],
+    .lp3aik-header.header-solid #btn-open-mobile-drawer[aria-expanded="true"],
+    body:not(.home):not(.front-page) .lp3aik-header #btn-open-mobile-drawer[aria-expanded="true"] {
+        background-color: rgba(0, 60, 113, 0.08) !important;
+        border-color: var(--color-primary) !important;
+    }
+}
+
+/* Extra small — tighter margin on very small phones */
+@media (max-width: 359.98px) {
+    .mobile-drawer {
+        left: 10px !important;
+        right: 10px !important;
+        border-radius: 14px !important;
+    }
+}
