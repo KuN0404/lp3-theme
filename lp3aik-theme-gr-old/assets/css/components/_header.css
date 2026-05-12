@@ -1,0 +1,206 @@
+/* ============================================================
+   HEADER & NAVIGATION
+   ============================================================ */
+
+/* ── Topbar ───────────────────────────────────────────────── */
+.topbar {
+  background: var(--color-primary-darker);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: var(--font-size-xs);
+  padding: 0.45rem 0;
+}
+.topbar__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.topbar__left,
+.topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+.topbar__item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.topbar__item a {
+  color: rgba(255, 255, 255, 0.75);
+  transition: color var(--dur);
+}
+.topbar__item a:hover { color: var(--color-accent-light); }
+
+/* ── Site Header ──────────────────────────────────────────── */
+.site-header {
+  background: var(--color-white);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--dur);
+}
+.site-header.scrolled { box-shadow: var(--shadow-md); }
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 0;
+  gap: 2rem;
+}
+
+/* ── Logo ─────────────────────────────────────────────────── */
+.site-logo-wrap a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+.site-logo-icon {
+  width: 44px; height: 44px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  color: var(--color-white);
+  flex-shrink: 0;
+}
+.logo-text-group { line-height: 1.2; }
+.logo-main {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--color-primary-darker);
+}
+.logo-sub {
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* ── Primary Navigation ───────────────────────────────────── */
+.primary-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.primary-nav > li > a {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+  border-radius: var(--border-radius-sm);
+  transition: color var(--dur), background var(--dur);
+  white-space: nowrap;
+}
+.primary-nav > li > a:hover,
+.primary-nav > li.current-menu-item > a,
+.primary-nav > li.current-menu-ancestor > a {
+  color: var(--color-primary);
+  background: var(--color-primary-subtle);
+}
+
+/* ── Dropdown Sub-menu ────────────────────────────────────── */
+.primary-nav li { position: relative; }
+
+.primary-nav .sub-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  min-width: 200px;
+  padding: 0.5rem 0;
+  list-style: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility var(--dur);
+  z-index: 300;
+}
+.primary-nav > li:hover > .sub-menu,
+.primary-nav > li:focus-within > .sub-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.primary-nav .sub-menu li a {
+  display: block;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  transition: background var(--dur), color var(--dur);
+}
+.primary-nav .sub-menu li a:hover {
+  background: var(--color-primary-subtle);
+  color: var(--color-primary);
+}
+
+/* ── Header Actions ───────────────────────────────────────── */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+.header-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 38px; height: 38px;
+  border-radius: var(--border-radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text);
+  transition: background var(--dur), color var(--dur);
+  font-size: 1rem;
+}
+.header-actions button:hover {
+  background: var(--color-primary-subtle);
+  color: var(--color-primary);
+}
+
+/* ── Mobile Toggle ────────────────────────────────────────── */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: var(--color-text);
+  padding: 0.4rem;
+}
+
+/* ── Search Modal ─────────────────────────────────────────── */
+.search-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 74, 30, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur), visibility var(--dur);
+}
+.search-modal.open { opacity: 1; visibility: visible; }
+.search-modal__box {
+  background: var(--color-white);
+  border-radius: var(--border-radius-lg);
+  padding: 2.5rem;
+  width: min(520px, 90vw);
+  box-shadow: var(--shadow-lg);
+}

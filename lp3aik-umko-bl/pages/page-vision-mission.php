@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Visi dan Misi
- * Path: pages/page-visi-misi.php
+ * Path: pages/page-vision-mission.php
  */
 get_header();
 ?>

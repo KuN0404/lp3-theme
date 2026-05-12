@@ -1,0 +1,61 @@
+/* ============================================================
+   CSS CUSTOM PROPERTIES - LP3AIK COLOR SYSTEM
+   ============================================================ */
+:root {
+  /* Primary - Hijau Muhammadiyah */
+  --green-dark:    #0a4a1e;
+  --green-primary: #1a7a3c;
+  --green-mid:     #2d9e54;
+  --green-light:   #4fc072;
+  --green-pale:    #e8f5ec;
+  --green-ghost:   #f3fbf5;
+
+  /* Accent - Emas Islami */
+  --gold-primary: #c8972a;
+  --gold-light:   #e8b94a;
+  --gold-pale:    #fdf6e3;
+
+  /* Neutral */
+  --white:        #ffffff;
+  --off-white:    #fafafa;
+  --gray-100:     #f5f5f5;
+  --gray-200:     #e8e8e8;
+  --gray-400:     #a0a0a0;
+  --gray-600:     #666666;
+  --gray-800:     #333333;
+  --black:        #111111;
+
+  /* Semantic */
+  --text-primary:   var(--gray-800);
+  --text-secondary: var(--gray-600);
+  --text-muted:     var(--gray-400);
+  --bg-body:        var(--white);
+  --bg-section:     var(--green-ghost);
+  --border:         var(--gray-200);
+
+  /* Typography */
+  --font-heading: 'Poppins', sans-serif;
+  --font-arabic: 'Amiri', 'Scheherazade New', Georgia, serif;
+  --font-body:    'Plus Jakarta Sans', 'Noto Sans', sans-serif;
+  --font-arabic:  'Amiri', 'Scheherazade New', serif;
+
+  /* Spacing */
+  --container:  1200px;
+  --gap:        1.5rem;
+  --section-py: 5rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,.14);
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+
+  /* Transitions */
+  --ease: cubic-bezier(.4,0,.2,1);
+  --dur:  0.28s;
+}

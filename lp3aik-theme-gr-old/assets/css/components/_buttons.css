@@ -1,0 +1,61 @@
+/* ============================================================
+   BUTTONS — Theme-specific button styles
+   Extends Bootstrap's .btn with theme colors.
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .75rem 1.75rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: .95rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all var(--dur) var(--ease);
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--green-primary);
+  color: var(--white);
+  border-color: var(--green-primary);
+}
+.btn-primary:hover {
+  background: var(--green-dark);
+  border-color: var(--green-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  color: var(--white);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--green-primary);
+  border-color: var(--green-primary);
+}
+.btn-outline:hover {
+  background: var(--green-primary);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+.btn-gold {
+  background: var(--gold-primary);
+  color: var(--white);
+  border-color: var(--gold-primary);
+}
+.btn-gold:hover {
+  background: #a67a20;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  color: var(--white);
+}
+.btn-white {
+  background: var(--white);
+  color: var(--green-dark);
+  border-color: var(--white);
+}
+.btn-white:hover {
+  background: var(--green-pale);
+  transform: translateY(-2px);
+}
+.btn-sm { padding: .5rem 1.25rem; font-size: .85rem; }
+.btn-lg { padding: 1rem 2.25rem; font-size: 1.05rem; }

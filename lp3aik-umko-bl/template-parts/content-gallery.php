@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Part: Galeri Card (Image Only + Lightbox)
- * Path: template-parts/content-galeri.php
+ * Path: template-parts/content-gallery.php
  */
 $img_url     = get_the_post_thumbnail_url( get_the_ID(), 'full' );
 $img_thumb   = get_the_post_thumbnail_url( get_the_ID(), 'lp3aik-gallery' ) 

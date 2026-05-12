@@ -7,25 +7,56 @@
 
 defined('ABSPATH') || exit;
 
-add_action('wp_enqueue_scripts', function () {
+add_action('wp_enqueue_scripts', function (): void {
 
     // ── CDN: Bootstrap 5.3 ──────────────────────────────────
-    wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', [], '5.3.3');
-    wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', [], '5.3.3', true);
+    wp_enqueue_style(
+        'bootstrap',
+        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
+        [],
+        '5.3.3'
+    );
+    wp_enqueue_script(
+        'bootstrap-js',
+        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
+        [],
+        '5.3.3',
+        true
+    );
 
     // ── CDN: Font Awesome 6.5 ───────────────────────────────
-    wp_enqueue_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css', [], '6.5.2');
+    wp_enqueue_style(
+        'fontawesome',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css',
+        [],
+        '6.5.2'
+    );
 
     // ── Google Fonts ────────────────────────────────────────
-    wp_enqueue_style('lp3aik-fonts', 'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap', [], null);
+    wp_enqueue_style(
+        'lp3aik-fonts',
+        'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap',
+        [],
+        null
+    );
 
-    // ── WordPress-required style.css ────────────────────────
-    wp_enqueue_style('lp3aik-style', get_stylesheet_uri(), ['bootstrap', 'fontawesome', 'lp3aik-fonts'], LP3AIK_VERSION);
+    // ── WordPress required style.css ────────────────────────
+    wp_enqueue_style(
+        'lp3aik-style',
+        get_stylesheet_uri(),
+        ['bootstrap', 'fontawesome', 'lp3aik-fonts'],
+        LP3AIK_VERSION
+    );
 
     // ── Modular app.css ─────────────────────────────────────
-    wp_enqueue_style('lp3aik-app', LP3AIK_URI . '/assets/css/app.css', ['lp3aik-style'], LP3AIK_VERSION);
+    wp_enqueue_style(
+        'lp3aik-app',
+        LP3AIK_URI . '/assets/css/app.css',
+        ['lp3aik-style'],
+        LP3AIK_VERSION
+    );
 
-    // ── JS Modules (loaded before app.js) ───────────────────
+    // ── JS Modules ──────────────────────────────────────────
     $js_modules = [
         'sticky-header',
         'mobile-menu',
@@ -49,10 +80,16 @@ add_action('wp_enqueue_scripts', function () {
         );
     }
 
-    // ── Main app.js (init, loaded last) ─────────────────────
-    wp_enqueue_script('lp3aik-main', LP3AIK_URI . '/assets/js/app.js', array_map(fn($m) => "lp3aik-{$m}", $js_modules), LP3AIK_VERSION, true);
+    // ── Main app.js ─────────────────────────────────────────
+    wp_enqueue_script(
+        'lp3aik-main',
+        LP3AIK_URI . '/assets/js/app.js',
+        array_map(fn($m) => "lp3aik-{$m}", $js_modules),
+        LP3AIK_VERSION,
+        true
+    );
 
-    // ── Localize script data ────────────────────────────────
+    // ── Localize data for JS ────────────────────────────────
     wp_localize_script('lp3aik-main', 'lp3aikData', [
         'ajaxUrl'  => admin_url('admin-ajax.php'),
         'nonce'    => wp_create_nonce('lp3aik_nonce'),
@@ -64,4 +101,14 @@ add_action('wp_enqueue_scripts', function () {
     if (is_singular() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');
     }
+});
+
+// ── Admin styles ─────────────────────────────────────────────
+add_action('admin_enqueue_scripts', function (): void {
+    wp_enqueue_style(
+        'lp3aik-admin',
+        LP3AIK_URI . '/assets/css/admin.css',
+        [],
+        LP3AIK_VERSION
+    );
 });

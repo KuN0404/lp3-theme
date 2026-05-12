@@ -2,7 +2,7 @@
 /**
  * Template: Halaman Kontak (CTA)
  * Tanpa breadcrumb, form kontak aman dengan nonce + honeypot
- * Path: pages/page-kontak.php
+ * Path: pages/page-contact.php
  */
 get_header();
 

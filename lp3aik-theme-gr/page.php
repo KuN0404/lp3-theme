@@ -1,11 +1,6 @@
 <?php
 /**
- * Page Template — Fallback
- *
- * Tampilan standar untuk halaman WordPress yang TIDAK memiliki
- * custom page template. Halaman dengan template khusus (profil,
- * berita, kontak, dll.) ditangani langsung oleh template_include
- * filter di inc/helpers/page-templates.php.
+ * Default Page Template
  *
  * @package lp3aik-umk
  */
@@ -13,26 +8,31 @@
 get_header();
 ?>
 
-<!-- Page Hero -->
 <div class="page-hero">
     <div class="container">
         <h1><?php the_title(); ?></h1>
-        <div class="breadcrumb">
-            <?php lp3aik_breadcrumb(); ?>
-        </div>
+        <div class="breadcrumb"><?php lp3aik_breadcrumb(); ?></div>
     </div>
 </div>
 
 <section class="section">
     <div class="container">
-        <div class="entry-content"
-            style="background:var(--white);padding:3rem;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);border:1px solid var(--border);">
-            <?php
-                while (have_posts()) :
-                    the_post();
-                    the_content();
-                endwhile;
-            ?>
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <?php while (have_posts()): the_post(); ?>
+                <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+                    <?php if (has_post_thumbnail()): ?>
+                    <div class="single-featured-image mb-4">
+                        <img src="<?php echo esc_url(get_the_post_thumbnail_url(null, 'large')); ?>"
+                             alt="<?php the_title_attribute(); ?>" loading="lazy">
+                    </div>
+                    <?php endif; ?>
+                    <div class="entry-content">
+                        <?php the_content(); ?>
+                    </div>
+                </article>
+                <?php endwhile; ?>
+            </div>
         </div>
     </div>
 </section>

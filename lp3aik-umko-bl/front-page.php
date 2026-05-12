@@ -425,7 +425,7 @@ $hero_posts = new WP_Query( [
                     // 2 item pertama (baris atas) tampil lebih besar, 3 item sisanya (baris bawah) tampil lebih kecil
                     $col_class = ($delay <= 2) ? 'col-md-6' : 'col-md-4';
                     echo '<div class="' . $col_class . ' reveal reveal-delay-' . esc_attr( min( $delay, 5 ) ) . '">';
-                    get_template_part( 'template-parts/content', 'galeri' );
+                    get_template_part( 'template-parts/content', 'gallery' );
                     echo '</div>';
                     $delay++;
                 endwhile;

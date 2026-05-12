@@ -2,21 +2,20 @@
 /**
  * LP3AIK UM Kotabumi — Functions & Theme Bootstrap.
  *
- * Slim loader that requires all modular include files.
- * Each domain lives in its own file under inc/.
+ * Slim loader: each domain lives in its own file under inc/.
  *
  * @package lp3aik-umk
- * @version 2.0.0
+ * @version 3.0.0
  */
 
 defined('ABSPATH') || exit;
 
-// ── Constants ───────────────────────────────────────────────
-define('LP3AIK_VERSION', '2.0.0');
+// ── Constants ────────────────────────────────────────────────
+define('LP3AIK_VERSION', '3.0.0');
 define('LP3AIK_DIR',     get_template_directory());
 define('LP3AIK_URI',     get_template_directory_uri());
 
-// ── Modular Includes ────────────────────────────────────────
+// ── Modular Includes ─────────────────────────────────────────
 $lp3aik_includes = [
     'inc/setup/theme-setup.php',
     'inc/enqueue/enqueue-assets.php',

@@ -1,48 +1,32 @@
-/**
- * LP3AIK UM Kotabumi — Master CSS Import
- *
- * Imports all modular CSS partials in correct cascade order.
- * Bootstrap 5.3 is loaded via CDN before this file.
- *
- * @version 2.0.0
+/*
+ * LP3AIK Theme — Main CSS Entry Point
+ * Load order matters: variables → base → components → sections → pages → utilities → responsive
  */
 
 /* ── Base ──────────────────────────────────────────────────── */
 @import url('base/_variables.css');
 @import url('base/_reset.css');
 @import url('base/_typography.css');
+@import url('base/_layout.css');
 
-/* ── Layout ───────────────────────────────────────────────── */
-@import url('layout/_container.css');
-@import url('layout/_header.css');
-@import url('layout/_footer.css');
-
-/* ── Components ───────────────────────────────────────────── */
+/* ── Components ────────────────────────────────────────────── */
 @import url('components/_buttons.css');
 @import url('components/_cards.css');
 @import url('components/_forms.css');
 @import url('components/_badges.css');
-@import url('components/_lightbox.css');
-@import url('components/_search-modal.css');
+@import url('components/_header.css');
+@import url('components/_footer.css');
 
-/* ── Sections ─────────────────────────────────────────────── */
+/* ── Sections ──────────────────────────────────────────────── */
 @import url('sections/_hero.css');
-@import url('sections/_about.css');
-@import url('sections/_stats.css');
-@import url('sections/_news.css');
 @import url('sections/_gallery.css');
-@import url('sections/_ticker.css');
-@import url('sections/_downloads.css');
+@import url('sections/_sections.css');
 
-/* ── Pages ────────────────────────────────────────────────── */
-@import url('pages/_single.css');
-@import url('pages/_archive.css');
-@import url('pages/_pagination.css');
+/* ── Pages ─────────────────────────────────────────────────── */
+@import url('pages/_pages.css');
 
-/* ── Utilities ────────────────────────────────────────────── */
-@import url('utilities/_accessibility.css');
-@import url('utilities/_wordpress.css');
-@import url('utilities/_back-to-top.css');
+/* ── Utilities ─────────────────────────────────────────────── */
+@import url('utilities/_utilities.css');
 
-/* ── Responsive (must be last) ────────────────────────────── */
+/* ── Responsive (must be last) ─────────────────────────────── */
 @import url('_responsive.css');

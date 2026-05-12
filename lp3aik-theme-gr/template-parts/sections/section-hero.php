@@ -1,115 +1,158 @@
 <?php
 /**
- * Template Part: Hero Section — Carousel / Slider
- *
- * Menampilkan hero slider dengan background gambar yang dapat diganti admin
- * melalui Customizer (LP3AIK Theme Options > Hero Slider).
+ * Template Part: Hero Section (Front Page)
  *
  * @package lp3aik-umk
  */
 
 defined('ABSPATH') || exit;
 
-$slide_count = (int) lp3aik_opt('lp3aik_hero_slide_count', '3');
-$interval    = (int) lp3aik_opt('lp3aik_hero_interval', '6000');
-$overlay     = (int) lp3aik_opt('lp3aik_hero_overlay', '55');
-
-// Build slides data
+// Hero slides from customizer
 $slides = [];
-for ($i = 1; $i <= $slide_count; $i++) {
+for ($i = 1; $i <= 3; $i++) {
     $slides[] = [
-        'image'    => lp3aik_opt("lp3aik_hero_slide_{$i}_image", ''),
-        'title'    => lp3aik_opt("lp3aik_hero_slide_{$i}_title", $i === 1 ? 'Membangun Generasi <em>Islami</em> yang Unggul' : ($i === 2 ? 'Pengkajian <em>Al-Islam</em> & Kemuhammadiyahan' : 'Mengabdi dengan <em>Ilmu</em> & Akhlak')),
-        'subtitle' => lp3aik_opt("lp3aik_hero_slide_{$i}_subtitle", $i === 1 ? 'Lembaga Pengkajian, Pengembangan, dan Pengamalan Al-Islam dan Kemuhammadiyahan — mendidik dengan nilai, mengabdi dengan ilmu.' : ($i === 2 ? 'Mengintegrasikan nilai-nilai Al-Islam dan Kemuhammadiyahan dalam seluruh aspek kehidupan akademik.' : 'Membentuk sivitas akademika yang berakhlak mulia dan bersemangat Kemuhammadiyahan.')),
+        'eyebrow'  => lp3aik_opt("lp3aik_hero_{$i}_eyebrow",  $i === 1 ? __('Al-Islam & Kemuhammadiyahan', 'lp3aik-umk') : ''),
+        'title'    => lp3aik_opt("lp3aik_hero_{$i}_title",    ''),
+        'em'       => lp3aik_opt("lp3aik_hero_{$i}_em",       ''),
+        'tagline'  => lp3aik_opt("lp3aik_hero_{$i}_tagline",  ''),
+        'image'    => lp3aik_opt("lp3aik_hero_{$i}_image",    ''),
     ];
 }
 
-$stats = [
-    [lp3aik_opt('lp3aik_stat_1_num','500+'), lp3aik_opt('lp3aik_stat_1_label','Mahasiswa Terdidik')],
-    [lp3aik_opt('lp3aik_stat_2_num','12'),   lp3aik_opt('lp3aik_stat_2_label','Program AIK')],
-    [lp3aik_opt('lp3aik_stat_3_num','20+'),  lp3aik_opt('lp3aik_stat_3_label','Tahun Berdiri')],
-    [lp3aik_opt('lp3aik_stat_4_num','30+'),  lp3aik_opt('lp3aik_stat_4_label','Tenaga Pengajar')],
-];
+// Default slide if no customizer data
+if (empty(array_filter(array_column($slides, 'title')))) {
+    $slides = [
+        [
+            'eyebrow' => __('Al-Islam & Kemuhammadiyahan', 'lp3aik-umk'),
+            'title'   => __('Membangun Generasi', 'lp3aik-umk'),
+            'em'      => __('Islami & Berakhlak', 'lp3aik-umk'),
+            'tagline' => __('LP3AIK UM Kotabumi hadir untuk mengintegrasikan nilai Al-Islam dan Kemuhammadiyahan dalam kehidupan akademik.', 'lp3aik-umk'),
+            'image'   => '',
+        ],
+        [
+            'eyebrow' => __('Program Unggulan', 'lp3aik-umk'),
+            'title'   => __('Program AIK', 'lp3aik-umk'),
+            'em'      => __('Terstruktur & Bermakna', 'lp3aik-umk'),
+            'tagline' => __('Kami menyelenggarakan berbagai program pembinaan AIK yang komprehensif untuk sivitas akademika.', 'lp3aik-umk'),
+            'image'   => '',
+        ],
+        [
+            'eyebrow' => __('Bersama Muhammadiyah', 'lp3aik-umk'),
+            'title'   => __('Teguh dalam', 'lp3aik-umk'),
+            'em'      => __('Nilai & Pengabdian', 'lp3aik-umk'),
+            'tagline' => __('Berkomitmen mencetak civitas akademika yang unggul secara intelektual dan mulia dalam akhlak.', 'lp3aik-umk'),
+            'image'   => '',
+        ],
+    ];
+}
 
-$quick_links = [
-    ['fa-mosque',    __('Profil','lp3aik-umk'),  home_url('/profil')],
-    ['fa-list-check',__('Program','lp3aik-umk'), get_post_type_archive_link('lp3aik_program') ?: home_url('/program')],
-    ['fa-newspaper', __('Berita','lp3aik-umk'),  home_url('/berita')],
-    ['fa-images',    __('Galeri','lp3aik-umk'),  get_post_type_archive_link('lp3aik_galeri') ?: home_url('/galeri')],
-];
+$program_url = get_post_type_archive_link('lp3aik_program') ?: home_url('/program/');
+$galeri_url  = get_post_type_archive_link('lp3aik_galeri')  ?: home_url('/galeri/');
 ?>
-<section class="hero" id="beranda" data-interval="<?php echo esc_attr($interval); ?>">
 
-    <!-- Carousel Background Slides -->
+<section class="hero" id="beranda" aria-label="<?php _e('Banner Utama', 'lp3aik-umk'); ?>">
+
+    <!-- Background Carousel -->
     <div class="hero__carousel" aria-hidden="true">
-        <?php foreach ($slides as $idx => $slide): ?>
-        <div class="hero__slide <?php echo $idx === 0 ? 'active' : ''; ?>"
-            <?php if ($slide['image']): ?>
-            style="background-image: url('<?php echo esc_url($slide['image']); ?>');"
-            <?php endif; ?>>
-        </div>
+        <?php foreach ($slides as $i => $slide): ?>
+            <div class="hero__slide <?php echo $i === 0 ? 'active' : ''; ?>"
+                 <?php if ($slide['image']): ?>
+                     style="background-image:url('<?php echo esc_url($slide['image']); ?>')"
+                 <?php endif; ?>>
+            </div>
         <?php endforeach; ?>
-        <div class="hero__overlay" style="opacity: <?php echo esc_attr($overlay / 100); ?>;"></div>
+        <div class="hero__overlay"></div>
+        <div class="hero__bg-pattern"></div>
     </div>
 
-    <!-- Decorative Pattern -->
-    <div class="hero__bg-pattern" aria-hidden="true"></div>
+    <div class="hero__inner">
 
-    <div class="hero__inner container">
+        <!-- Text Content -->
         <div class="hero__content">
-            <p class="hero__arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
-            <p class="hero__bismillah-label">Bismillahirrahmanirrahim</p>
-            <span class="hero__eyebrow">LP3AIK — UM Kotabumi</span>
 
-            <!-- Carousel Text Content -->
-            <div class="hero__text-carousel">
-                <?php foreach ($slides as $idx => $slide): ?>
-                <div class="hero__text-slide <?php echo $idx === 0 ? 'active' : ''; ?>" data-slide="<?php echo $idx; ?>">
-                    <h1><?php echo wp_kses_post($slide['title']); ?></h1>
-                    <p class="hero__tagline"><?php echo esc_html($slide['subtitle']); ?></p>
+            <div class="hero__arabic" aria-label="<?php _e('Bismillahirrahmanirrahim', 'lp3aik-umk'); ?>">
+                بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+            </div>
+            <div class="hero__bismillah-label">
+                <?php _e('Dengan nama Allah Yang Maha Pengasih, Maha Penyayang', 'lp3aik-umk'); ?>
+            </div>
+
+            <!-- Text Carousel Slides -->
+            <div class="hero__text-carousel" role="region" aria-live="polite" aria-label="<?php _e('Konten berganti', 'lp3aik-umk'); ?>">
+                <?php foreach ($slides as $i => $slide): ?>
+                <div class="hero__text-slide <?php echo $i === 0 ? 'active' : ''; ?>">
+                    <div class="hero__eyebrow"><?php echo esc_html($slide['eyebrow']); ?></div>
+                    <h1>
+                        <?php echo esc_html($slide['title']); ?>
+                        <?php if ($slide['em']): ?>
+                            <br><em><?php echo esc_html($slide['em']); ?></em>
+                        <?php endif; ?>
+                    </h1>
+                    <p class="hero__tagline"><?php echo esc_html($slide['tagline']); ?></p>
                 </div>
                 <?php endforeach; ?>
             </div>
 
             <div class="hero__actions">
-                <a href="<?php echo esc_url(get_post_type_archive_link('lp3aik_program') ?: home_url('/program')); ?>" class="btn btn-gold btn-lg">
-                    <i class="fa-solid fa-layer-group"></i>
-                    <?php _e('Lihat Program AIK','lp3aik-umk'); ?>
+                <a href="<?php echo esc_url($program_url); ?>" class="btn btn-accent btn-lg">
+                    <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+                    <?php _e('Lihat Program', 'lp3aik-umk'); ?>
                 </a>
-                <a href="<?php echo esc_url(home_url('/kontak')); ?>" class="btn btn-white btn-lg">
-                    <?php _e('Hubungi Kami','lp3aik-umk'); ?>
+                <a href="<?php echo esc_url(get_permalink(get_page_by_path('profil')) ?: home_url('/profil/')); ?>" class="btn btn-white btn-lg">
+                    <?php _e('Tentang Kami', 'lp3aik-umk'); ?>
                 </a>
             </div>
 
-            <!-- Slide Indicators -->
-            <?php if (count($slides) > 1): ?>
-            <div class="hero__indicators">
-                <?php for ($i = 0; $i < count($slides); $i++): ?>
-                <button class="hero__dot <?php echo $i === 0 ? 'active' : ''; ?>"
-                    data-slide="<?php echo $i; ?>"
-                    aria-label="<?php printf(__('Slide %d','lp3aik-umk'), $i + 1); ?>"></button>
-                <?php endfor; ?>
+            <div class="hero__indicators" role="tablist" aria-label="<?php _e('Navigasi slide', 'lp3aik-umk'); ?>">
+                <?php foreach ($slides as $i => $slide): ?>
+                    <button class="hero__dot <?php echo $i === 0 ? 'active' : ''; ?>"
+                            role="tab"
+                            aria-selected="<?php echo $i === 0 ? 'true' : 'false'; ?>"
+                            aria-label="<?php echo sprintf(__('Slide %d', 'lp3aik-umk'), $i + 1); ?>"
+                            data-slide="<?php echo $i; ?>">
+                    </button>
+                <?php endforeach; ?>
             </div>
-            <?php endif; ?>
+
         </div>
 
-        <div class="hero__visual">
+        <!-- Visual Side: Stats + Quick Links -->
+        <div class="hero__visual" aria-label="<?php _e('Statistik LP3AIK', 'lp3aik-umk'); ?>">
             <div class="hero__stat-cards">
-                <?php foreach ($stats as [$num, $label]): ?>
+                <?php
+                $stats = [
+                    [lp3aik_opt('lp3aik_stat_1_num', '500+'), lp3aik_opt('lp3aik_stat_1_label', __('Mahasiswa Terdidik', 'lp3aik-umk')), 'fa-users'],
+                    [lp3aik_opt('lp3aik_stat_2_num', '12'),   lp3aik_opt('lp3aik_stat_2_label', __('Program AIK', 'lp3aik-umk')),       'fa-book-open'],
+                    [lp3aik_opt('lp3aik_stat_3_num', '20+'),  lp3aik_opt('lp3aik_stat_3_label', __('Tahun Berdiri', 'lp3aik-umk')),     'fa-landmark'],
+                    [lp3aik_opt('lp3aik_stat_4_num', '30+'),  lp3aik_opt('lp3aik_stat_4_label', __('Tenaga Pengajar', 'lp3aik-umk')),   'fa-chalkboard-user'],
+                ];
+                foreach ($stats as [$num, $label, $icon]):
+                ?>
                 <div class="hero__stat-card">
-                    <div class="hero__stat-num"><?php echo esc_html($num); ?></div>
+                    <div class="hero__stat-icon" aria-hidden="true"><i class="fa-solid <?php echo esc_attr($icon); ?>"></i></div>
+                    <div class="hero__stat-num" data-counter="<?php echo esc_attr($num); ?>"><?php echo esc_html($num); ?></div>
                     <div class="hero__stat-label"><?php echo esc_html($label); ?></div>
                 </div>
                 <?php endforeach; ?>
             </div>
+
             <div class="hero__quick-links">
-                <?php foreach ($quick_links as [$icon, $label, $url]): ?>
+                <?php
+                $quick_links = [
+                    ['fa-book-open-reader', __('Program',    'lp3aik-umk'), $program_url],
+                    ['fa-newspaper',        __('Berita',     'lp3aik-umk'), get_permalink(get_page_by_path('berita')) ?: home_url('/berita/')],
+                    ['fa-images',           __('Galeri',     'lp3aik-umk'), $galeri_url],
+                    ['fa-download',         __('Unduhan',    'lp3aik-umk'), get_post_type_archive_link('lp3aik_unduhan') ?: home_url('/unduhan/')],
+                ];
+                foreach ($quick_links as [$icon, $label, $url]):
+                ?>
                 <a href="<?php echo esc_url($url); ?>" class="hero__quick-link">
-                    <div class="icon"><i class="fa-solid <?php echo esc_attr($icon); ?>"></i></div>
+                    <span class="icon" aria-hidden="true"><i class="fa-solid <?php echo esc_attr($icon); ?>"></i></span>
                     <?php echo esc_html($label); ?>
                 </a>
                 <?php endforeach; ?>
             </div>
         </div>
+
     </div>
 </section>

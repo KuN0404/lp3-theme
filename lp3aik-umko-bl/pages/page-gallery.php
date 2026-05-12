@@ -1,7 +1,7 @@
 <?php
 /**
  * Template: Halaman Galeri (Modern Masonry Grid)
- * Path: pages/page-galeri.php
+ * Path: pages/page-gallery.php
  */
 get_header();
 ?>

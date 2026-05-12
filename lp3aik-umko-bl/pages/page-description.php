@@ -1,7 +1,7 @@
 <?php
 /**
  * Template: Deskripsi Singkat
- * Path: pages/page-deskripsi.php
+ * Path: pages/page-description.php
  */
 get_header(); 
 ?>

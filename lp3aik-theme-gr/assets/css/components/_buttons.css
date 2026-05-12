@@ -1,61 +1,75 @@
 /* ============================================================
-   BUTTONS — Theme-specific button styles
-   Extends Bootstrap's .btn with theme colors.
+   BUTTONS — Extends Bootstrap .btn with theme tokens
    ============================================================ */
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: .5rem;
-  padding: .75rem 1.75rem;
-  border-radius: var(--radius-md);
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--border-radius);
   font-weight: 600;
-  font-size: .95rem;
+  font-size: 0.95rem;
   cursor: pointer;
   border: 2px solid transparent;
   transition: all var(--dur) var(--ease);
   white-space: nowrap;
+  line-height: 1.4;
 }
+
+/* Primary */
 .btn-primary {
-  background: var(--green-primary);
-  color: var(--white);
-  border-color: var(--green-primary);
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
 }
-.btn-primary:hover {
-  background: var(--green-dark);
-  border-color: var(--green-dark);
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: var(--color-primary-darker);
+  border-color: var(--color-primary-darker);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
-  color: var(--white);
+  color: var(--color-white);
 }
+
+/* Outline */
 .btn-outline {
   background: transparent;
-  color: var(--green-primary);
-  border-color: var(--green-primary);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
-.btn-outline:hover {
-  background: var(--green-primary);
-  color: var(--white);
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  background: var(--color-primary);
+  color: var(--color-white);
   transform: translateY(-2px);
 }
-.btn-gold {
-  background: var(--gold-primary);
-  color: var(--white);
-  border-color: var(--gold-primary);
+
+/* Accent */
+.btn-accent {
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-color: var(--color-accent);
 }
-.btn-gold:hover {
+.btn-accent:hover,
+.btn-accent:focus-visible {
   background: #a67a20;
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
-  color: var(--white);
+  color: var(--color-white);
 }
+
+/* White (on dark backgrounds) */
 .btn-white {
-  background: var(--white);
-  color: var(--green-dark);
-  border-color: var(--white);
+  background: var(--color-white);
+  color: var(--color-primary-darker);
+  border-color: var(--color-white);
 }
-.btn-white:hover {
-  background: var(--green-pale);
+.btn-white:hover,
+.btn-white:focus-visible {
+  background: var(--color-primary-subtle);
   transform: translateY(-2px);
 }
-.btn-sm { padding: .5rem 1.25rem; font-size: .85rem; }
-.btn-lg { padding: 1rem 2.25rem; font-size: 1.05rem; }
+
+/* Sizes */
+.btn-sm { padding: 0.5rem 1.25rem; font-size: var(--font-size-sm); }
+.btn-lg { padding: 1rem 2.25rem; font-size: var(--font-size-md); }

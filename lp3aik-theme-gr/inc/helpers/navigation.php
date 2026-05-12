@@ -2,65 +2,103 @@
 /**
  * Navigation Helpers.
  *
+ * Fallback menu rendered when no menu is assigned via Appearance > Menus.
+ * Uses WP native functions for URLs — no hardcoded permalink overrides.
+ *
  * @package lp3aik-umk
  */
 
 defined('ABSPATH') || exit;
 
 /**
- * Fallback navigation when no menu is assigned via Appearance > Menus.
- * Menampilkan contoh Dropdown menu sesuai instruksi.
+ * Fallback primary navigation.
+ * Called via 'fallback_cb' in wp_nav_menu().
  */
 function lp3aik_default_menu(): void {
-    $request_path = rtrim(wp_parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
-    
-    // Fungsi bantuan untuk deteksi halaman aktif
-    $is_active = function(string $path) use ($request_path): bool {
-        if ($path === '/' && ($request_path === '' || $request_path === '/')) return true;
-        if ($path !== '/' && str_contains($request_path, $path)) return true;
-        return false;
-    };
+    // Resolve CPT archive URLs via WP native function
+    $program_url = get_post_type_archive_link('lp3aik_program') ?: home_url('/program/');
+    $galeri_url  = get_post_type_archive_link('lp3aik_galeri')  ?: home_url('/galeri/');
+    $unduhan_url = get_post_type_archive_link('lp3aik_unduhan') ?: home_url('/unduhan/');
 
-    // Resolve CPT archive URLs
-    $program_url  = get_post_type_archive_link('lp3aik_program') ?: home_url('/program');
-    $galeri_url   = get_post_type_archive_link('lp3aik_galeri') ?: home_url('/galeri');
-    $unduhan_url  = get_post_type_archive_link('lp3aik_unduhan') ?: home_url('/unduhan');
+    $current_id = get_queried_object_id();
+    $is_front   = is_front_page();
+
+    /**
+     * Helper: check if current page matches a slug.
+     */
+    $is_page_slug = static function (string $slug) use ($current_id): bool {
+        $page = get_page_by_path($slug);
+        return $page && $page->ID === $current_id;
+    };
     ?>
     <ul class="primary-nav">
-        <!-- Beranda -->
-        <li class="<?php echo $is_active('/') ? 'current-menu-item' : ''; ?>">
-            <a href="<?php echo esc_url(home_url('/')); ?>"><?php _e('Beranda', 'lp3aik-umk'); ?></a>
+
+        <li class="<?php echo $is_front ? 'current-menu-item' : ''; ?>">
+            <a href="<?php echo esc_url(home_url('/')); ?>">
+                <?php _e('Beranda', 'lp3aik-umk'); ?>
+            </a>
         </li>
-        
-        <!-- Dropdown: Tentang Kami -->
-        <li class="menu-item-has-children <?php echo ($is_active('/profil') || $is_active('/struktur') || $is_active('/visi-misi')) ? 'current-menu-ancestor' : ''; ?>">
-            <a href="#"><?php _e('Tentang Kami', 'lp3aik-umk'); ?> <i class="fa-solid fa-chevron-down fa-2xs ms-1"></i></a>
+
+        <li class="menu-item-has-children <?php echo ($is_page_slug('profil') || $is_page_slug('visi-misi') || $is_page_slug('struktur-organisasi')) ? 'current-menu-ancestor' : ''; ?>">
+            <a href="#">
+                <?php _e('Tentang Kami', 'lp3aik-umk'); ?>
+                <i class="fa-solid fa-chevron-down fa-2xs ms-1" aria-hidden="true"></i>
+            </a>
             <ul class="sub-menu">
-                <li><a href="<?php echo esc_url(home_url('/profil')); ?>"><?php _e('Profil', 'lp3aik-umk'); ?></a></li>
-                <li><a href="<?php echo esc_url(home_url('/visi-misi')); ?>"><?php _e('Visi & Misi', 'lp3aik-umk'); ?></a></li>
-                <li><a href="<?php echo esc_url(home_url('/struktur-organisasi')); ?>"><?php _e('Struktur Organisasi', 'lp3aik-umk'); ?></a></li>
+                <li class="<?php echo $is_page_slug('profil') ? 'current-menu-item' : ''; ?>">
+                    <a href="<?php echo esc_url(get_permalink(get_page_by_path('profil')) ?: home_url('/profil/')); ?>">
+                        <?php _e('Profil', 'lp3aik-umk'); ?>
+                    </a>
+                </li>
+                <li class="<?php echo $is_page_slug('visi-misi') ? 'current-menu-item' : ''; ?>">
+                    <a href="<?php echo esc_url(get_permalink(get_page_by_path('visi-misi')) ?: home_url('/visi-misi/')); ?>">
+                        <?php _e('Visi &amp; Misi', 'lp3aik-umk'); ?>
+                    </a>
+                </li>
+                <li class="<?php echo $is_page_slug('struktur-organisasi') ? 'current-menu-item' : ''; ?>">
+                    <a href="<?php echo esc_url(get_permalink(get_page_by_path('struktur-organisasi')) ?: home_url('/struktur-organisasi/')); ?>">
+                        <?php _e('Struktur Organisasi', 'lp3aik-umk'); ?>
+                    </a>
+                </li>
             </ul>
         </li>
-        
-        <!-- Program -->
-        <li class="<?php echo $is_active('/program') ? 'current-menu-item' : ''; ?>">
-            <a href="<?php echo esc_url($program_url); ?>"><?php _e('Program', 'lp3aik-umk'); ?></a>
+
+        <li class="<?php echo is_post_type_archive('lp3aik_program') ? 'current-menu-item' : ''; ?>">
+            <a href="<?php echo esc_url($program_url); ?>">
+                <?php _e('Program', 'lp3aik-umk'); ?>
+            </a>
         </li>
-        
-        <!-- Dropdown: Informasi -->
-        <li class="menu-item-has-children <?php echo ($is_active('/berita') || $is_active('/galeri') || $is_active('/unduhan')) ? 'current-menu-ancestor' : ''; ?>">
-            <a href="#"><?php _e('Informasi', 'lp3aik-umk'); ?> <i class="fa-solid fa-chevron-down fa-2xs ms-1"></i></a>
+
+        <li class="menu-item-has-children <?php echo (is_post_type_archive('lp3aik_galeri') || is_post_type_archive('lp3aik_unduhan') || $is_page_slug('berita')) ? 'current-menu-ancestor' : ''; ?>">
+            <a href="#">
+                <?php _e('Informasi', 'lp3aik-umk'); ?>
+                <i class="fa-solid fa-chevron-down fa-2xs ms-1" aria-hidden="true"></i>
+            </a>
             <ul class="sub-menu">
-                <li><a href="<?php echo esc_url(home_url('/berita')); ?>"><?php _e('Berita & Pengumuman', 'lp3aik-umk'); ?></a></li>
-                <li><a href="<?php echo esc_url($galeri_url); ?>"><?php _e('Galeri Kegiatan', 'lp3aik-umk'); ?></a></li>
-                <li><a href="<?php echo esc_url($unduhan_url); ?>"><?php _e('Unduhan / File', 'lp3aik-umk'); ?></a></li>
+                <li class="<?php echo $is_page_slug('berita') ? 'current-menu-item' : ''; ?>">
+                    <a href="<?php echo esc_url(get_permalink(get_page_by_path('berita')) ?: home_url('/berita/')); ?>">
+                        <?php _e('Berita &amp; Pengumuman', 'lp3aik-umk'); ?>
+                    </a>
+                </li>
+                <li class="<?php echo is_post_type_archive('lp3aik_galeri') ? 'current-menu-item' : ''; ?>">
+                    <a href="<?php echo esc_url($galeri_url); ?>">
+                        <?php _e('Galeri Kegiatan', 'lp3aik-umk'); ?>
+                    </a>
+                </li>
+                <li class="<?php echo is_post_type_archive('lp3aik_unduhan') ? 'current-menu-item' : ''; ?>">
+                    <a href="<?php echo esc_url($unduhan_url); ?>">
+                        <?php _e('Unduhan / File', 'lp3aik-umk'); ?>
+                    </a>
+                </li>
             </ul>
         </li>
-        
-        <!-- Kontak -->
-        <li class="<?php echo $is_active('/kontak') ? 'current-menu-item' : ''; ?>">
-            <a href="<?php echo esc_url(home_url('/kontak')); ?>"><?php _e('Hubungi Kami', 'lp3aik-umk'); ?></a>
+
+        <li class="<?php echo $is_page_slug('kontak') ? 'current-menu-item' : ''; ?>">
+            <a href="<?php echo esc_url(get_permalink(get_page_by_path('kontak')) ?: home_url('/kontak/')); ?>">
+                <?php _e('Hubungi Kami', 'lp3aik-umk'); ?>
+            </a>
         </li>
+
     </ul>
     <?php
 }

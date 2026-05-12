@@ -1,32 +1,38 @@
 /* ============================================================
-   TYPOGRAPHY — Theme-specific text classes
+   TYPOGRAPHY — Reusable text utility classes
    ============================================================ */
+
+/* Section label pill */
 .section-eyebrow {
   display: inline-block;
-  font-size: .75rem;
+  font-size: var(--font-size-xs);
   font-weight: 700;
-  letter-spacing: .12em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--green-mid);
-  padding: .25rem .75rem;
-  background: var(--green-pale);
-  border-radius: 99px;
-  margin-bottom: .75rem;
+  color: var(--color-primary-mid);
+  padding: 0.25rem 0.75rem;
+  background: var(--color-primary-subtle);
+  border-radius: var(--border-radius-full);
+  margin-bottom: 0.75rem;
 }
+
 .section-title {
   font-size: clamp(1.75rem, 3.5vw, 2.75rem);
   margin-bottom: 1rem;
 }
+
 .section-subtitle {
-  font-size: 1.05rem;
-  color: var(--text-secondary);
+  font-size: var(--font-size-md);
+  color: var(--color-text-muted);
   max-width: 600px;
   margin: 0 auto 2.5rem;
 }
+
+/* Arabic / Quran text */
 .arabic-text {
   font-family: var(--font-arabic);
-  font-size: 1.5rem;
-  color: var(--gold-primary);
+  font-size: var(--font-size-xl);
+  color: var(--color-accent);
   direction: rtl;
   line-height: 2;
 }

@@ -2,7 +2,7 @@
 /**
  * Template: Halaman Unduhan
  * Tanpa breadcrumb, filter kategori, daftar file unduhan
- * Path: pages/page-unduhan.php
+ * Path: pages/page-downloads.php
  */
 get_header();
 ?>
