@@ -1,0 +1,17 @@
+/* ============================================================
+   SEARCH MODAL
+   Styles moved/consolidated into layout/_header.css.
+   This file retained for backward compatibility.
+   ============================================================ */
+.search-modal__input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1.1rem;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--border-radius);
+  outline: none;
+  transition: box-shadow var(--dur);
+}
+.search-modal__input:focus {
+  box-shadow: 0 0 0 3px rgba(26, 122, 60, .2);
+}

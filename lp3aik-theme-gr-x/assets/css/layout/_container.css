@@ -1,0 +1,17 @@
+/* ============================================================
+   LAYOUT — Container & Section Utilities
+   Bootstrap container is used. These are theme-specific
+   layout helpers that extend Bootstrap.
+   ============================================================ */
+.container {
+  max-width: var(--container-max);
+}
+.section { padding: var(--section-py) 0; }
+.section--alt { background: var(--color-bg-section); }
+.section--dark { background: var(--color-primary-dark); color: var(--color-white); }
+.section--dark h2,
+.section--dark h3 { color: var(--color-accent-light); }
+
+/* Flex helpers — use Bootstrap's d-flex, align-items-center, etc. where possible */
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-center  { display: flex; align-items: center; justify-content: center; }

@@ -1,0 +1,47 @@
+/* ============================================================
+   UTILITIES — General helpers
+   ============================================================ */
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Text color helpers */
+.text-primary-color { color: var(--color-primary); }
+.text-accent        { color: var(--color-accent); }
+.text-muted-color   { color: var(--color-text-muted); }
+
+/* Background helpers */
+.bg-primary-subtle { background: var(--color-primary-subtle); }
+.bg-accent-subtle  { background: var(--color-accent-subtle); }
+.bg-section        { background: var(--color-bg-section); }
+
+/* Separator ornament */
+.ornament-divider {
+  text-align: center;
+  color: var(--color-accent);
+  font-size: 1.25rem;
+  letter-spacing: .5em;
+  opacity: .6;
+  margin: 1.5rem 0;
+}
+
+/* Scroll animation classes */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -25,7 +25,7 @@ function lp3aik_settings_page_callback() {
             'logo_footer_umko'  => 'esc_url_raw',
             'hero_interval'     => 'absint',
             'tagline'           => 'sanitize_text_field',
-            'phone'             => 'sanitize_text_field',
+            'phone'             => 'sanitize_textarea_field',
             'email'             => 'sanitize_email',
             'address'           => 'sanitize_textarea_field',
             'maps_embed'        => 'sanitize_textarea_field',
@@ -36,6 +36,7 @@ function lp3aik_settings_page_callback() {
             'footer_text'       => 'sanitize_textarea_field',
             'about_image'       => 'esc_url_raw',
             'ga_id'             => 'sanitize_text_field',
+            'google_verification' => 'sanitize_text_field',
         ];
 
         for ($i = 1; $i <= 5; $i++) {
@@ -172,7 +173,7 @@ function lp3aik_settings_page_callback() {
             <div class="lp3aik-tab-content" id="tab-contact" style="display:none;">
                 <table class="form-table">
                     <tr><th><label for="tagline">Tagline / Slogan</label></th><td><input type="text" id="tagline" name="tagline" value="<?php echo esc_attr($s['tagline'] ?? ''); ?>" class="large-text"></td></tr>
-                    <tr><th><label for="phone">Nomor Telepon</label></th><td><input type="text" id="phone" name="phone" value="<?php echo esc_attr($s['phone'] ?? ''); ?>" class="regular-text"></td></tr>
+                    <tr><th><label for="phone">Nomor Telepon</label></th><td><textarea id="phone" name="phone" rows="3" class="large-text"><?php echo esc_textarea($s['phone'] ?? ''); ?></textarea></td></tr>
                     <tr><th><label for="email">Email</label></th><td><input type="email" id="email" name="email" value="<?php echo esc_attr($s['email'] ?? ''); ?>" class="regular-text"></td></tr>
                     <tr><th><label for="address">Alamat</label></th><td><textarea id="address" name="address" rows="3" class="large-text"><?php echo esc_textarea($s['address'] ?? ''); ?></textarea></td></tr>
                     <tr><th><label for="maps_embed">Google Maps Embed URL</label></th><td><textarea id="maps_embed" name="maps_embed" rows="3" class="large-text" placeholder="URL embed iframe dari Google Maps"><?php echo esc_textarea($s['maps_embed'] ?? ''); ?></textarea></td></tr>
@@ -203,6 +204,7 @@ function lp3aik_settings_page_callback() {
                         </td>
                     </tr>
                     <tr><th><label for="ga_id">Google Analytics ID</label></th><td><input type="text" id="ga_id" name="ga_id" value="<?php echo esc_attr($s['ga_id'] ?? ''); ?>" class="regular-text" placeholder="G-XXXXXXXXXX"></td></tr>
+                    <tr><th><label for="google_verification">Google Site Verification</label></th><td><input type="text" id="google_verification" name="google_verification" value="<?php echo esc_attr($s['google_verification'] ?? ''); ?>" class="regular-text" placeholder="google-site-verification-code"></td></tr>
                 </table>
             </div>
 

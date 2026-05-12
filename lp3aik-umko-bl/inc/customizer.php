@@ -19,7 +19,7 @@ function lp3aik_customizer_register($wp_customize) {
         'logo_footer_umko'  => ['label' => 'Logo UMKO — Footer',     'type' => 'image'],
         'hero_interval'     => ['label' => 'Interval Carousel (ms)', 'type' => 'text'],
         'tagline'           => ['label' => 'Tagline/Slogan',         'type' => 'text'],
-        'phone'             => ['label' => 'Nomor Telepon',          'type' => 'text'],
+        'phone'             => ['label' => 'Nomor Telepon',          'type' => 'textarea'],
         'email'             => ['label' => 'Email',                  'type' => 'text'],
         'address'           => ['label' => 'Alamat',                 'type' => 'textarea'],
         'maps_embed'        => ['label' => 'Google Maps Embed URL',  'type' => 'textarea'],
@@ -30,6 +30,7 @@ function lp3aik_customizer_register($wp_customize) {
         'footer_text'       => ['label' => 'Teks Footer',            'type' => 'textarea'],
         'about_image'       => ['label' => 'Gambar Section Tentang', 'type' => 'image'],
         'ga_id'             => ['label' => 'Google Analytics ID',    'type' => 'text'],
+        'google_verification' => ['label' => 'Google Site Verification', 'type' => 'text'],
     ];
 
     foreach ($settings as $id => $config) {

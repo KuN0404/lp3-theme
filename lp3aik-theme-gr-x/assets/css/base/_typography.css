@@ -1,0 +1,32 @@
+/* ============================================================
+   TYPOGRAPHY — Theme-specific text classes
+   ============================================================ */
+.section-eyebrow {
+  display: inline-block;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--color-primary-mid);
+  padding: .25rem .75rem;
+  background: var(--color-primary-subtle);
+  border-radius: 99px;
+  margin-bottom: .75rem;
+}
+.section-title {
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  margin-bottom: 1rem;
+}
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+}
+.arabic-text {
+  font-family: var(--font-arabic);
+  font-size: 1.5rem;
+  color: var(--color-accent);
+  direction: rtl;
+  line-height: 2;
+}

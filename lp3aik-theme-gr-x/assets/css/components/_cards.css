@@ -1,0 +1,124 @@
+/* ============================================================
+   CARDS — News card, Program card, Team card, Contact card
+   ============================================================ */
+
+/* --- Base Card --- */
+.card {
+  background: var(--color-white);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+.card__image { aspect-ratio: 16/10; overflow: hidden; }
+.card__image img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease); }
+.card:hover .card__image img { transform: scale(1.06); }
+.card__body { padding: 1.5rem; }
+.card__tag {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--color-primary-mid);
+  margin-bottom: .5rem;
+}
+.card__title { font-size: 1.15rem; margin-bottom: .5rem; }
+.card__excerpt { font-size: .9rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 1rem; }
+.card__meta { font-size: .8rem; color: var(--color-text-subtle); display: flex; gap: 1rem; flex-wrap: wrap; }
+.card__meta span { display: flex; align-items: center; gap: .3rem; }
+
+/* --- Program Card --- */
+.program-card {
+  background: var(--color-white);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  border: 1px solid var(--color-border);
+  text-align: center;
+  transition: all var(--dur) var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+.program-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  transform: scaleX(0);
+  transition: transform var(--dur) var(--ease);
+}
+.program-card:hover::before { transform: scaleX(1); }
+.program-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-6px);
+}
+.program-card__icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--color-primary-subtle);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.25rem;
+  font-size: 1.75rem;
+  transition: background var(--dur);
+  color: var(--color-primary);
+}
+.program-card:hover .program-card__icon { background: var(--color-primary); color: var(--color-white); }
+.program-card h3 { font-size: 1.1rem; margin-bottom: .6rem; }
+.program-card p { font-size: .875rem; color: var(--color-text-muted); margin-bottom: 1.25rem; }
+
+/* --- Team Card --- */
+.team-card {
+  text-align: center;
+  padding: 1.75rem 1.25rem;
+  background: var(--color-white);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--color-border);
+  transition: all var(--dur);
+}
+.team-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary-light);
+}
+.team-card__avatar {
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 1rem;
+  border: 3px solid var(--color-primary-subtle);
+  transition: border-color var(--dur);
+}
+.team-card:hover .team-card__avatar { border-color: var(--color-primary); }
+.team-card__avatar img { width: 100%; height: 100%; object-fit: cover; }
+.team-card__name { font-size: 1rem; font-weight: 700; margin-bottom: .2rem; }
+.team-card__position { font-size: .8rem; color: var(--color-primary); font-weight: 600; margin-bottom: .4rem; }
+.team-card__dept { font-size: .775rem; color: var(--color-text-subtle); }
+
+/* --- Contact Card --- */
+.contact-card {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.25rem;
+  background: var(--color-white);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+.contact-card__icon {
+  width: 44px; height: 44px;
+  border-radius: var(--border-radius-sm);
+  background: var(--color-primary-subtle);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+.contact-card__label { font-size: .8rem; color: var(--color-text-subtle); margin-bottom: .2rem; }
+.contact-card__value { font-size: .9rem; font-weight: 600; }
+.contact-card__value a { color: var(--color-primary); }
+.contact-card__value a:hover { text-decoration: underline; }

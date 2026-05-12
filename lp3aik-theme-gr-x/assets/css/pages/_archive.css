@@ -1,0 +1,11 @@
+/* ============================================================
+   PAGE HERO / ARCHIVE
+   Styles moved to sections/_sections.css (.page-hero).
+   This file retained for archive-specific layout only.
+   ============================================================ */
+.archive-header { margin-bottom: 2.5rem; }
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}

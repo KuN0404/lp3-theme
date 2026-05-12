@@ -65,6 +65,22 @@ function lp3aik_inject_google_analytics() {
 }
 add_action( 'wp_head', 'lp3aik_inject_google_analytics', 1 );
 
+/**
+ * Google Site Verification: inject meta tag jika google_verification diisi
+ */
+function lp3aik_inject_google_verification() {
+    $code = lp3aik_get_setting('google_verification');
+    if ( empty( $code ) ) {
+        return;
+    }
+    $code = sanitize_text_field( $code );
+    ?>
+    <!-- Google Site Verification: LP3AIK -->
+    <meta name="google-site-verification" content="<?php echo esc_attr( $code ); ?>" />
+    <?php
+}
+add_action( 'wp_head', 'lp3aik_inject_google_verification', 1 );
+
 function lp3aik_enqueue_admin_assets($hook) {
     $allowed_hooks = ['appearance_page_lp3aik-settings', 'post.php', 'post-new.php'];
     if (in_array($hook, $allowed_hooks, true)) {

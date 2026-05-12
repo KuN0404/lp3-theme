@@ -1,0 +1,65 @@
+/* ============================================================
+   CSS CUSTOM PROPERTIES — LP3AIK Theme Design System
+   Naming convention: semantic & scalable, no color-specific names.
+   ============================================================ */
+:root {
+  /* ── Color: Primary (Green Muhammadiyah) ─────────────────── */
+  --color-primary-dark:    #0a4a1e;
+  --color-primary:         #1a7a3c;
+  --color-primary-mid:     #2d9e54;
+  --color-primary-light:   #4fc072;
+  --color-primary-subtle:  #e8f5ec;
+  --color-primary-ghost:   #f3fbf5;
+
+  /* ── Color: Accent (Islamic Gold) ───────────────────────── */
+  --color-accent:          #c8972a;
+  --color-accent-light:    #e8b94a;
+  --color-accent-subtle:   #fdf6e3;
+
+  /* ── Color: Neutral ──────────────────────────────────────── */
+  --color-white:           #ffffff;
+  --color-off-white:       #fafafa;
+  --color-gray-100:        #f5f5f5;
+  --color-gray-200:        #e8e8e8;
+  --color-gray-400:        #a0a0a0;
+  --color-gray-600:        #666666;
+  --color-gray-800:        #333333;
+  --color-black:           #111111;
+
+  /* ── Color: Semantic ─────────────────────────────────────── */
+  --color-text:            var(--color-gray-800);
+  --color-text-muted:      var(--color-gray-600);
+  --color-text-subtle:     var(--color-gray-400);
+  --color-bg:              var(--color-white);
+  --color-bg-section:      var(--color-primary-ghost);
+  --color-border:          var(--color-gray-200);
+
+  /* ── Typography ──────────────────────────────────────────── */
+  --font-heading:    'Plus Jakarta Sans', 'Noto Sans', sans-serif;
+  --font-base:       'Plus Jakarta Sans', 'Noto Sans', sans-serif;
+  --font-arabic:     'Amiri', 'Scheherazade New', serif;
+  --font-size-xs:    0.75rem;
+  --font-size-sm:    0.875rem;
+  --font-size-base:  1rem;
+  --font-size-lg:    1.125rem;
+
+  /* ── Spacing ─────────────────────────────────────────────── */
+  --container-max:   1200px;
+  --gap:             1.5rem;
+  --section-py:      5rem;
+
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-sm:   0 1px 4px rgba(0, 0, 0, .06);
+  --shadow-md:   0 4px 16px rgba(0, 0, 0, .10);
+  --shadow-lg:   0 12px 40px rgba(0, 0, 0, .14);
+
+  /* ── Border Radius ───────────────────────────────────────── */
+  --border-radius-sm:  6px;
+  --border-radius:     12px;
+  --border-radius-lg:  20px;
+  --border-radius-xl:  32px;
+
+  /* ── Transitions ─────────────────────────────────────────── */
+  --ease:  cubic-bezier(.4, 0, .2, 1);
+  --dur:   0.28s;
+}
