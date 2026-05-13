@@ -30,17 +30,31 @@ function lp3aik_unduhan_meta_cb(WP_Post $post): void {
             <th><?php _e('Pilih / Upload File','lp3aik-umk'); ?></th>
             <td>
                 <input type="url" id="_unduhan_url" name="_unduhan_url" value="<?php echo esc_attr($url); ?>" class="large-text" placeholder="https://..." style="margin-bottom:8px;">
-                <button type="button" class="button" id="lp3aik_upload_file_btn"><?php _e('Pilih File dari Media', 'lp3aik-umk'); ?></button>
-                <p class="description"><?php _e('Klik tombol di atas untuk mengunggah file (PDF, Word, dll), atau masukkan link eksternal (Google Drive, dll).', 'lp3aik-umk'); ?></p>
+                <button type="button" class="button button-secondary" id="lp3aik_upload_file_btn">
+                    <span class="dashicons dashicons-upload" style="margin-top:3px; margin-right:3px;"></span>
+                    <?php _e('Pilih File dari Media', 'lp3aik-umk'); ?>
+                </button>
+                <p class="description"><?php _e('Klik tombol di atas untuk mengunggah file, atau masukkan link eksternal.', 'lp3aik-umk'); ?></p>
             </td>
         </tr>
-        <tr><th><?php _e('Ukuran File','lp3aik-umk'); ?></th><td><input name="_unduhan_ukuran" value="<?php echo esc_attr($ukuran); ?>" class="regular-text" placeholder="2.4 MB"></td></tr>
-        <tr><th><?php _e('Tipe File','lp3aik-umk'); ?></th>
-            <td><select name="_unduhan_tipe">
-                <?php foreach(['PDF','DOCX','XLSX','PPT','ZIP','Lainnya'] as $t): ?>
-                    <option value="<?php echo $t; ?>" <?php selected($tipe,$t); ?>><?php echo $t; ?></option>
-                <?php endforeach; ?>
-            </select></td></tr>
+        <tr>
+            <th><?php _e('Ukuran File','lp3aik-umk'); ?></th>
+            <td>
+                <input name="_unduhan_ukuran" id="_unduhan_ukuran" value="<?php echo esc_attr($ukuran); ?>" class="regular-text" placeholder="2.4 MB">
+                <p class="description"><?php _e('Terisi otomatis jika Anda memilih file dari Media Library.', 'lp3aik-umk'); ?></p>
+            </td>
+        </tr>
+        <tr>
+            <th><?php _e('Tipe File','lp3aik-umk'); ?></th>
+            <td>
+                <select name="_unduhan_tipe" id="_unduhan_tipe">
+                    <?php foreach(['PDF','DOCX','XLSX','PPT','ZIP','Lainnya'] as $t): ?>
+                        <option value="<?php echo $t; ?>" <?php selected($tipe,$t); ?>><?php echo $t; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <p class="description"><?php _e('Terdeteksi otomatis dari ekstensi file.', 'lp3aik-umk'); ?></p>
+            </td>
+        </tr>
     </table>
     
     <script>
@@ -53,14 +67,38 @@ function lp3aik_unduhan_meta_cb(WP_Post $post): void {
                 return;
             }
             mediaUploader = wp.media.frames.file_frame = wp.media({
-                title: 'Pilih File Unduhan',
-                button: { text: 'Gunakan File Ini' },
+                title: '<?php esc_js(_e("Pilih File Unduhan", "lp3aik-umk")); ?>',
+                button: { text: '<?php esc_js(_e("Gunakan File Ini", "lp3aik-umk")); ?>' },
                 multiple: false
             });
+            
             mediaUploader.on('select', function() {
                 var attachment = mediaUploader.state().get('selection').first().toJSON();
                 $('#_unduhan_url').val(attachment.url);
+                
+                // ── FITUR CERDAS: Cek & Isi Ukuran File Otomatis ────────────────────
+                if (attachment.filesizeHumanReadable) {
+                    $('#_unduhan_ukuran').val(attachment.filesizeHumanReadable);
+                } else if (attachment.filesizeInBytes) {
+                    var kb = attachment.filesizeInBytes / 1024;
+                    var formatted = (kb >= 1024) ? (kb / 1024).toFixed(1) + ' MB' : Math.round(kb) + ' KB';
+                    $('#_unduhan_ukuran').val(formatted);
+                }
+                
+                // ── FITUR CERDAS: Deteksi & Pilih Tipe Otomatis ──────────────────────
+                var ext = attachment.url.split('.').pop().toUpperCase();
+                var knownTypes = ['PDF', 'DOCX', 'XLSX', 'PPT', 'ZIP'];
+                if (knownTypes.indexOf(ext) !== -1) {
+                    $('#_unduhan_tipe').val(ext);
+                } else if (ext === 'DOC') {
+                    $('#_unduhan_tipe').val('DOCX');
+                } else if (ext === 'XLS') {
+                    $('#_unduhan_tipe').val('XLSX');
+                } else {
+                    $('#_unduhan_tipe').val('Lainnya');
+                }
             });
+            
             mediaUploader.open();
         });
     });

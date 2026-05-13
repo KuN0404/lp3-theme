@@ -1,25 +1,33 @@
 <?php
 /**
  * Template Part: Card — Program
+ * Refactored to use Featured Images instead of Font Awesome icons.
  *
  * @package lp3aik-umk
  */
 
 defined('ABSPATH') || exit;
-
-$icon_raw = get_post_meta(get_the_ID(), '_program_icon', true) ?: 'fa-book-open';
-$icon_class = str_starts_with($icon_raw, 'fa-') ? $icon_raw : 'fa-book-open';
 ?>
 <div class="program-card">
-    <div class="program-card__icon">
-        <i class="fa-solid <?php echo esc_attr($icon_class); ?>"></i>
+    <div class="program-card__image">
+        <?php if (has_post_thumbnail()): ?>
+            <?php the_post_thumbnail('medium_large', ['class' => 'program-img']); ?>
+        <?php else: ?>
+            <div class="program-card__placeholder">
+                <i class="fa-solid fa-book-open"></i>
+            </div>
+        <?php endif; ?>
     </div>
-    <h3><?php the_title(); ?></h3>
-    <p><?php echo esc_html(get_the_excerpt() ?: wp_trim_words(get_the_content(), 20)); ?></p>
-    <?php if ($sasaran = get_post_meta(get_the_ID(), '_program_sasaran', true)): ?>
-        <div style="font-size:.8rem;color:var(--green-mid);margin-bottom:.75rem;">
-            <i class="fa-solid fa-user fa-sm"></i> <?php echo esc_html($sasaran); ?>
+    <div class="program-card__body">
+        <h3 class="program-card__title"><?php the_title(); ?></h3>
+        <div class="program-card__excerpt">
+            <p><?php echo esc_html(get_the_excerpt() ?: wp_trim_words(get_the_content(), 18)); ?></p>
         </div>
-    <?php endif; ?>
-    <a href="<?php the_permalink(); ?>" class="btn btn-outline btn-sm"><?php _e('Detail Program','lp3aik-umk'); ?></a>
+        <div class="program-card__action">
+            <a href="<?php the_permalink(); ?>" class="btn btn-outline btn-sm">
+                <?php _e('Detail Program','lp3aik-umk'); ?> 
+                <i class="fa-solid fa-arrow-right-long" style="font-size:0.8em;margin-left:4px;"></i>
+            </a>
+        </div>
+    </div>
 </div>

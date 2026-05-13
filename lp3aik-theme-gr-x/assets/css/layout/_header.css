@@ -41,11 +41,11 @@
 .header-inner {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 2.5rem;               /* comfortable space between logo | nav | search */
-  padding-top: .5rem;
-  padding-bottom: .5rem;
-  min-height: 62px;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding-top: .35rem;
+  padding-bottom: .35rem;
+  min-height: 56px;
 }
 
 /* ── Logo Wrap ────────────────────────────────────────────── */
@@ -60,9 +60,9 @@
 }
 .site-logo-wrap:hover { text-decoration: none; color: inherit; }
 
-/* Logo image (custom logo) */
+/* Logo image (custom logo) - Dynamic larger scale */
 .custom-logo-wrapper img {
-  max-height: 40px;
+  max-height: max(48px, var(--logo-height, 52px)); /* Upgraded size for readability! */
   width: auto;
   object-fit: contain;
   display: block;
@@ -100,22 +100,25 @@
 
 /* Wide mode: image only (no text group) */
 .site-header.logo-wide .logo-text-group { display: none !important; }
-.site-header.logo-wide .custom-logo-wrapper img { max-height: 44px; }
+.site-header.logo-wide .custom-logo-wrapper img { max-height: max(52px, var(--logo-height, 56px)); }
 
 /* Header Center Nav */
 .header-nav {
   align-items: center;
-  flex-shrink: 0;        /* don't let nav compress */
-  /* no flex:1 — let it sit naturally between logo & actions */
+  flex-shrink: 0;
+  margin-left: auto;      /* Consume center whitespace to push nav+actions right */
+  margin-right: 1rem;     /* Gentle buffer spacing before the search button */
 }
 
 /* ── Primary Navigation (desktop) ────────────────────────── */
 .primary-nav { display: flex; align-items: center; gap: .1rem; list-style: none; margin: 0; padding: 0; }
 .primary-nav > li { position: relative; }
 .primary-nav > li > a {
-  display: block;
-  padding: .5rem .8rem;
-  font-size: .875rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;                  /* Slimmer icon gap */
+  padding: .4rem .65rem;     /* Slimmer horizontal and vertical padding */
+  font-size: .85rem;         /* Optimized refined text size */
   font-weight: 600;
   color: var(--color-text);
   border-radius: var(--border-radius-sm);
@@ -154,7 +157,9 @@
   transform: translateY(0);
 }
 .primary-nav .sub-menu li a {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: .55rem .85rem;
   font-size: var(--font-size-sm);
   font-weight: 500;
@@ -544,66 +549,148 @@ body.search-modal-open { overflow: hidden; }
     color: var(--color-primary) !important;
 }
 
-/* Active Item */
-.mobile-drawer li.current-menu-item > a,
-.mobile-drawer li.current-menu-ancestor > a {
-    background: var(--color-primary-subtle) !important;
+/* Top level Chevron Alignment (Fallback / Span support) */
+.mobile-drawer li a .submenu-arrow {
+    margin-left: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    color: var(--color-text-muted) !important;
+    font-size: 0.85rem !important;
+}
+.mobile-drawer li.open > a .submenu-arrow {
+    transform: rotate(180deg) !important;
     color: var(--color-primary) !important;
 }
 
-/* Icons styling */
-.mobile-drawer li a i.fa-solid {
-    width: 24px;
-    text-align: center;
-    color: var(--color-text-muted);
-    font-size: 1.1rem;
-    margin-right: 15px;
-    transition: color 0.2s ease;
-}
-.mobile-drawer li a:hover i.fa-solid,
-.mobile-drawer li.current-menu-item a i.fa-solid {
-    color: var(--color-primary);
+/* Active Item Container - Premium Curved Capsual Accent System */
+.mobile-drawer > .mobile-nav-wrap > .mobile-nav-list > li.current-menu-item > a,
+.mobile-drawer > .mobile-nav-wrap > .mobile-nav-list > li.current-menu-ancestor > a {
+    background: rgba(26, 122, 60, 0.08) !important; /* Soft green highlight */
+    color: var(--color-primary) !important;
 }
 
-/* Submenu */
+.mobile-drawer li.current-menu-item > a {
+    position: relative !important;
+    padding-left: 28px !important; /* Open space for rounded capsule */
+    border-radius: 12px !important;
+    border-left: none !important;
+}
+
+/* Curved Capsule Accent (Top and Child compatible) */
+.mobile-drawer li.current-menu-item > a::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 8px !important;
+    top: 12px !important;
+    bottom: 12px !important;
+    width: 4px !important;
+    background: var(--color-primary) !important;
+    border-radius: 10px !important; /* Curves the active green list! */
+    z-index: 2 !important;
+}
+
+/* ── Dynamic Icon Layout Rules ──────────────────────────────── */
+/* Primary Transition */
+.mobile-drawer li a i {
+    transition: color 0.2s ease, transform 0.3s ease !important;
+}
+
+/* Left Side (Leading) Icons */
+.mobile-drawer li a i:not(.fa-chevron-down):not(.fa-chevron-up):not(.fa-angle-down):not(.fa-angle-up) {
+    width: 24px !important;
+    text-align: center !important;
+    color: var(--color-text-muted) !important;
+    font-size: 1.1rem !important;
+    margin-right: 15px !important;
+}
+.mobile-drawer li a:hover i:not(.fa-chevron-down):not(.fa-chevron-up):not(.fa-angle-down):not(.fa-angle-up),
+.mobile-drawer li.current-menu-item a i:not(.fa-chevron-down):not(.fa-chevron-up):not(.fa-angle-down):not(.fa-angle-up) {
+    color: var(--color-primary) !important;
+}
+
+/* Far Right-Aligned Parent Chevrons (Rata Kanan) */
+.mobile-drawer li a i.fa-chevron-down,
+.mobile-drawer li a i.fa-chevron-up,
+.mobile-drawer li a i.fa-angle-down,
+.mobile-drawer li a i.fa-angle-up {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    width: auto !important;
+    text-align: right !important;
+    color: var(--color-text-muted) !important;
+    font-size: 0.85rem !important;
+}
+.mobile-drawer li.open > a i.fa-chevron-down,
+.mobile-drawer li.open > a i.fa-angle-down {
+    transform: rotate(180deg) !important;
+    color: var(--color-primary) !important;
+}
+
+/* ── Smart Accordion Submenu (Image 3 - High Fidelity) ────── */
 .mobile-drawer .sub-menu {
-    background: #f8fafc !important;
-    padding: 5px 0 !important;
-    display: none !important;
-    border-top: 1px solid rgba(0,0,0,0.03) !important;
+    position: static !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    list-style: none !important;
+    
+    background: #f1f3f5 !important; /* Premium grey card background */
+    padding: 8px !important;
+    margin: 6px 16px 12px 16px !important;
+    border-radius: 16px !important;
+    display: none !important; /* JS Toggled */
+    border-top: none !important;
 }
 .mobile-drawer li.open > .sub-menu {
     display: block !important;
 }
+.mobile-drawer .sub-menu li {
+    border-bottom: none !important;
+    margin-bottom: 2px !important;
+}
+.mobile-drawer .sub-menu li:last-child {
+    margin-bottom: 0 !important;
+}
 .mobile-drawer .sub-menu li a {
-    padding: 10px 18px 10px 57px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 10px 16px !important;
     font-size: 0.95rem !important;
     font-weight: 500 !important;
-    opacity: 0.8 !important;
+    color: var(--color-text) !important;
+    background: transparent !important;
+    border-radius: 10px !important;
+    opacity: 1 !important;
+    transition: all 0.2s ease !important;
+}
+.mobile-drawer .sub-menu li a:hover {
+    background: rgba(0, 0, 0, 0.04) !important;
+    color: var(--color-primary) !important;
 }
 
-/* Login Button Footer */
-.mobile-drawer-footer {
-    padding: 15px 10px 5px;
-    border-top: 2px solid #f1f5f9;
-    margin-top: 10px;
+/* Active Child Element (With curved active green accent) */
+.mobile-drawer .sub-menu li.current-menu-item > a {
+    background: rgba(26, 122, 60, 0.08) !important;
+    color: var(--color-primary) !important;
+    border-left: none !important;
+    border-radius: 10px !important;
+    padding-left: 26px !important; /* Space for Child Accent Capsule */
 }
-.btn-mobile-login {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 12px;
-    border: 2px solid var(--color-primary);
-    color: var(--color-primary);
-    border-radius: 999px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.2s ease;
+.mobile-drawer .sub-menu li.current-menu-item > a::before {
+    left: 8px !important;
+    top: 8px !important;
+    bottom: 8px !important;
+    width: 3.5px !important;
 }
-.btn-mobile-login:hover {
-    background: var(--color-primary);
-    color: var(--color-white);
+
+.mobile-drawer .sub-menu li a i:not(.fa-chevron-down):not(.fa-chevron-up):not(.fa-angle-down):not(.fa-angle-up) {
+    font-size: 0.95rem !important;
+    margin-right: 12px !important;
+    width: 20px !important;
 }
 
 /* Hide drawer on desktop */
@@ -611,5 +698,17 @@ body.search-modal-open { overflow: hidden; }
     .mobile-drawer,
     .mobile-drawer-overlay {
         display: none !important;
+    }
+}
+
+/* ── Mobile Extreme Edge & Logo Scaling ──────────────────── */
+@media (max-width: 991.98px) {
+    .header-inner.container-fluid {
+        padding-left: 0px !important;   /* Zero container padding on the extreme left edge */
+        padding-right: 8px !important;  /* Retains comfortable spacing for mobile action console */
+    }
+    .custom-logo-wrapper img {
+        max-height: 48px !important;    /* Maintained readable height */
+        margin-left: -16px !important;  /* Aggressive offset to erase thick transparent gutters in mobile graphic! */
     }
 }

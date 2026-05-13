@@ -54,14 +54,24 @@ function lp3aik_default_menu(): void {
             <a href="<?php echo esc_url($program_url); ?>"><?php esc_html_e('Program', 'lp3aik-umk'); ?></a>
         </li>
 
-        <!-- Information (Dropdown) -->
-        <li class="menu-item-has-children <?php echo ($is_active('/news') || $is_active('/galeri') || $is_active('/unduhan')) ? 'current-menu-ancestor' : ''; ?>">
-            <a href="#"><?php esc_html_e('Informasi', 'lp3aik-umk'); ?> <i class="fa-solid fa-chevron-down fa-2xs ms-1"></i></a>
-            <ul class="sub-menu">
-                <li><a href="<?php echo esc_url($get_page_url('news')); ?>"><?php esc_html_e('Berita & Pengumuman', 'lp3aik-umk'); ?></a></li>
-                <li><a href="<?php echo esc_url($galeri_url); ?>"><?php esc_html_e('Galeri Kegiatan', 'lp3aik-umk'); ?></a></li>
-                <li><a href="<?php echo esc_url($unduhan_url); ?>"><?php esc_html_e('Unduhan / File', 'lp3aik-umk'); ?></a></li>
-            </ul>
+        <!-- Berita (Split Top Level) -->
+        <li class="<?php echo $is_active('/news') ? 'current-menu-item' : ''; ?>">
+            <a href="<?php echo esc_url($get_page_url('news')); ?>"><?php esc_html_e('Berita', 'lp3aik-umk'); ?></a>
+        </li>
+
+        <!-- Galeri (Split Top Level) -->
+        <li class="<?php echo $is_active('/galeri') ? 'current-menu-item' : ''; ?>">
+            <a href="<?php echo esc_url($galeri_url); ?>"><?php esc_html_e('Galeri', 'lp3aik-umk'); ?></a>
+        </li>
+
+        <!-- Unduhan (Split Top Level) -->
+        <li class="<?php echo $is_active('/unduhan') ? 'current-menu-item' : ''; ?>">
+            <a href="<?php echo esc_url($unduhan_url); ?>"><?php esc_html_e('Unduhan', 'lp3aik-umk'); ?></a>
+        </li>
+
+        <!-- FAQ (New Page) -->
+        <li class="<?php echo $is_active('/faq') ? 'current-menu-item' : ''; ?>">
+            <a href="<?php echo esc_url($get_page_url('faq')); ?>"><?php esc_html_e('FAQ', 'lp3aik-umk'); ?></a>
         </li>
 
         <!-- Contact -->
@@ -70,4 +80,40 @@ function lp3aik_default_menu(): void {
         </li>
     </ul>
     <?php
+}
+
+/**
+ * Custom Bootstrap 5 Pagination Renderer.
+ * Replaces standard WordPress pagination structure with interactive modern framework components.
+ * Supports both global queries and custom WP_Query instances.
+ */
+function lp3aik_pagination(?WP_Query $query = null): void {
+    global $wp_query;
+    $target_query = $query ?: $wp_query;
+    
+    // Determine the current page number cleanly for both home and single templates
+    $current_page = max(1, get_query_var('paged', get_query_var('page', 1)));
+    
+    $links = paginate_links([
+        'total'     => $target_query->max_num_pages,
+        'current'   => $current_page,
+        'type'      => 'array',
+        'mid_size'  => 2,
+        'prev_text' => '<i class="fa-solid fa-chevron-left fa-xs"></i>',
+        'next_text' => '<i class="fa-solid fa-chevron-right fa-xs"></i>',
+    ]);
+
+    if (is_array($links)) {
+        echo '<nav aria-label="Page navigation" class="pagination-wrap mt-5 mb-2"><ul class="pagination">';
+        foreach ($links as $link) {
+            $class = 'page-item';
+            if (strpos($link, 'current') !== false) {
+                $class .= ' active';
+            }
+            // Inject framework classes dynamically
+            $clean_link = str_replace('page-numbers', 'page-link', $link);
+            echo '<li class="' . $class . '">' . $clean_link . '</li>';
+        }
+        echo '</ul></nav>';
+    }
 }

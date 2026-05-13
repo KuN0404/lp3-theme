@@ -59,9 +59,12 @@ get_header();
                         'order'          => 'DESC',
                     ]);
                     if ($related->have_posts()): ?>
-                    <div class="gallery-masonry">
+                    <div class="gallery-grid">
                         <?php while ($related->have_posts()): $related->the_post(); ?>
-                        <div class="gallery-item" data-src="<?php echo esc_url(get_the_post_thumbnail_url(null, 'lp3aik-gallery')); ?>">
+                        <div class="gallery-item" 
+                            data-src="<?php echo esc_url(get_the_post_thumbnail_url(null, 'large')); ?>"
+                            data-title="<?php the_title_attribute(); ?>"
+                            data-desc="<?php echo esc_attr(get_the_excerpt()); ?>">
                             <?php if (has_post_thumbnail()): ?>
                             <img src="<?php echo esc_url(get_the_post_thumbnail_url(null, 'lp3aik-gallery')); ?>" alt="<?php the_title_attribute(); ?>" loading="lazy">
                             <?php else: ?>

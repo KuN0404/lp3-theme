@@ -58,7 +58,10 @@ $yt = lp3aik_opt('lp3aik_youtube', '');
                     </div>
                     <?php endif; ?>
 
-                    <?php if ($phone): ?>
+                    <?php if ($phone): 
+                        $phones = array_filter(array_map('trim', explode("\n", str_replace("\r", "", $phone))));
+                        if (!empty($phones)):
+                    ?>
                     <div class="contact-info-row">
                         <div class="contact-info-row__icon contact-info-row__icon--primary">
                             <i class="fa-solid fa-phone"></i>
@@ -66,13 +69,20 @@ $yt = lp3aik_opt('lp3aik_youtube', '');
                         <div>
                             <div class="contact-info-row__label"><?php esc_html_e('TELEPON', 'lp3aik-umk'); ?></div>
                             <div class="contact-info-row__value">
-                                <a href="tel:<?php echo esc_attr(preg_replace('/[^+0-9]/', '', $phone)); ?>">
-                                    <?php echo esc_html($phone); ?>
-                                </a>
+                                <?php foreach ($phones as $idx => $item): 
+                                    if (empty($item)) continue;
+                                    $item_tel = preg_replace('/[^+0-9]/', '', $item);
+                                ?>
+                                <div class="<?php echo $idx > 0 ? 'mt-1' : ''; ?>">
+                                    <a href="tel:<?php echo esc_attr($item_tel); ?>">
+                                        <?php echo esc_html($item); ?>
+                                    </a>
+                                </div>
+                                <?php endforeach; ?>
                             </div>
                         </div>
                     </div>
-                    <?php endif; ?>
+                    <?php endif; endif; ?>
 
                     <?php if ($addr): ?>
                     <div class="contact-info-row">
@@ -114,6 +124,7 @@ $yt = lp3aik_opt('lp3aik_youtube', '');
                         <?php endif; ?>
                     </div>
                 </div>
+
             </div>
 
             <!-- RIGHT: Service Cards -->
@@ -179,6 +190,25 @@ $yt = lp3aik_opt('lp3aik_youtube', '');
             </div>
 
         </div>
+
+        <!-- Full-Width Maps spanning evenly beneath columns and above the quotes -->
+        <div class="row mt-4 pt-2">
+            <div class="col-12">
+                <div class="contact-map-card">
+                    <?php 
+                    $map_url = lp3aik_opt('lp3aik_gmaps_embed', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15902.808450333752!2d104.88050064999999!3d-4.8211231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e38a8cb47225a21%3A0xd2e026f22c44746f!2sUniversitas%20Muhammadiyah%20Kotabumi!5e0!3m2!1sid!2sid!4v1778603675791!5m2!1sid!2sid');
+                    if (strpos($map_url, '<iframe') !== false) {
+                        preg_match('/src="([^"]+)"/', $map_url, $matches);
+                        $map_url = $matches[1] ?? $map_url;
+                    }
+                    ?>
+                    <div class="map-wrapper" style="border-radius: var(--border-radius-lg); overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid var(--color-border); background: var(--color-white); line-height: 0;">
+                         <iframe src="<?php echo esc_url($map_url); ?>" width="100%" height="380" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </section>
 

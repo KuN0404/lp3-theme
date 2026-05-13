@@ -14,17 +14,77 @@
   transition: all .3s var(--ease);
 }
 .lightbox.active { opacity: 1; visibility: visible; }
-.lightbox img { max-width: 90vw; max-height: 85vh; border-radius: var(--border-radius); }
+.lightbox img { 
+  max-width: 90vw; 
+  max-height: 75vh; /* Shrunk slightly to make room for dynamic captions */
+  border-radius: var(--border-radius);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s var(--ease);
+}
 .lightbox__close {
   position: absolute;
   top: 1.5rem; right: 1.5rem;
-  background: rgba(255, 255, 255, .15);
+  background: rgba(255, 255, 255, 0.15);
   color: var(--color-white);
   border: none;
   width: 44px; height: 44px;
   border-radius: 50%;
   font-size: 1.25rem;
   cursor: pointer;
-  transition: background var(--dur);
+  transition: all var(--dur);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
 }
-.lightbox__close:hover { background: rgba(255, 255, 255, .3); }
+.lightbox__close:hover { 
+  background: rgba(255, 255, 255, 0.3); 
+  transform: scale(1.08);
+}
+
+/* Premium Frosted Glass Caption Container */
+.lightbox__caption {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 650px;
+  width: 90%;
+  background: rgba(15, 15, 15, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 1.25rem 1.75rem;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  display: none; /* Toggled via JS */
+  animation: lbSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 5;
+}
+
+.lightbox__title {
+  margin: 0 0 0.4rem 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: 0.03em;
+}
+
+.lightbox__desc {
+  margin: 0;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+}
+
+@keyframes lbSlideUp {
+  from { opacity: 0; transform: translate(-50%, 25px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* Hide captions on very small landscape devices to avoid screen hogging */
+@media (max-height: 500px) {
+  .lightbox__caption { display: none !important; }
+  .lightbox img { max-height: 85vh; }
+}

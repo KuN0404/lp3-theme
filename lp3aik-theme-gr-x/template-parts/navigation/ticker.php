@@ -20,3 +20,4 @@ $ticker_items = explode('|', $ticker_raw);
         <?php endfor; ?>
     </div>
 </div>
+

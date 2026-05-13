@@ -24,10 +24,12 @@ get_header();
 <section class="section section--alt">
     <div class="container">
         <?php if (have_posts()): ?>
-        <div class="gallery-masonry" id="full-gallery">
+        <div class="gallery-grid" id="full-gallery">
             <?php while (have_posts()): the_post(); ?>
             <div class="gallery-item"
-                data-src="<?php echo esc_url(get_the_post_thumbnail_url(null, 'lp3aik-gallery')); ?>">
+                data-src="<?php echo esc_url(get_the_post_thumbnail_url(null, 'large')); ?>"
+                data-title="<?php the_title_attribute(); ?>"
+                data-desc="<?php echo esc_attr(get_the_excerpt()); ?>">
                 <?php if (has_post_thumbnail()): ?>
                 <img src="<?php echo esc_url(get_the_post_thumbnail_url(null, 'lp3aik-gallery')); ?>"
                     alt="<?php the_title_attribute(); ?>" loading="lazy">
@@ -43,15 +45,7 @@ get_header();
         </div>
 
         <!-- Pagination -->
-        <div class="pagination mt-4">
-            <?php
-            echo paginate_links([
-                'type'      => 'list',
-                'prev_text' => '&lsaquo;',
-                'next_text' => '&rsaquo;',
-            ]);
-            ?>
-        </div>
+        <?php lp3aik_pagination(); ?>
 
         <?php else: ?>
         <div class="text-center p-5">

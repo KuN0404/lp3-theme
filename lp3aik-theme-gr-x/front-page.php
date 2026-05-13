@@ -11,6 +11,8 @@
 get_header();
 
 get_template_part('template-parts/sections/section', 'hero');
+get_template_part('template-parts/sections/section', 'program');
+get_template_part('template-parts/sections/section', 'team');
 get_template_part('template-parts/sections/section', 'gallery');
 get_template_part('template-parts/sections/section', 'news');
 

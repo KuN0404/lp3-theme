@@ -56,6 +56,19 @@ LP3AIK.SearchModal = {
         setTimeout(function () { self.open(); }, 320);
       });
     }
+
+    // Site-wide intercept: Prevent submitting empty/whitespace queries on ALL search forms
+    var searchForms = document.querySelectorAll('form[role="search"], .search-form');
+    searchForms.forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        var inp = form.querySelector('input[type="search"], input[name="s"]');
+        if (inp && !inp.value.trim()) {
+          e.preventDefault();
+          inp.value = ''; // Reset display to clear spaces
+          inp.focus();
+        }
+      });
+    });
   },
 
   open: function () {

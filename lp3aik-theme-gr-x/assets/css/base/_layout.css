@@ -55,17 +55,181 @@
   background: var(--color-white);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
-  padding: 1.5rem;
+  padding: 1.75rem;
   margin-bottom: var(--gap);
+  box-shadow: var(--shadow-sm);
 }
 
 .sidebar-widget h4 {
-  font-size: var(--font-size-base);
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--color-primary-subtle);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  padding-left: 0.75rem;
+  border-left: 4px solid var(--color-primary);
   color: var(--color-primary-dark);
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
+
+/* ── Search Widget Form ──────────────────────── */
+.search-form-sidebar .input-group {
+  display: flex;
+  overflow: hidden;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  transition: border-color var(--dur) var(--ease);
+}
+.search-form-sidebar .input-group:focus-within {
+  border-color: var(--color-primary);
+}
+.search-input-sidebar {
+  flex-grow: 1;
+  border: none;
+  padding: 0.65rem 1rem;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  outline: none;
+}
+.btn-search-sidebar {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding-inline: 1.25rem;
+  cursor: pointer;
+  transition: background var(--dur) var(--ease);
+}
+.btn-search-sidebar:hover {
+  background: var(--color-primary-dark);
+}
+
+/* ── Recent News Feed ────────────────────────── */
+.news-list-recent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.news-recent-item {
+  display: flex;
+  gap: 1rem;
+  text-decoration: none;
+  align-items: flex-start;
+  transition: transform var(--dur) var(--ease);
+}
+.news-recent-item:hover {
+  transform: translateX(4px);
+}
+.news-recent-item__thumb {
+  width: 70px;
+  height: 60px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--color-primary-ghost);
+}
+.news-recent-item__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.news-recent-item__fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-primary-mid);
+  font-size: 1.25rem;
+}
+.news-recent-item__content {
+  flex-grow: 1;
+  min-width: 0;
+}
+.news-recent-item__title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin-bottom: 0.3rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color var(--dur);
+}
+.news-recent-item:hover .news-recent-item__title {
+  color: var(--color-primary);
+}
+.news-recent-item__date {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* ── Sidebar Categories Widget ──────────────── */
+.sidebar-cat-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.sidebar-cat-list li {
+  margin: 0;
+  padding: 0;
+}
+.sidebar-cat-list li a {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--border-radius-sm);
+  background: var(--color-off-white);
+  border: 1px solid var(--color-border);
+  color: var(--color-text) !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--dur) var(--ease);
+}
+.sidebar-cat-list li.current-cat a,
+.sidebar-cat-list li a:hover {
+  background: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  border-color: var(--color-primary) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Elegant Counter Badge - Ultra Reinforced */
+.sidebar-cat-list .cat-count-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: var(--color-primary-ghost) !important;
+  color: var(--color-primary) !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  min-width: 28px !important;
+  height: 22px !important;
+  padding-inline: 0.5rem !important;
+  border-radius: 30px !important;
+  line-height: 1 !important;
+  margin-left: auto !important; /* Absolute push to far right */
+  transition: all var(--dur) var(--ease);
+}
+
+/* Reverse badge colors when active or hovered */
+.sidebar-cat-list li.current-cat a .cat-count-badge,
+.sidebar-cat-list li a:hover .cat-count-badge {
+  background: var(--color-white) !important;
+  color: var(--color-primary) !important;
+}
+
+
 
 /* ── Page Hero ────────────────────────────────────────────── */
 .page-hero {

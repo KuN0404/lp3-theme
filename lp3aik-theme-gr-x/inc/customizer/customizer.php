@@ -93,14 +93,66 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize) {
         'lp3aik_facebook'      => ['URL Facebook',             ''],
         'lp3aik_instagram'     => ['URL Instagram',            ''],
         'lp3aik_youtube'       => ['URL YouTube',              ''],
-        'lp3aik_gmaps_embed'   => ['Google Maps Embed Code',   '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15902.808450333752!2d104.88050064999999!3d-4.8211231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e38a8cb47225a21%3A0xd2e026f22c44746f!2sUniversitas%20Muhammadiyah%20Kotabumi!5e0!3m2!1sid!2sid!4v1778603675791!5m2!1sid!2sid" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'],
+        'lp3aik_gmaps_embed'   => ['Google Maps Embed URL',    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15902.808450333752!2d104.88050064999999!3d-4.8211231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e38a8cb47225a21%3A0xd2e026f22c44746f!2sUniversitas%20Muhammadiyah%20Kotabumi!5e0!3m2!1sid!2sid!4v1778603675791!5m2!1sid!2sid'],
         'lp3aik_ticker'        => ['Running Text (pisahkan dgn |)', 'Selamat datang di LP3AIK UM Kotabumi | Pendaftaran program terbuka'],
     ];
 
     foreach ($identity_fields as $id => [$label, $default]) {
         $wp_customize->add_setting($id, ['default' => $default, 'sanitize_callback' => 'wp_kses_post', 'transport' => 'refresh']);
-        $wp_customize->add_control($id, ['label' => __($label,'lp3aik-umk'), 'section' => 'lp3aik_identity', 'type' => 'text']);
+        
+        // Conditional switch to allow clean multi-line inputs for specific identity variables!
+        $control_type = 'text';
+        if (in_array($id, ['lp3aik_phone', 'lp3aik_address', 'lp3aik_gmaps_embed'])) {
+            $control_type = 'textarea';
+        }
+
+        $wp_customize->add_control($id, [
+            'label'   => __($label, 'lp3aik-umk'), 
+            'section' => 'lp3aik_identity', 
+            'type'    => $control_type
+        ]);
     }
+
+    // ── Section: Banner Kutipan / Quote ─────────────────────
+    $wp_customize->add_section('lp3aik_quote', [
+        'title'       => __('Banner Kutipan / Quote', 'lp3aik-umk'),
+        'panel'       => 'lp3aik_panel',
+        'priority'    => 3,
+        'description' => __('Atur konten ayat suci Al-Quran pada bilah hijau global di bawah layar.', 'lp3aik-umk'),
+    ]);
+
+    $wp_customize->add_setting('lp3aik_quote_arabic', [
+        'default'           => 'وَتَعَاوَنُوْا عَلَى الْبِرِّ وَالتَّقْوٰى',
+        'sanitize_callback' => 'wp_kses_post',
+        'transport'         => 'refresh',
+    ]);
+    $wp_customize->add_control('lp3aik_quote_arabic', [
+        'label'   => __('Teks Arab', 'lp3aik-umk'),
+        'section' => 'lp3aik_quote',
+        'type'    => 'textarea',
+    ]);
+
+    $wp_customize->add_setting('lp3aik_quote_translation', [
+        'default'           => '"Dan tolong-menolonglah kamu dalam (mengerjakan) kebajikan dan takwa"',
+        'sanitize_callback' => 'wp_kses_post',
+        'transport'         => 'refresh',
+    ]);
+    $wp_customize->add_control('lp3aik_quote_translation', [
+        'label'   => __('Terjemahan / Arti', 'lp3aik-umk'),
+        'section' => 'lp3aik_quote',
+        'type'    => 'textarea',
+    ]);
+
+    $wp_customize->add_setting('lp3aik_quote_source', [
+        'default'           => 'QS. Al-Ma\'idah: 2',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ]);
+    $wp_customize->add_control('lp3aik_quote_source', [
+        'label'   => __('Sumber Ayat / Surah', 'lp3aik-umk'),
+        'section' => 'lp3aik_quote',
+        'type'    => 'text',
+    ]);
 
     // ── Section: Hero Slider / Carousel ─────────────────────
     $wp_customize->add_section('lp3aik_hero', [
@@ -251,4 +303,52 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize) {
         $wp_customize->add_setting($id, ['default' => $default, 'sanitize_callback' => 'wp_kses_post', 'transport' => 'refresh']);
         $wp_customize->add_control($id, ['label' => __($label,'lp3aik-umk'), 'section' => 'lp3aik_about', 'type' => 'textarea']);
     }
+
+    // ── Section: Footer ─────────────────────────────────────
+    $wp_customize->add_section('lp3aik_footer', [
+        'title'       => __('Footer', 'lp3aik-umk'),
+        'panel'       => 'lp3aik_panel',
+        'priority'    => 99,
+        'description' => __('Atur teks yang tampil di bilah bawah footer (kiri & kanan).', 'lp3aik-umk'),
+    ]);
+
+    // Footer kiri — teks hak cipta
+    $wp_customize->add_setting('lp3aik_footer_copyright', [
+        'default'           => 'Universitas Muhammadiyah Kotabumi. All rights reserved.',
+        'sanitize_callback' => 'wp_kses_post',
+        'transport'         => 'refresh',
+    ]);
+    $wp_customize->add_control('lp3aik_footer_copyright', [
+        'label'       => __('Teks Kiri Footer (Hak Cipta)', 'lp3aik-umk'),
+        'description' => __('Teks yang muncul di sisi kiri footer bawah setelah nama situs & tahun.', 'lp3aik-umk'),
+        'section'     => 'lp3aik_footer',
+        'type'        => 'text',
+    ]);
+
+    // Footer kanan — teks kredit / made with
+    $wp_customize->add_setting('lp3aik_footer_credit', [
+        'default'           => 'Made with ❤ for Muhammadiyah',
+        'sanitize_callback' => 'wp_kses_post',
+        'transport'         => 'refresh',
+    ]);
+    $wp_customize->add_control('lp3aik_footer_credit', [
+        'label'       => __('Teks Kanan Footer (Kredit)', 'lp3aik-umk'),
+        'description' => __('Teks kredit yang muncul di sisi kanan footer bawah.', 'lp3aik-umk'),
+        'section'     => 'lp3aik_footer',
+        'type'        => 'text',
+    ]);
+
+    // Footer kanan — URL anchor pada teks kredit
+    $wp_customize->add_setting('lp3aik_footer_credit_url', [
+        'default'           => 'https://muhammadiyah.or.id',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ]);
+    $wp_customize->add_control('lp3aik_footer_credit_url', [
+        'label'       => __('URL Anchor Kredit Footer (Kanan)', 'lp3aik-umk'),
+        'description' => __('URL tautan anchor pada teks kredit sisi kanan. Biarkan kosong jika tidak ingin ada tautan.', 'lp3aik-umk'),
+        'section'     => 'lp3aik_footer',
+        'type'        => 'url',
+    ]);
+
 });

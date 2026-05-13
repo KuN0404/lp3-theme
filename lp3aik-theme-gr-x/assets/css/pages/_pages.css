@@ -108,10 +108,12 @@
   border-radius: var(--border-radius-lg);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
+  background: var(--color-white);
 }
 .unduhan-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 800px;
 }
 .unduhan-table thead {
   background: var(--color-primary-dark);
@@ -119,21 +121,100 @@
 }
 .unduhan-table th,
 .unduhan-table td {
-  padding: 1rem 1.5rem;
+  padding: 1.15rem 1.5rem;
   text-align: left;
-  font-size: var(--font-size-sm);
+  font-size: 0.92rem;
+  vertical-align: middle;
 }
-.unduhan-table th { font-weight: 600; font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: .07em; }
-.unduhan-table tbody tr { border-bottom: 1px solid var(--color-border); transition: background var(--dur); }
-.unduhan-table tbody tr:hover { background: var(--color-primary-ghost); }
-.unduhan-title { display: flex; align-items: center; gap: .75rem; font-weight: 600; }
+.unduhan-table th { 
+  font-weight: 700; 
+  font-size: 0.78rem; 
+  text-transform: uppercase; 
+  letter-spacing: 0.06em; 
+  border-bottom: none;
+}
+.unduhan-table tbody tr { 
+  border-bottom: 1px solid var(--color-border); 
+  transition: all var(--dur) var(--ease); 
+}
+.unduhan-table tbody tr:last-child {
+  border-bottom: none;
+}
+.unduhan-table tbody tr:hover { 
+  background: var(--color-off-white); 
+}
+.unduhan-title { 
+  display: flex; 
+  align-items: center; 
+  gap: 1rem; 
+}
 .unduhan-icon {
-  width: 36px; height: 36px;
+  width: 46px; 
+  height: 46px;
   border-radius: var(--border-radius-sm);
-  background: var(--color-primary-subtle);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--color-primary);
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  font-size: 1.25rem;
   flex-shrink: 0;
+  transition: transform var(--dur) var(--ease);
+}
+.unduhan-table tbody tr:hover .unduhan-icon {
+  transform: scale(1.06);
+}
+
+/* Tonal Color Coding for File Extensions */
+.unduhan-icon--pdf   { background: #feebeb; color: #dc3545; }
+.unduhan-icon--docx  { background: #e7f1ff; color: #0d6efd; }
+.unduhan-icon--xlsx  { background: #eaf8ea; color: #198754; }
+.unduhan-icon--ppt   { background: #fff3e6; color: #fd7e14; }
+.unduhan-icon--zip   { background: #fffbeb; color: #f59e0b; }
+.unduhan-icon--default { background: #f1f3f5; color: #6c757d; }
+
+/* Mini Pill Badges for file types */
+.badge-file-type {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+.badge-file-type--pdf   { background: rgba(220, 53, 69, 0.1); color: #c82333; }
+.badge-file-type--docx  { background: rgba(13, 110, 253, 0.1); color: #0b5ed7; }
+.badge-file-type--xlsx  { background: rgba(25, 135, 84, 0.1); color: #157347; }
+.badge-file-type--ppt   { background: rgba(253, 126, 20, 0.1); color: #e06a0d; }
+.badge-file-type--zip   { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+.badge-file-type--default { background: #eceff1; color: #546e7a; }
+
+/* Premium Download State Badge */
+.download-status-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.45rem 0.95rem;
+  border-radius: 50px;
+  transition: all var(--dur);
+  text-decoration: none;
+}
+.download-status-btn--ready {
+  background: var(--color-primary);
+  color: var(--color-white) !important;
+  border: 1px solid var(--color-primary);
+}
+.download-status-btn--ready:hover {
+  background: var(--color-primary-dark);
+  box-shadow: 0 4px 10px rgba(26, 122, 60, 0.2);
+  transform: translateY(-1px);
+}
+.download-status-btn--empty {
+  background: #f1f3f5;
+  color: #868e96 !important;
+  border: 1px solid #dee2e6;
+  cursor: not-allowed;
 }
 
 /* ── Page Hero Enhancements ──────────────────────────────── */

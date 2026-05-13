@@ -29,7 +29,7 @@ $logo_height = max(28, min(70, (int) get_theme_mod('lp3aik_logo_height', '40')))
 <header class="site-header logo-<?php echo esc_attr($logo_mode); ?>"
         id="site-header"
         style="--logo-height: <?php echo esc_attr($logo_height); ?>px;">
-    <div class="header-inner container-fluid px-3 px-lg-4">
+    <div class="header-inner container-fluid px-2 px-lg-5">
 
         <!-- LOGO -->
         <a class="site-logo-wrap" href="<?php echo esc_url(home_url('/')); ?>"
@@ -115,12 +115,6 @@ $logo_height = max(28, min(70, (int) get_theme_mod('lp3aik_logo_height', '40')))
             ]);
             ?>
         </nav>
-        <div class="mobile-drawer-footer">
-            <a href="<?php echo esc_url(wp_login_url()); ?>" class="btn-mobile-login">
-                <i class="fa-solid fa-user"></i>
-                <?php esc_html_e('Log in', 'lp3aik-umk'); ?>
-            </a>
-        </div>
     </div>
 </div><!-- #mobileDrawer -->
 

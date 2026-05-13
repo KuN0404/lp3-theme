@@ -19,7 +19,10 @@ defined('ABSPATH') || exit;
     </div>
     <div class="team-card__name"><?php the_title(); ?></div>
     <div class="team-card__position"><?php echo esc_html(get_post_meta(get_the_ID(), '_tim_jabatan', true)); ?></div>
-    <?php if ($prodi = get_post_meta(get_the_ID(), '_tim_prodi', true)): ?>
-        <div class="team-card__dept"><?php echo esc_html($prodi); ?></div>
+    <?php if ($unit = get_post_meta(get_the_ID(), '_tim_unit', true)): ?>
+        <div class="team-card__dept"><?php echo esc_html($unit); ?></div>
+    <?php endif; ?>
+    <?php if ($nip = get_post_meta(get_the_ID(), '_tim_nip', true)): ?>
+        <div class="team-card__nip"><?php _e('NIP/NIDN:', 'lp3aik-umk'); ?> <?php echo esc_html($nip); ?></div>
     <?php endif; ?>
 </div>

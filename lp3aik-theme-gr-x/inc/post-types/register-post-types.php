@@ -44,10 +44,10 @@ add_action('init', function () {
             'menu_name'     => __('Tim',                 'lp3aik-umk'),
         ],
         'public'         => true,
-        'show_in_rest'   => true,
+        'show_in_rest'   => false,
         'menu_icon'      => 'dashicons-groups',
         'menu_position'  => 6,
-        'supports'       => ['title','editor','thumbnail','custom-fields','page-attributes'],
+        'supports'       => ['title', 'thumbnail'],
         'has_archive'    => false,
         'rewrite'        => ['slug' => 'tim'],
         'show_in_nav_menus' => false,
@@ -65,10 +65,10 @@ add_action('init', function () {
             'menu_name'     => __('Galeri',           'lp3aik-umk'),
         ],
         'public'         => true,
-        'show_in_rest'   => true,
+        'show_in_rest'   => false, // De-Gutenberg to Classic Clean Layout
         'menu_icon'      => 'dashicons-format-gallery',
         'menu_position'  => 7,
-        'supports'       => ['title','thumbnail','editor','custom-fields'],
+        'supports'       => ['title', 'thumbnail', 'excerpt'], // Nama (Title), Foto (Thumbnail), Deskripsi (Excerpt)
         'has_archive'    => true,
         'rewrite'        => ['slug' => 'galeri'],
     ]);
@@ -85,10 +85,10 @@ add_action('init', function () {
             'menu_name'     => __('Unduhan',           'lp3aik-umk'),
         ],
         'public'         => true,
-        'show_in_rest'   => true,
+        'show_in_rest'   => false, // Forces Clean Classic Metabox Layout instead of Full Gutenberg
         'menu_icon'      => 'dashicons-download',
         'menu_position'  => 8,
-        'supports'       => ['title','editor','thumbnail','custom-fields'],
+        'supports'       => ['title', 'excerpt'], // Only title and short excerpt summary
         'has_archive'    => true,
         'rewrite'        => ['slug' => 'unduhan'],
     ]);
@@ -118,25 +118,5 @@ add_action('init', function () {
         'show_in_rest'      => true,
     ]);
 
-    // ── JABATAN TIM ─────────────────────────────────────────
-    register_taxonomy('jabatan_tim', ['lp3aik_tim'], [
-        'labels' => [
-            'name'          => __('Jabatan', 'lp3aik-umk'),
-            'singular_name' => __('Jabatan', 'lp3aik-umk'),
-            'search_items'  => __('Cari Jabatan', 'lp3aik-umk'),
-            'all_items'     => __('Semua Jabatan', 'lp3aik-umk'),
-            'edit_item'     => __('Edit Jabatan', 'lp3aik-umk'),
-            'update_item'   => __('Update Jabatan', 'lp3aik-umk'),
-            'add_new_item'  => __('Tambah Jabatan Baru', 'lp3aik-umk'),
-            'new_item_name' => __('Nama Jabatan Baru', 'lp3aik-umk'),
-            'menu_name'     => __('Jabatan', 'lp3aik-umk'),
-        ],
-        'hierarchical'      => true, // Seperti kategori (bukan tag) agar mudah dipilih via checkbox
-        'show_ui'           => true,
-        'show_admin_column' => true,
-        'query_var'         => true,
-        'rewrite'           => ['slug' => 'jabatan'],
-        'show_in_rest'      => true,
-    ]);
 
 });

@@ -34,11 +34,17 @@
                         </div>
                         <?php endif; ?>
                         
-                        <?php if ($phone = lp3aik_opt('lp3aik_phone')): ?>
+                        <?php if ($phone_raw = lp3aik_opt('lp3aik_phone')): 
+                            $phones = array_filter(array_map('trim', explode("\n", str_replace("\r", "", $phone_raw))));
+                            foreach ($phones as $phone):
+                                if (empty($phone)) continue;
+                                $tel_num = preg_replace('/[^+0-9]/', '', $phone);
+                        ?>
                         <div class="footer-contact-item d-flex align-items-center gap-2 mb-2">
                             <i class="fa-solid fa-phone fa-sm text-accent"></i>
-                            <a href="tel:<?php echo esc_attr(preg_replace('/[^+0-9]/', '', $phone)); ?>"><?php echo esc_html($phone); ?></a>
+                            <a href="tel:<?php echo esc_attr($tel_num); ?>"><?php echo esc_html($phone); ?></a>
                         </div>
+                            <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
 
@@ -119,10 +125,18 @@
                 <div class="footer-col">
                     <div class="footer-map-container">
                         <?php 
-                        $default_map = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15902.808450333752!2d104.88050064999999!3d-4.8211231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e38a8cb47225a21%3A0xd2e026f22c44746f!2sUniversitas%20Muhammadiyah%20Kotabumi!5e0!3m2!1sid!2sid!4v1778603675791!5m2!1sid!2sid" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
-                        $gmaps_code  = lp3aik_opt('lp3aik_gmaps_embed', $default_map);
-                        echo $gmaps_code; 
+                        $default_map = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15902.808450333752!2d104.88050064999999!3d-4.8211231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e38a8cb47225a21%3A0xd2e026f22c44746f!2sUniversitas%20Muhammadiyah%20Kotabumi!5e0!3m2!1sid!2sid!4v1778603675791!5m2!1sid!2sid';
+                        $gmaps_url   = lp3aik_opt('lp3aik_gmaps_embed', $default_map);
+                        
+                        // Safe fallback: regex parsing if admin types full iframe tag instead of URL!
+                        if (strpos($gmaps_url, '<iframe') !== false) {
+                            preg_match('/src="([^"]+)"/', $gmaps_url, $matches);
+                            if (!empty($matches[1])) {
+                                $gmaps_url = $matches[1];
+                            }
+                        }
                         ?>
+                        <iframe src="<?php echo esc_url($gmaps_url); ?>" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
 
@@ -136,20 +150,24 @@
             <span>
                 &copy; <?php echo esc_html(date('Y')); ?>
                 <a href="<?php echo esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a>.
-                <?php esc_html_e('Universitas Muhammadiyah Kotabumi. All rights reserved.', 'lp3aik-umk'); ?>
+                <?php echo wp_kses_post(lp3aik_opt('lp3aik_footer_copyright', __('Universitas Muhammadiyah Kotabumi. All rights reserved.', 'lp3aik-umk'))); ?>
             </span>
             <span>
-                <?php esc_html_e('Made with', 'lp3aik-umk'); ?>
-                <i class="fa-solid fa-heart" style="color:var(--color-accent-light);"></i>
-                <?php esc_html_e('for', 'lp3aik-umk'); ?>
-                <a href="https://muhammadiyah.or.id" target="_blank" rel="noopener">
-                    <?php esc_html_e('Muhammadiyah', 'lp3aik-umk'); ?>
-                </a>
+                <?php
+                $credit_text = lp3aik_opt('lp3aik_footer_credit', 'Made with ❤ for Muhammadiyah');
+                $credit_url  = lp3aik_opt('lp3aik_footer_credit_url', 'https://muhammadiyah.or.id');
+                if ($credit_url) {
+                    echo '<a href="' . esc_url($credit_url) . '" target="_blank" rel="noopener">' . wp_kses_post($credit_text) . '</a>';
+                } else {
+                    echo wp_kses_post($credit_text);
+                }
+                ?>
             </span>
         </div>
     </div>
 </footer>
 
+<?php get_template_part('template-parts/components/floating-translate'); ?>
 <?php get_template_part('template-parts/components/back-to-top'); ?>
 
 <?php wp_footer(); ?>

@@ -31,41 +31,18 @@ get_header();
         </div>
 
         <!-- Pagination -->
-        <div class="pagination mt-4">
-            <?php
-            echo paginate_links([
-                'type'      => 'list',
-                'prev_text' => '&lsaquo;',
-                'next_text' => '&rsaquo;',
-            ]);
-            ?>
-        </div>
+        <?php lp3aik_pagination(); ?>
 
         <?php else: ?>
-        <?php
-        // Default demo programs when no CPT data exists
-        $default_programs = [
-            ['fa-book-open',     'Pembinaan AIK Mahasiswa',  'Program pembinaan Al-Islam dan Kemuhammadiyahan wajib bagi seluruh mahasiswa baru.', 'Mahasiswa baru'],
-            ['fa-mosque',        'Kajian Rutin Islami',       'Forum kajian keislaman mingguan yang terbuka untuk seluruh sivitas akademika.', 'Semua civitas'],
-            ['fa-pen-to-square', 'Baitul Arqam Dosen',        'Program peningkatan pemahaman AIK khusus bagi dosen dan tenaga kependidikan.', 'Dosen & Tendik'],
-            ['fa-graduation-cap','Wisuda AIK',                'Program sertifikasi dan pembekalan AIK bagi calon wisudawan universitas.', 'Calon wisudawan'],
-            ['fa-handshake',     'Pengabdian Masyarakat AIK', 'Kegiatan pengabdian berbasis nilai Islam di lingkungan sekitar kampus.', 'Mahasiswa & dosen'],
-            ['fa-book',          'Perpustakaan AIK',          'Pusat referensi literatur AIK dan Kemuhammadiyahan yang komprehensif.', 'Semua civitas'],
-        ];
-        ?>
-        <div class="grid-3">
-            <?php foreach ($default_programs as [$icon, $title, $desc, $sasaran]): ?>
-            <div class="program-card">
-                <div class="program-card__icon"><i class="fa-solid <?php echo esc_attr($icon); ?>"></i></div>
-                <h3><?php echo esc_html($title); ?></h3>
-                <p><?php echo esc_html($desc); ?></p>
-                <div style="font-size:.8rem;color:var(--green-mid);margin-bottom:.75rem;">
-                    <i class="fa-solid fa-user fa-sm"></i> <?php echo esc_html($sasaran); ?>
+            <div class="text-center p-5" style="background:var(--color-primary-ghost);border-radius:var(--border-radius-lg);border:1px dashed var(--color-primary-light);">
+                <div style="font-size:3rem;margin-bottom:1rem;color:var(--color-primary-mid);">
+                    <i class="fa-solid fa-circle-info"></i>
                 </div>
-                <span class="btn btn-outline btn-sm disabled"><?php _e('Detail Program','lp3aik-umk'); ?></span>
+                <h3><?php _e('Belum Ada Program Terdaftar','lp3aik-umk'); ?></h3>
+                <p style="color:var(--color-text-muted);max-width:500px;margin:0 auto;">
+                    <?php _e('Data program layanan AIK sedang dipersiapkan atau belum ditambahkan oleh admin.','lp3aik-umk'); ?>
+                </p>
             </div>
-            <?php endforeach; ?>
-        </div>
         <?php endif; ?>
     </div>
 </section>

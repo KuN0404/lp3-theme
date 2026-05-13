@@ -108,3 +108,35 @@ function lp3aik_icon(string $icon_class, string $fallback_emoji = ''): string {
     }
     return $fallback_emoji ? '<i class="fa-solid fa-book-open"></i>' : '';
 }
+
+/**
+ * Increment post view count inside single post queries.
+ */
+function lp3aik_set_post_views(int $post_id): void {
+    $count_key = '_lp3aik_views';
+    $count     = get_post_meta($post_id, $count_key, true);
+    
+    if ($count === '') {
+        delete_post_meta($post_id, $count_key);
+        add_post_meta($post_id, $count_key, '1');
+    } else {
+        $count++;
+        update_post_meta($post_id, $count_key, $count);
+    }
+}
+
+/**
+ * Retrieve formatted post view count.
+ */
+function lp3aik_get_post_views(int $post_id): string {
+    $count_key = '_lp3aik_views';
+    $count     = get_post_meta($post_id, $count_key, true);
+    
+    if ($count === '') {
+        delete_post_meta($post_id, $count_key);
+        add_post_meta($post_id, $count_key, '0');
+        return '0';
+    }
+    
+    return number_format_i18n((int) $count);
+}

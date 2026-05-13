@@ -22,6 +22,7 @@ define('LP3AIK_PAGE_TEMPLATES', [
     'org-structure'    => 'templates/page-org-structure.php',
     'news'             => 'templates/page-news.php',
     'contact'          => 'templates/page-contact.php',
+    'faq'              => 'templates/page-faq.php',
 ]);
 
 define('LP3AIK_PAGE_TITLES', [
@@ -30,6 +31,7 @@ define('LP3AIK_PAGE_TITLES', [
     'org-structure'    => 'Struktur Organisasi',
     'news'             => 'Berita & Pengumuman',
     'contact'          => 'Hubungi Kami',
+    'faq'              => 'Pertanyaan Umum (FAQ)',
 ]);
 
 // =====================================================================
@@ -135,9 +137,9 @@ function lp3aik_create_theme_pages(): void {
 
 // Run once on first load if pages haven't been created yet
 add_action('init', function () {
-    if (!get_option('lp3aik_theme_pages_v5')) {
+    if (!get_option('lp3aik_theme_pages_v6')) {
         lp3aik_create_theme_pages();
-        update_option('lp3aik_theme_pages_v5', true);
+        update_option('lp3aik_theme_pages_v6', true);
     }
 }, 20);
 
@@ -171,6 +173,10 @@ add_action('pre_get_posts', function ($query) {
         $query->set('orderby', 'menu_order');
         $query->set('order', 'ASC');
     }
+
+    if ($query->is_search()) {
+        $query->set('post_type', 'post');
+    }
 });
 
 // =====================================================================
@@ -178,3 +184,20 @@ add_action('pre_get_posts', function ($query) {
 // =====================================================================
 add_action('after_switch_theme', 'flush_rewrite_rules');
 add_action('switch_theme', 'flush_rewrite_rules');
+
+// =====================================================================
+// 7) PREVENT EMPTY/WHITESPACE SEARCH FROM LISTING ALL POSTS
+// =====================================================================
+add_filter('posts_search', function (string $search, WP_Query $query): string {
+    if (is_admin() || !$query->is_main_query() || !$query->is_search()) {
+        return $search;
+    }
+
+    $search_query = trim(get_query_var('s'));
+    if (empty($search_query)) {
+        // Force SQL query to immediately return 0 results (1=0 is always false)
+        return ' AND 1=0 ';
+    }
+
+    return $search;
+}, 20, 2);

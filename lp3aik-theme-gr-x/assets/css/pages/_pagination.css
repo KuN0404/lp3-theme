@@ -1,18 +1,58 @@
 /* ============================================================
-   PAGINATION
+   PAGINATION — Modern Bootstrap 5 Style with System Accents
    ============================================================ */
-.pagination { display: flex; align-items: center; justify-content: center; gap: .5rem; padding: 2rem 0; }
-.page-link {
-  width: 40px; height: 40px;
-  display: flex; align-items: center; justify-content: center;
+.pagination-wrap {
+  width: 100%;
+}
+
+.pagination {
+  display: flex;
+  list-style: none;
+  padding-left: 0;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 1rem 0;
+}
+
+.page-item {
+  display: inline-block;
+}
+
+.page-item .page-link {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--border-radius-sm);
   border: 1.5px solid var(--color-border);
-  font-size: .9rem; font-weight: 600;
+  background-color: var(--color-white);
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--color-text);
-  transition: all var(--dur);
+  text-decoration: none;
+  transition: all var(--dur) var(--ease);
 }
-.page-link:hover, .page-link.current {
-  background: var(--color-primary);
+
+.page-item .page-link:hover {
+  background-color: var(--color-primary-ghost);
+  color: var(--color-primary);
+  border-color: var(--color-primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Active State using the Green Muhammadiyah Theme */
+.page-item.active .page-link {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-mid));
   color: var(--color-white);
   border-color: var(--color-primary);
+  box-shadow: 0 4px 12px rgba(26, 122, 60, 0.25); /* RGBA of --color-primary */
+}
+
+.page-item.active .page-link:hover {
+  transform: none;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-mid));
+  box-shadow: 0 4px 12px rgba(26, 122, 60, 0.3);
 }

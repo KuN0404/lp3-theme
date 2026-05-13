@@ -5,43 +5,119 @@
 /* --- Base Card --- */
 .card {
   background: var(--color-white);
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-border);
   transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .card:hover {
   box-shadow: var(--shadow-lg);
-  transform: translateY(-4px);
+  transform: translateY(-5px);
 }
-.card__image { aspect-ratio: 16/10; overflow: hidden; }
-.card__image img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease); }
-.card:hover .card__image img { transform: scale(1.06); }
-.card__body { padding: 1.5rem; }
+.card__image { aspect-ratio: 16/10; overflow: hidden; background: #f8f9fa; }
+.card__image img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+.card:hover .card__image img { transform: scale(1.08); }
+.card__body { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
 .card__tag {
-  font-size: var(--font-size-xs);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: var(--color-primary-mid);
-  margin-bottom: .5rem;
+  display: inline-block;
+  background-color: var(--color-primary-ghost);
+  color: var(--color-primary);
+  padding: 0.4rem 1.2rem;
+  border-radius: 30px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: none;
+  transition: all var(--dur) var(--ease);
 }
-.card__title { font-size: 1.15rem; margin-bottom: .5rem; }
-.card__excerpt { font-size: .9rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 1rem; }
-.card__meta { font-size: .8rem; color: var(--color-text-subtle); display: flex; gap: 1rem; flex-wrap: wrap; }
-.card__meta span { display: flex; align-items: center; gap: .3rem; }
+.card__tag:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white) !important;
+}
+.card__title { font-size: 1.2rem; margin-bottom: .75rem; line-height: 1.4; }
+.card__title a { transition: color var(--dur) var(--ease); }
+.card__title a:hover { color: var(--color-primary) !important; }
+.card__excerpt { font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.65; margin-bottom: 1.5rem; }
+
+/* Inner card elements for modern layout */
+.card__action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 1.25rem;
+  border-top: 1px dotted #dcdcdc;
+}
+.card__read-more {
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all var(--dur) var(--ease);
+}
+.card__read-more:hover {
+  color: var(--color-primary-dark);
+}
+.card__read-more i {
+  transition: transform var(--dur) var(--ease);
+}
+.card__read-more:hover i {
+  transform: translateX(5px);
+}
+.card__date {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.card__date i {
+  font-size: 0.95rem;
+}
+
+/* Elegant unified footer */
+.card__footer {
+  background: #f8f9fa;
+  border-top: 1px solid var(--color-border);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+.card__footer-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  line-height: 1;
+}
+.card__footer-item i {
+  font-size: 0.95rem;
+  color: var(--color-primary-mid);
+}
 
 /* --- Program Card --- */
 .program-card {
   background: var(--color-white);
   border-radius: var(--border-radius-lg);
-  padding: 2rem;
+  padding: 0;
   border: 1px solid var(--color-border);
-  text-align: center;
   transition: all var(--dur) var(--ease);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .program-card::before {
   content: '';
@@ -51,25 +127,65 @@
   background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
   transform: scaleX(0);
   transition: transform var(--dur) var(--ease);
+  z-index: 2;
 }
 .program-card:hover::before { transform: scaleX(1); }
 .program-card:hover {
   box-shadow: var(--shadow-lg);
   transform: translateY(-6px);
+  border-color: var(--color-primary-light);
 }
-.program-card__icon {
-  width: 64px; height: 64px;
-  border-radius: 50%;
-  background: var(--color-primary-subtle);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 1.25rem;
-  font-size: 1.75rem;
-  transition: background var(--dur);
-  color: var(--color-primary);
+.program-card__image {
+  width: 100%;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: #fafafa;
+  position: relative;
+  border-bottom: 1px solid rgba(0,0,0,0.03);
 }
-.program-card:hover .program-card__icon { background: var(--color-primary); color: var(--color-white); }
-.program-card h3 { font-size: 1.1rem; margin-bottom: .6rem; }
-.program-card p { font-size: .875rem; color: var(--color-text-muted); margin-bottom: 1.25rem; }
+.program-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.program-card:hover .program-card__image img {
+  transform: scale(1.08);
+}
+.program-card__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary-ghost);
+  color: var(--color-primary-mid);
+  font-size: 2.5rem;
+}
+.program-card__body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.program-card__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--color-text-dark);
+  line-height: 1.4;
+}
+.program-card__excerpt {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+.program-card__excerpt p { margin: 0; }
+.program-card__action {
+  margin-top: auto;
+}
 
 /* --- Team Card --- */
 .team-card {
@@ -97,6 +213,7 @@
 .team-card__name { font-size: 1rem; font-weight: 700; margin-bottom: .2rem; }
 .team-card__position { font-size: .8rem; color: var(--color-primary); font-weight: 600; margin-bottom: .4rem; }
 .team-card__dept { font-size: .775rem; color: var(--color-text-subtle); }
+.team-card__nip { font-size: .75rem; color: var(--color-text-muted); margin-top: .15rem; font-weight: 500; }
 
 /* --- Contact Card --- */
 .contact-card {

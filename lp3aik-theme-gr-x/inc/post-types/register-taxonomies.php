@@ -16,12 +16,6 @@ add_action('init', function () {
         'rewrite'      => ['slug' => 'kategori-program'],
     ]);
 
-    register_taxonomy('jabatan', ['lp3aik_tim'], [
-        'label'        => __('Jabatan', 'lp3aik-umk'),
-        'hierarchical' => true,
-        'show_in_rest' => true,
-        'rewrite'      => ['slug' => 'jabatan'],
-    ]);
 
     register_taxonomy('album_galeri', ['lp3aik_galeri'], [
         'label'        => __('Album', 'lp3aik-umk'),
@@ -31,9 +25,19 @@ add_action('init', function () {
     ]);
 
     register_taxonomy('jenis_unduhan', ['lp3aik_unduhan'], [
-        'label'        => __('Jenis File', 'lp3aik-umk'),
+        'labels'       => [
+            'name'          => __('Kategori File', 'lp3aik-umk'),
+            'singular_name' => __('Kategori File', 'lp3aik-umk'),
+            'menu_name'     => __('Kategori File', 'lp3aik-umk'),
+            'all_items'     => __('Semua Kategori', 'lp3aik-umk'),
+            'edit_item'     => __('Edit Kategori', 'lp3aik-umk'),
+            'view_item'     => __('Lihat Kategori', 'lp3aik-umk'),
+            'update_item'   => __('Perbarui Kategori', 'lp3aik-umk'),
+            'add_new_item'  => __('Tambah Kategori Baru', 'lp3aik-umk'),
+            'new_item_name' => __('Nama Kategori Baru', 'lp3aik-umk'),
+        ],
         'hierarchical' => true,
-        'show_in_rest' => true,
-        'rewrite'      => ['slug' => 'jenis-unduhan'],
+        'show_in_rest' => false, // Keep classic metabox in sidebar for clean alignment!
+        'rewrite'      => ['slug' => 'kategori-file'],
     ]);
 });

@@ -31,3 +31,6 @@ add_action('send_headers', function () {
         header('Referrer-Policy: strict-origin-when-cross-origin');
     }
 });
+
+// Disable aggressive WordPress 404 canonical URL guessing (Fixes random redirects to wrong post types)
+add_filter('do_redirect_guess_404_permalink', '__return_false');

@@ -12,4 +12,8 @@ defined('ABSPATH') || exit;
         <i class="fa-solid fa-xmark"></i>
     </button>
     <img src="" alt="" id="lightbox-img">
+    <div class="lightbox__caption" id="lightbox-caption">
+        <h4 class="lightbox__title" id="lightbox-title"></h4>
+        <p class="lightbox__desc" id="lightbox-desc"></p>
+    </div>
 </div>

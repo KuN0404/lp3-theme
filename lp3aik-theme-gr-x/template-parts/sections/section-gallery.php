@@ -29,9 +29,12 @@ $placeholder_icons = ['fa-mosque','fa-book-open','fa-graduation-cap','fa-handsha
         </div>
 
         <?php if ($gallery->have_posts()): ?>
-        <div class="gallery-masonry" id="homepage-gallery">
+        <div class="gallery-grid" id="homepage-gallery">
             <?php while ($gallery->have_posts()): $gallery->the_post(); ?>
-            <div class="gallery-item" data-src="<?php echo esc_url(get_the_post_thumbnail_url(null, 'lp3aik-gallery')); ?>">
+            <div class="gallery-item" 
+                data-src="<?php echo esc_url(get_the_post_thumbnail_url(null, 'large')); ?>"
+                data-title="<?php the_title_attribute(); ?>"
+                data-desc="<?php echo esc_attr(get_the_excerpt()); ?>">
                 <?php if (has_post_thumbnail()): ?>
                     <img src="<?php echo esc_url(get_the_post_thumbnail_url(null, 'lp3aik-gallery')); ?>" alt="<?php the_title_attribute(); ?>" loading="lazy">
                 <?php else: ?>
@@ -44,7 +47,7 @@ $placeholder_icons = ['fa-mosque','fa-book-open','fa-graduation-cap','fa-handsha
             <?php endwhile; wp_reset_postdata(); ?>
         </div>
         <?php else: ?>
-        <div class="gallery-masonry">
+        <div class="gallery-grid">
             <?php for ($i = 0; $i < 6; $i++): ?>
             <div class="gallery-item">
                 <div class="d-flex align-items-center justify-content-center" style="background:linear-gradient(135deg,var(--green-pale),var(--green-ghost));font-size:2.5rem;aspect-ratio:<?php echo ($i % 3 === 2) ? '1/1' : '4/3'; ?>;color:var(--green-mid);">

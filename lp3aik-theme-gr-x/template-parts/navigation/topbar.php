@@ -18,12 +18,16 @@ $phone = lp3aik_opt('lp3aik_phone', '');
                     <i class="fa-solid fa-envelope fa-sm"></i>
                     <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a>
                 </span>
-                <?php if ($phone): ?>
+                <?php if ($phone): 
+                    $phones = array_filter(array_map('trim', explode("\n", str_replace("\r", "", $phone))));
+                    $first_phone = !empty($phones) ? reset($phones) : $phone;
+                    if (!empty($first_phone)):
+                ?>
                 <span class="topbar__item">
                     <i class="fa-solid fa-phone fa-sm"></i>
-                    <a href="tel:<?php echo esc_attr(preg_replace('/[^+0-9]/', '', $phone)); ?>"><?php echo esc_html($phone); ?></a>
+                    <a href="tel:<?php echo esc_attr(preg_replace('/[^+0-9]/', '', $first_phone)); ?>"><?php echo esc_html($first_phone); ?></a>
                 </span>
-                <?php endif; ?>
+                <?php endif; endif; ?>
             </div>
             <div class="topbar__right">
                 <span class="topbar__item">

@@ -54,6 +54,38 @@ get_header();
                         <?php the_content(); ?>
                     </div>
 
+                    <!-- Elegant Social Share Feature -->
+                    <div class="entry-share mt-4 pt-4">
+                        <h5 class="share-title mb-3">
+                            <i class="fa-solid fa-share-nodes"></i>
+                            <?php _e('Bagikan Program', 'lp3aik-umk'); ?>
+                        </h5>
+                        <div class="share-buttons">
+                            <?php
+                            $share_url   = rawurlencode(get_permalink());
+                            $share_title = rawurlencode(get_the_title());
+                            ?>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $share_url; ?>" target="_blank" rel="noopener" class="btn" style="background:#1877f2;color:#fff;">
+                                <i class="fa-brands fa-facebook-f"></i> Facebook
+                            </a>
+                            <a href="https://x.com/intent/tweet?url=<?php echo $share_url; ?>&text=<?php echo $share_title; ?>" target="_blank" rel="noopener" class="btn" style="background:#000000;color:#fff;">
+                                <i class="fa-brands fa-x-twitter"></i> X
+                            </a>
+                            <a href="https://www.threads.net/intent/post?text=<?php echo $share_title . '%20' . $share_url; ?>" target="_blank" rel="noopener" class="btn" style="background:#101010;color:#fff;">
+                                <i class="fa-brands fa-threads"></i> Threads
+                            </a>
+                            <a href="https://api.whatsapp.com/send?text=<?php echo $share_title . '%20' . $share_url; ?>" target="_blank" rel="noopener" class="btn" style="background:#25d366;color:#fff;">
+                                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                            </a>
+                            <button onclick="navigator.clipboard.writeText(window.location.href); alert('<?php echo esc_js(__('Link tautan berhasil disalin! Buka Instagram untuk membagikannya ke Story/Bio Anda.','lp3aik-umk')); ?>');" class="btn btn--instagram" style="background:linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);color:#fff;">
+                                <i class="fa-brands fa-instagram"></i> Instagram
+                            </button>
+                            <button onclick="navigator.clipboard.writeText(window.location.href); alert('<?php echo esc_js(__('Link tautan berhasil disalin!','lp3aik-umk')); ?>');" class="btn btn-outline btn--copy">
+                                <i class="fa-solid fa-link"></i> <?php _e('Salin Link','lp3aik-umk'); ?>
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Navigasi Program Lain -->
                     <div class="mt-5">
                         <h3 style="color:var(--green-dark);margin-bottom:1.5rem;">
