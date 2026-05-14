@@ -10,31 +10,31 @@ function lp3aik_install_pages() {
         [
             'title'    => 'Deskripsi Singkat',
             'slug'     => 'about',
-            'template' => 'pages/page-deskripsi.php',
+            'template' => 'pages/page-description.php',
             'content'  => '<p>LP3AIK (Lembaga Pembinaan dan Pengembangan Pendidikan Al-Islam dan Kemuhammadiyahan) adalah satuan kerja di lingkungan Universitas Muhammadiyah Kotabumi yang bertanggung jawab atas pembinaan, pengembangan, dan pengkajian nilai-nilai Al-Islam serta internalisasi nilai-nilai Kemuhammadiyahan di seluruh civitas akademika.</p><p>Lembaga ini mengkoordinasi mata kuliah wajib AIK (Al-Islam &amp; Kemuhammadiyahan) di semua program studi, menyelenggarakan pelatihan, seminar, dan kegiatan keagamaan kampus, serta menjamin mutu nilai-nilai islami dalam tata kelola dan budaya kampus.</p>',
         ],
         [
             'title'    => 'Visi dan Misi',
             'slug'     => 'vision-mission',
-            'template' => 'pages/page-visi-misi.php',
+            'template' => 'pages/page-vision-mission.php',
             'content'  => '<h3>Visi</h3><p>Menjadi lembaga unggulan dalam pembinaan dan pengembangan pendidikan Al-Islam dan Kemuhammadiyahan yang melahirkan civitas akademika berakhlak mulia, berkemajuan, dan berdaya saing global.</p><h3>Misi</h3><ol><li>Menyelenggarakan pembinaan Al-Islam dan Kemuhammadiyahan secara terpadu dan berkelanjutan bagi seluruh civitas akademika.</li><li>Mengembangkan kurikulum dan bahan ajar AIK yang relevan dengan perkembangan zaman.</li><li>Meningkatkan kualitas tenaga pengajar AIK melalui pelatihan dan sertifikasi.</li><li>Menyelenggarakan kegiatan keagamaan dan sosial kemasyarakatan sebagai wujud pengamalan nilai-nilai Islam.</li><li>Menjalin kerjasama dengan berbagai pihak dalam pengembangan pendidikan Al-Islam dan Kemuhammadiyahan.</li></ol>',
         ],
         [
             'title'    => 'Struktur Organisasi',
             'slug'     => 'organization',
-            'template' => 'pages/page-struktur-organisasi.php',
+            'template' => 'pages/page-org-structure.php',
             'content'  => '',
         ],
         [
             'title'    => 'Galeri',
             'slug'     => 'gallery',
-            'template' => 'pages/page-galeri.php',
+            'template' => 'pages/page-gallery.php',
             'content'  => '',
         ],
         [
             'title'    => 'Unduhan',
             'slug'     => 'downloads',
-            'template' => 'pages/page-unduhan.php',
+            'template' => 'pages/page-downloads.php',
             'content'  => '',
         ],
         [
@@ -46,7 +46,7 @@ function lp3aik_install_pages() {
         [
             'title'    => 'Kontak',
             'slug'     => 'contact',
-            'template' => 'pages/page-kontak.php',
+            'template' => 'pages/page-contact.php',
             'content'  => '',
         ],
     ];

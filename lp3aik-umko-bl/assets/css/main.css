@@ -1967,8 +1967,8 @@ img { max-width: 100%; height: auto; }
 
 .scroll-to-top {
     position: fixed;
-    bottom: 95px; /* Dinaikkan agar tidak bertabrakan dengan tombol Translate */
-    right: 28px;
+    bottom: 77px; /* 25px (translate bottom) + 44px (translate height) + 8px gap */
+    right: 25px;  /* Sejajar dengan .lp3aik-gt-wrapper */
     width: 44px;
     height: 44px;
     border-radius: var(--border-radius-full);
@@ -2973,7 +2973,7 @@ img { max-width: 100%; height: auto; }
     .unduhan-type-icon { margin-right: 0 !important; margin-bottom: 12px; }
 
 
-    .scroll-to-top { bottom: 90px; }
+    .scroll-to-top { bottom: 77px; }
     .lp3aik-wa-float { bottom: 140px; }
 }
 

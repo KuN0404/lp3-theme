@@ -9,19 +9,19 @@
     position: fixed;
     bottom: 25px;
     right: 25px;
-    z-index: 99999; /* Ensure supreme visibility */
+    z-index: 99999;
     font-family: 'Inter', 'Lato', 'Segoe UI', sans-serif;
 }
 .lp3aik-gt-fab {
-    width: 56px;
-    height: 56px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    background-color: var(--color-primary); /* Menggunakan warna brand utama */
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 24px rgba(var(--color-primary-rgb), 0.35);
+    box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.3);
     cursor: pointer;
     border: none;
     outline: none;
@@ -30,11 +30,12 @@
 }
 .lp3aik-gt-fab:hover {
     transform: scale(1.1) rotate(5deg);
-    background-color: var(--color-primary-dark);
-    box-shadow: 0 10px 30px rgba(var(--color-primary-rgb), 0.45);
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
+    color: var(--color-primary-dark);
+    box-shadow: 0 6px 20px rgba(var(--color-primary-rgb), 0.4);
 }
 .lp3aik-gt-fab i {
-    font-size: 24px;
+    font-size: 1.2rem;
     line-height: 1;
 }
 .lp3aik-gt-panel {
