@@ -50,7 +50,13 @@ $views = function_exists('lp3aik_get_post_views') ? lp3aik_get_post_views(get_th
     
     <div class="card__footer">
         <div class="card__footer-item">
-            <i class="fa-regular fa-circle-user"></i> <span><?php the_author(); ?></span>
+            <i class="fa-regular fa-circle-user"></i>
+            <span><?php
+                $first = get_the_author_meta('first_name');
+                $last  = get_the_author_meta('last_name');
+                $name  = trim($first . ' ' . $last);
+                echo esc_html($name ?: get_the_author_meta('display_name'));
+            ?></span>
         </div>
         <div class="card__footer-item">
             <i class="fa-regular fa-eye"></i> <span><?php echo esc_html($views); ?></span>

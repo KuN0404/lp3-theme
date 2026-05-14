@@ -37,7 +37,12 @@ get_header();
                     
                     <div class="entry-meta mb-4 d-flex gap-4 align-items-center flex-wrap" style="color:var(--color-text-muted);font-size:0.9rem;border-bottom:1px solid var(--color-border);padding-bottom:1rem;">
                         <span><i class="fa-regular fa-calendar" style="color:var(--color-primary);"></i> <?php echo get_the_date('d M Y'); ?></span>
-                        <span><i class="fa-regular fa-circle-user" style="color:var(--color-primary);"></i> <?php the_author(); ?></span>
+                        <span><i class="fa-regular fa-circle-user" style="color:var(--color-primary);"></i> <?php
+                            $first = get_the_author_meta('first_name');
+                            $last  = get_the_author_meta('last_name');
+                            $name  = trim($first . ' ' . $last);
+                            echo esc_html($name ?: get_the_author_meta('display_name'));
+                        ?></span>
                         <?php if ($cats = get_the_category()): ?>
                             <span><i class="fa-regular fa-folder-open" style="color:var(--color-primary);"></i> <?php echo esc_html($cats[0]->name); ?></span>
                         <?php endif; ?>

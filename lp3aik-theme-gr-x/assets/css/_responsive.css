@@ -18,7 +18,9 @@
   .hero__text-carousel { min-height: 140px; }
   .hero__quick-links { grid-template-columns: repeat(4, 1fr); }
   .about-grid { grid-template-columns: 1fr; }
-  .about__image-wrap { max-width: 400px; margin: 0 auto; }
+  .about__image-wrap { max-width: 400px; margin: 0 auto; margin-bottom: 2rem; padding-right: 1.5rem; padding-bottom: 1.5rem; }
+  .about__badge-float { right: 0; bottom: 0; padding: 1rem 1.25rem; }
+  .about__badge-float .num { font-size: 2rem; }
   .single-wrap { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }

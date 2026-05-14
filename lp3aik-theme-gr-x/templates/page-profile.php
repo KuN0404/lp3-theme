@@ -23,7 +23,6 @@ get_header();
 <?php
 get_template_part('template-parts/sections/section', 'about');
 get_template_part('template-parts/sections/section', 'stats');
-get_template_part('template-parts/sections/section', 'team');
 ?>
 
 <?php get_footer(); ?>

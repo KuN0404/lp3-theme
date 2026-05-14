@@ -14,7 +14,7 @@ $stat_items = [
     [lp3aik_opt('lp3aik_stat_4_num','30+'),  lp3aik_opt('lp3aik_stat_4_label','Tenaga Pengajar'),    'fa-chalkboard-user'],
 ];
 ?>
-<section class="section section--dark" id="statistik">
+<section class="section section--dark mb-5" id="statistik">
     <div class="container">
         <div class="text-center mb-4">
             <span class="section-eyebrow" style="background:rgba(200,151,42,.2);color:var(--gold-light);">
